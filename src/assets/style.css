@@ -1,0 +1,55 @@
+
+.body-part {
+    width: 100% !important;
+}
+.no-scroll::-webkit-scrollbar{
+    width: 0px;
+    height: 0px;
+}
+::-webkit-scrollbar {
+    width: 8px;
+    height: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background-color: transparent !important;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #E5EBEC;
+    border-radius: 16px;
+}
+
+.v-application .primary--text {
+    color: #0037B7 !important;
+}
+
+/* *,
+html,
+body,
+.v-application,
+.v-application .display-1,
+.v-application .headline,
+.v-application .title,
+.v-application .subtitle-1,
+.v-application .subtitle-2,
+.v-application .body-1,
+.v-application .body-2,
+.v-application .caption,
+.v-application .overline {
+    /* font-family: 'Inter var' !important; */
+    /* font-family: Tenon !important;
+}
+
+.blinktxt {
+    animation: animate 1s linear infinite;
+} */ 
+
+.v-divider {
+    border-color: #EBEEF0 !important;
+}
+
+
+.cursor-p {
+    cursor: pointer !important
+}

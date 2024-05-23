@@ -28,7 +28,16 @@
       v-if="singleload"
       class="text-centre"
     ></v-progress-circular>
-    <v-row no-glutters>
+    <p style="word-spacing: 5px" class="mb-0 mt-3 caption">
+      <span
+        style="color: #003f9e; cursor: pointer; font-weight: 700"
+        @click="$router.push('/')"
+        >Collection</span
+      >
+      <span style="color: #000; font-weight: 700"> > </span>
+      <span style="color: #000; font-weight: 700">SinglePage</span>
+    </p>
+    <v-row no-glutters class="mt-3">
       <v-col cols="12" md="9">
         <v-card
           style="border-radius: 4px; border: 1px solid #ddd"
@@ -37,7 +46,7 @@
           <v-card style="background-color: #fafbff" class="pa-3" elevation="0">
             <v-toolbar
               style="background-color: #fafbff"
-              class="tool-sty elevation-0 py-4 mb-7 px-4"
+              class="tool-sty elevation-0 py-4 mb-7 px-0"
               color="#fff"
               dense
             >
@@ -76,9 +85,7 @@
                     <v-chip
                       class="ml-2"
                       label
-                      v-for="(key, index) in Object.keys(
-                        fullsingleres[0].etfs_weights
-                      )"
+                      v-for="(key, index) in fullsingleres[0].tags"
                       :key="index"
                       style="background-color: #f1f3f8"
                       small
@@ -88,10 +95,6 @@
                         >{{ key }}</span
                       >
                     </v-chip>
-                    <!-- <span class="fs-12 ml-3 mt-2 caption " style="color:blue"> ( Manged by
-                                        {{ fullsingleres[0] ? (fullsingleres[0].master_name ?
-            fullsingleres[0].master_name : "") : "" }} )
-                                    </span> -->
                   </div>
                 </v-list-item-content>
                 <v-spacer></v-spacer>
@@ -102,10 +105,10 @@
                     >Min. Invest</span
                   >
                   <p class="fs-12 txt-000 font-weight-bold mb-0 body-2">
-                    {{
+                    ₹ {{
                       fullsingleres[0] && fullsingleres[0].price
                         ? fullsingleres[0].price
-                        : ''
+                        : ""
                     }}
                     <v-btn class="ml-3" @click="refrshltp()" text icon
                       ><v-icon size="18">mdi-refresh</v-icon>
@@ -131,19 +134,8 @@
             </v-toolbar>
           </v-card>
           <v-divider class="mb-4"></v-divider>
-          <div class="ml-8">
-            <p
-              class="body-1 mt-1 fs-24 font-weight-bold mb-1"
-              style="text-transform: capitalize"
-            >
-              {{
-                fullsingleres[0]
-                  ? fullsingleres[0].basket_title
-                    ? fullsingleres[0].basket_title
-                    : ""
-                  : ""
-              }}
-            </p>
+          <div class="ml-3">
+           
             <span class="mt-2 body-2" style="color: #666666">
               {{
                 fullsingleres[0]
@@ -164,7 +156,7 @@
 
           <v-row class="mt-4">
             <v-col cols="6" class="">
-              <div class="ml-8">
+              <div class="ml-3">
                 <span
                   style="text-transform: uppercase; color: #666666"
                   class="caption mb-0"
@@ -197,30 +189,33 @@
         <v-card
           hide-actions
           style="border-radius: 4px; border: 1px solid #ddd"
-          class="elevation-0 rounded-lg pa-5 pl-8 mt-5 d-none d-md-block"
+          class="elevation-0 rounded-lg mt-5 d-none d-md-block"
         >
           <div color="black" class="text-none mx-auto my-auto" style=""></div>
           <div>
-            <p class="mb-2 font-weight-bold title">Collection Weights</p>
-            <p class="body-1 fs-24 font-weight-bold mb-2">
-              Constituents Weights and Segment Composition
-            </p>
-            <span class="mb-2 mt-2 body-2" style="color: #666666"
-              >Each fund is uniquely allocated to suit and match customer
-              expectations based on the profile and return expectations.</span
-            >
+            <div class="px-3 pa-5">
+              <p class="mb-2 font-weight-bold title">Collection Weights</p>
+              <p class="body-1 fs-24 font-weight-bold mb-2">
+                Constituents Weights and Segment Composition
+              </p>
+              <span class="mb-2 mt-2 body-2" style="color: #666666"
+                >Each fund is uniquely allocated to suit and match customer
+                expectations based on the profile and return expectations.</span
+              >
+            </div>
             <v-row>
-              <v-col cols="12" class="mt-5">
-                <span
-                  class="mb-2 mt-14 font-weight-bold title"
-                  style="color: #666666"
-                  >Constituents</span
-                ><br />
-                <span class="mb-2 mt-2 body-2" style="color: #666666"
-                  >See detailed composition of smallcase portfolio</span
-                >
-                <v-divider class="mt-3 mb-4"></v-divider>
-
+              <v-col cols="12" class="">
+                <div class="pr-5 pb-5 px-3">
+                  <span
+                    class="mb-2 mt-4 font-weight-bold title"
+                    style="color: #666666"
+                    >Constituents</span
+                  ><br />
+                  <span class="mb-2 mt-2 body-2" style="color: #666666"
+                    >See detailed composition of smallcase portfolio</span
+                  >
+                  <v-divider class="mt-3"></v-divider>
+                </div>
                 <div
                   v-if="
                     fullsingleres[0] && fullsingleres[0].access != 'subscribe'
@@ -237,19 +232,20 @@
                         : ''
                       : '',
                   }"
+                  class="px-3"
                 >
-                  <div class="d-flex mx-auto justify-space-between">
-                    <div class="d-flex">
-                      <v-btn
-                        class="elevation-0 transparent caption pa-0 font-weight-bold"
-                        style="color: red"
-                        @click="resetsigleres()"
-                        depressed
-                        outlined
-                        >Reset Changes</v-btn
-                      ></div><div>
+
+               <div >  
+                <p  class="title font-weight-bold mb-3">Invest Collection</p> 
+                  <div class="d-flex">
+                    <div>
                       <v-select
-                        style="max-width: 200px"
+                        rounded
+                        style="
+                          max-width: 220px;
+                          height: 30px;
+                          background-color: #f1f3f8;
+                        "
                         v-model="weightselected"
                         :items="weightedChange"
                         @change="
@@ -260,9 +256,26 @@
                         required
                         dense
                         hide-details
-                        outlined
-                        class="body-2 mb-0 pt-0 mt-0"
+                        class="body-2 font-weight-bold mb-0 pt-0 mt-0"
                       ></v-select>
+                    </div>
+                    <div class="d-flex">
+                      <v-tooltip color="black" bottom>
+                        <template v-slot:activator="{ on, attrs }">
+                          <v-btn
+                            class="elevation-0 transparent caption pa-0 font-weight-bold"
+                            style="color: black"
+                            @click="resetsigleres()"
+                            depressed
+                            outlined
+                            v-bind="attrs"
+                            v-on="on"
+                            icon
+                            ><v-icon>mdi-refresh</v-icon></v-btn
+                          >
+                        </template>
+                        <span>Reset Values</span>
+                      </v-tooltip>
                     </div>
                   </div>
                   <v-row
@@ -296,7 +309,7 @@
                         no-gutters
                       >
                         <v-col cols="12">
-                          <v-row no-gutters>
+                          <!-- <v-row no-gutters>
                             <v-col cols="4" class="py-0">
                               <p class="mb-0 text-capitalize">{{ index }}</p>
                             </v-col>
@@ -310,7 +323,7 @@
                                 }}%</span
                               >
                             </v-col>
-                          </v-row>
+                          </v-row> -->
                           <v-row
                             v-for="(m, j) in fullsingleres[0].etfs_weights[
                               index
@@ -320,14 +333,14 @@
                           >
                             <v-col cols="4" class="py-0">
                               <p class="mb-0 text-capitalize caption my-2 ml-1">
-                                {{ m.tsym ? m.tsym : "" }}
+                                {{ m.tsym ? m.tsym : "" }}<span v-if="m.exists" class=" font-weight-bold" :style="{ color: m.exists === 'no' ? 'green' : 'red' }">({{ m.exists?m.exists=='no'?"new" :'old':'' }} {{ m.newquant?m.newquant>0?m.newquant:'':'' }})</span>
                               </p>
                             </v-col>
                             <v-col cols="2" class="py-0">
                               <p
                                 class="mb-0 text-capitalize body-2 my-2 ml-2 font-weight-medium"
                               >
-                                {{ m.price ? m.price : "" }}
+                              ₹{{ m.price ? m.price : "" }}
                               </p>
                             </v-col>
                             <v-col cols="3" class="py-0 text-center my-1">
@@ -466,9 +479,9 @@
                             </v-col>
                             <v-col cols="1" class="py-0">
                               <div
-                                class="mb-0 text-capitalize body-2 my-2 ml-2 font-weight-medium"
+                                class="mb-0 text-capitalize body-2 my-2 ml-2 font-weight-medium float-end"
                               >
-                                <span>{{ m.avg_weight_percent }}</span>
+                                <span>{{ m.avg_weight_percent }}%</span>
                               </div>
                             </v-col>
                           </v-row>
@@ -485,35 +498,46 @@
                       ></v-divider>
                     </div>
                   </div>
-                  <v-row class="my-2">
+                </div>
+                  <v-row class="my-1">
                     <v-col cols="7" class="my-auto ps-4">
                       <span class="font-weight-bold"
                         >Min.invest amount :
-                        {{
+                        ₹ {{
                           fullsingleres[0] && fullsingleres[0].price
                             ? fullsingleres[0].price
-                            : ''
+                            : ""
                         }}
                       </span>
                     </v-col>
-                    <v-col cols="5" class="text-center d-flex">
-                      <v-btn class=" text-none elevation-0 mr-2 blue--text lighten-1 transparent body-2" @click="$router.push({
-                        name:'customize collection',
-                        params:{itemid:fullsingleres[0].id}
-                      })" >Customize collection</v-btn>
+                    <v-col cols="5" class="text-center d-flex ">
                       <v-btn
-                        class="elevation-0 white--text text-none"
+                        rounded
+                        style="background-color: #f1f3f8"
+                        class="text-none elevation-0 mr-2 blue--text body-2 mx-1 mx-lg-6"
+                        @click="
+                          $router.push({
+                            name: 'customize collection',
+                            params: { itemid: fullsingleres[0].id },
+                          })
+                        "
+                        ><span class="font-weight-bold" style="color: #1f3465"
+                          >Customize collection</span
+                        ></v-btn
+                      >
+                      <v-btn
+                        class="elevation-0 white--text text-none float-end"
                         rounded
                         depressed
                         color="black"
-                        @click="confirmation = true"
-                        >Invest</v-btn
+                        @click="checkloginstatus()"
+                        >{{fullsingleres[0].rebalance?'Rebalance':'Invest'}}</v-btn
                       ></v-col
                     >
                   </v-row>
                 </div>
-                <div v-else class="text-center">
-                  <v-btn class="white--text" color="black">Subscribe</v-btn>
+                <div v-else class="text-center my-2">
+                  <v-btn class="white--text" color="black" @click="subscribedialog=true,getLedgerPrice()">Subscribe</v-btn>
                 </div>
               </v-col>
             </v-row>
@@ -522,11 +546,11 @@
         <v-card
           outlined
           elevation="0"
-          class="mt-7 pl-7 pa-5"
+          class="mt-7 px-3 pa-5"
           rounded-lg
           style="border: 1px solid #dddddd"
         >
-          <p class="mb-2 font-weight-bold title ml-2 mt-1">
+          <p class="mb-2 font-weight-bold title ml-0 mt-1">
             About the
             {{
               fullsingleres[0]
@@ -537,12 +561,12 @@
             }}
           </p>
 
-          <v-row class="">
+          <v-row class="" no-gutters>
             <v-col cols="7">
-              <p class="body-1 fs-24 ml-2 font-weight-bold mb-2">
+              <p class="body-1 fs-24 ml-0 font-weight-bold mb-2">
                 Collection Objective
               </p>
-              <p class="mb-2 mt-2 ml-2 body-2" style="color: #666666">
+              <p class="mb-2 mt-2 ml- body-2" style="color: #666666">
                 {{
                   fullsingleres[0]
                     ? fullsingleres[0].master_sht_cont
@@ -563,7 +587,7 @@
                   border: 1.5px solid #ccc;
                   background: #fff;
                 "
-                class="pl-3 pt-3 pr-3 mt-3"
+                class="px-3 pt-3 pr-3 mt-3"
               >
                 <v-row>
                   <v-col cols="2">
@@ -613,7 +637,7 @@
   </div>
   </v-col> -->
             <v-col cols="6" class="">
-              <div class="ml-2">
+              <div class="ml-0">
                 <span
                   style="text-transform: uppercase; color: #666666"
                   class="caption mb-0"
@@ -742,41 +766,102 @@
         </div>
       </v-col>
     </v-row>
-    <v-dialog v-model="confirmation" persistent max-width="380">
-      <v-card class="rounded-lg px-2 px-md-2">
-        <v-card-title class="pr-2"
-          >Order Confirmation <v-spacer></v-spacer>
-          <v-btn icon @click="confirmation = false">
-            <v-icon>mdi-close</v-icon>
-          </v-btn></v-card-title
-        >
-        <v-card-text>
-          <b>{{
-            fullsingleres[0]
-              ? fullsingleres[0].basket_title
-                ? fullsingleres[0].basket_title
-                : ""
-              : ""
-          }}</b>
-          <p class="my-2 body-1 font-weight-medium">
-            Invest Amount :{{fullsingleres[0] && fullsingleres[0].price? fullsingleres[0].price :''}}
-          </p>
-        </v-card-text>
-        <v-card-actions class="pb-4">
-          <v-btn
-            elevation="0"
-            color="black white--text"
-            rounded
-            block
-            @click="deploybasket()"
-            :loading="basload"
-          >
-            <span class="text-none">Proceed</span>
-          </v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
-  </div>
+    <v-dialog persistent max-width="480" v-model="confirmation">
+          <v-card class="rounded-lg px-2 pa-3 px-md-2">
+            <v-card-title class="pr-2">Order Basket Details<v-spacer></v-spacer>
+              <v-btn icon @click="confirmation = false">
+                <v-icon>mdi-close</v-icon>
+              </v-btn></v-card-title>
+            <div class="pa-5">
+              <p class="font-weight-semibold">Basket Name : <span class="font-weight-bold">{{ fullsingleres[0] && fullsingleres[0].basket_title ?(fullsingleres[0].basket_title).toUpperCase():''
+                  }}</span>
+              </p>
+              <!-- <p class="font-weight-semibold">Basket Id : <span class="font-weight-bold">{{ opendiag.id }}</span></p> -->
+             <!-- {{fullcovertres}} -->
+             <div v-if="fullsingleres[0] && fullsingleres[0].etfs_weights && fullsingleres[0].etfs_weights.equity">
+              <v-data-table
+    :headers="headersrebalnce"
+    :items="fullsingleres[0].etfs_weights.equity"
+    :items-per-page="100"
+    hide-default-footer
+    class="elevation-0 mb-3 ma-0 pa-0"
+    outlined
+    fixed-header disable-sort dense
+    style="border:1px solid grey"
+  ></v-data-table></div>
+              <p class="font-weight-semibold">Min.invest amount  : <span class="font-weight-bold"> {{
+        fullsingleres[0] && fullsingleres[0].price
+          ? fullsingleres[0].price
+                        : ''
+                        }}</span></p>
+
+
+              <v-btn color="black" :loading="basload" class="text-none white--text" block
+              @click="deploybasket()" rounded >Proceed</v-btn>
+            </div>
+          </v-card>
+</v-dialog>
+    <v-dialog v-model="subscribedialog"
+         min-width="390" max-width="500">
+        <v-card class="rounded-lg px-2 px-md-4">
+          <v-form ref="ddpiform">
+
+            <v-card-title class="mb-1 pr-0 black--text font-weight-medium" style="font-size:20px">Debit alert
+              <v-spacer></v-spacer>
+              <v-btn class="mt2" icon @click="subscribedialog = false">
+                <v-icon>mdi-close</v-icon>
+              </v-btn>
+            </v-card-title>
+            <v-card-text class="pb-1">
+
+
+              <div class="mx-auto pt-4" align="center">
+                <p class="text-center mb-0 subtitle-1 font-weight-bold"> Subscribe Charge </p>
+
+                <v-row align="center" justify="center">
+                  <v-col cols="12" sm="6">
+                    <v-alert width="100" class="px-4 mt-2 black--text" dense color="black" border="left" text
+                      icon="mdi-currency-inr mr-0 ">
+                     <strong>{{basketprice}}</strong>
+                    </v-alert>
+                  </v-col>
+                </v-row>
+                <p class="mb-1 subtitle-1 font-weight-medium">
+                  Available ledger
+                </p>
+                <p>
+                  ₹ {{ leadgerBal }}
+                </p>
+                <v-checkbox  hide-details :on-icon="'mdi-checkbox-marked-circle'"
+                  :off-icon="'mdi-checkbox-blank-circle-outline'"
+                  label="I acknowledge to debit amount from my ledger"></v-checkbox>
+              </div>
+
+              <v-alert class="mb-0 mt-2 py-1" v-if="leadgerBal >= basketprice ? false : true" dense outlined type="info"
+                color="black" elevation="0">
+                <p style="font-size:14px;" class="text-center mb-0">Insufficient balance, Add fund
+                  <a :href="`https://fund.mynt.in/?uid=${actid}&token=${susertoken}`"><b>Click here</b></a>
+                </p>
+              </v-alert>
+            </v-card-text>
+
+
+            <v-card-actions class="pb-4">
+              <v-row no-gutters>
+
+                <v-col>
+                  <v-btn color="black white--text" :disabled="leadgerBal >= basketprice ? false : true" rounded elevation="0"
+                    dense block @click="subscribeSubmit">
+                    Submit
+                  </v-btn>
+
+                </v-col>
+              </v-row>
+            </v-card-actions>
+          </v-form>
+        </v-card>
+      </v-dialog>
+</div>
 </template>
 
 <script>
@@ -806,9 +891,10 @@ export default {
       snackcolor: "#000",
       singleload: true,
       activePanels: [],
+
       weightcheck: 0,
-      autoload:false,
-      minweights:1.00,
+      autoload: false,
+      minweights: 1.0,
       maxvalueperc: "",
       activePanel: -1,
       textfieltext11: "",
@@ -817,12 +903,21 @@ export default {
       confirmation: false,
       ltpminpricedump: "",
       basload: false,
-      cleid: localStorage.getItem('userid'),
-      apitoken:
-        localStorage.getItem('sess'),
+      cleid: localStorage.getItem("userid"),
+      apitoken: localStorage.getItem("sess"),
       orderscitt: [],
       searchaa: null,
       searchdataaa: [],
+      subscribedialog:false,
+      leadgerBal:0,
+      basketprice:0,
+      
+      headersrebalnce:[
+      { text: "Symbol", value: "tsym" },
+                { text: "Price", value: "price" },
+                { text: "Quantity", value: "quantity" },
+                // { text: "ISIN", value: "ISIN" },
+                { text: "Weight", value: "weights"}]
     };
   },
   //     computed: {
@@ -856,7 +951,7 @@ export default {
           console.log(error);
         });
     },
-
+    subscribeSubmit(){},
     deploybas() {
       if (this.localsess === "" || this.localsess === null) {
         eventBus.$emit("login-event");
@@ -864,6 +959,15 @@ export default {
         this.confirmation = true;
         this.refrshltp();
       }
+    },
+    checkloginstatus(){
+      if (
+      localStorage.getItem("sess") === "" ||
+      localStorage.getItem("sess") === null
+    ) {
+      eventBus.$emit("login-event");
+    }else{
+      this.confirmation = true}
     },
     deploybasket() {
       this.basload = true;
@@ -923,7 +1027,7 @@ export default {
       this.fullsingleres = [];
       let data = JSON.stringify({
         basketid: this.bestmfdata,
-        client_id: "",
+        client_id: localStorage.getItem('userid'),
       });
 
       let config = {
@@ -947,6 +1051,7 @@ export default {
             axiosThis.textdate = axiosThis.fullsingleres[0].date_time;
             axiosThis.ltpminpricedump = axiosThis.fullsingleres[0].price;
             axiosThis.stockcountdump = axiosThis.fullsingleres[0].stockcount;
+            axiosThis.basketprice= axiosThis.fullsingleres[0].basketprice
             axiosThis.getModifiedImageUrl();
             axiosThis.getModifiedImageUrl11();
             axiosThis.dumpdata = JSON.parse(
@@ -968,7 +1073,6 @@ export default {
           axiosThis.snackcolor = "error";
           axiosThis.mesg = error;
         });
-        
     },
     getModifiedImageUrl() {
       const parts = this.fullsingleres[0].basket_img.split("Baskets/");
@@ -1003,7 +1107,7 @@ export default {
       this.weightselected = this.weightedChange[1];
     },
     changetoEqualWeight() {
-      this.countvalue=0
+      this.countvalue = 0;
       this.weightcheck = 100 / parseInt(this.fullsingleres[0].stockcount);
       Object.keys(this.fullsingleres[0].etfs_weights).forEach((key) =>
         this.fullsingleres[0].etfs_weights[key].forEach((key2, i) => {
@@ -1011,16 +1115,13 @@ export default {
             parseInt(this.fullsingleres[0].stockcount) - 1 ==
             this.countvalue
           ) {
-
             this.sumvaluefor(key2.token);
 
             this.fullsingleres[0].etfs_weights[key][i].weights =
               this.weightcheck.toFixed(2);
           } else {
-
             this.fullsingleres[0].etfs_weights[key][i].weights =
               this.weightcheck.toFixed(2);
-              
           }
           this.countvalue += 1;
         })
@@ -1125,7 +1226,7 @@ export default {
         let config = {
           method: "post",
           maxBodyLength: Infinity,
-          url: "https://go.mynt.in/NorenWClientTP/SearchScrip",
+          url: `${apiurl.kambala_api}/SearchScrip`,
           headers: {
             "Content-Type": "text/plain",
           },
@@ -1163,6 +1264,30 @@ export default {
         axiosThis.mcxdata = [];
       }
     },
+    getLedgerPrice() {
+      var axiosThis = this
+      let data = JSON.stringify({
+        "clientid": this.cleid
+      });
+
+      let config = {
+        method: 'post',
+        url:  `${apiurl.legetbalance_api}/all_ledger_balance`,
+        headers: {
+          "Authorization": this.localsess,
+          "Clientid": this.cleid,
+          'Content-Type': 'application/json'
+        },
+        data: data
+      };
+
+      axios.request(config)
+        .then((response) => {
+          var res = response.data
+          axiosThis.leadgerBal = res.total
+        })
+        .catch((error) => {
+          console.log(error);});},
   },
   watch: {
     searchaa(val) {
@@ -1171,10 +1296,10 @@ export default {
   },
   mounted() {
     this.singleload = true;
-    let params = this.$route.params;
+    let params = localStorage.getItem("id");
 
-    if (params.best) {
-      this.bestmfdata = params.best;
+    if (params) {
+      this.bestmfdata = params;
       this.singlepagedata();
       this.singleload = true;
       this.localsess = localStorage.getItem("usession");

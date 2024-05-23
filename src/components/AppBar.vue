@@ -320,7 +320,7 @@ export default {
           if (response.data.msg == "valid token") {
             //
             axiosThis.redirectpages();
-          } else if (response.data.msg == "invalid token") {
+          } else if (response.data.emsg == "invalid token") {
             axiosThis.goLogin();
           }else if (response.data.emsg === 'token expired'){
             localStorage.clear();

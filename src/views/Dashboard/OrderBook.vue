@@ -40,7 +40,6 @@
         single-expand
         show-expand
         :expanded.sync="expanded1"
-       
         item-key="date_time"
         class="elevation-0"
       >
@@ -62,7 +61,7 @@
             color="info"
             class="ma-2 white--text"
             v-else
-            @click="order_details_show(item),dialogbox=!dialogbox"
+            @click="order_details_show(item), (dialogbox = !dialogbox)"
             small
           >
             Re-Order
@@ -87,57 +86,66 @@
         </template>
       </v-data-table>
       <div class="text-center">
-    <v-dialog
-      v-model="dialogbox"
-      width="400"
-    > 
-      <v-card>
-        <v-card-title class="subtitle-1 lighten-2 font-weight-bold">
-            Re-order List
-            <v-spacer></v-spacer>
-          <v-btn icon @click="dialogbox = false">
-            <v-icon>mdi-close</v-icon>
-          </v-btn>
-        </v-card-title>
-        <v-simple-table>
-    <template v-slot:default>
-      <thead >
-        <tr >
-          <th class=" body-1 text-left font-weight-bold">
-            Symbol
-          </th>
-          <th class="body-1 text-left font-weight-bold text-center">
-            Quantity
-          </th>
-        </tr>
-      </thead>
-      <tbody v-if="identifyid && identifyid.order_detail">
-        <tr
-          v-for="item in identifyid.order_detail"
-          :key="item.token"
-        >
-          <td v-if="item.msg == 'REJECTED' || item.stat=='Not Ok' || item.msg=='order failed'  ">{{ item.tsym }}</td>
-          <td v-if="item.msg == 'REJECTED' || item.stat=='Not Ok' || item.msg=='order failed'" class="text-center">{{ item.quantity }}</td>
-        </tr>
-      </tbody>
-    </template>
-  </v-simple-table>
+        <v-dialog v-model="dialogbox" width="400">
+          <v-card>
+            <v-card-title class="title-1 lighten-2 font-weight-bold px-0 mx-4">
+              Re-order List
+              <v-spacer></v-spacer>
+              <v-btn icon @click="dialogbox = false" class="float-end">
+                <v-icon>mdi-close</v-icon>
+              </v-btn>
+            </v-card-title>
+            <v-simple-table style="border: 1px solid gray;" class="mx-4 my-2">
+              <template v-slot:default>
+                <thead>
+                  <tr>
+                    <th class="body-1 text-left font-weight-bold">Symbol</th>
+                    <th class="body-1 text-left font-weight-bold text-center">
+                      Quantity
+                    </th>
+                  </tr>
+                </thead>
+                <tbody v-if="identifyid && identifyid.order_detail">
+                  <tr v-for="item in identifyid.order_detail" :key="item.token">
+                    <td
+                      v-if="
+                        item.msg == 'REJECTED' ||
+                        item.stat == 'Not Ok' ||
+                        item.msg == 'order failed'
+                      "
+                    >
+                      {{ item.tsym }}
+                    </td>
+                    <td
+                      v-if="
+                        item.msg == 'REJECTED' ||
+                        item.stat == 'Not Ok' ||
+                        item.msg == 'order failed'
+                      "
+                      class="text-center"
+                    >
+                      {{ item.quantity }}
+                    </td>
+                  </tr>
+                </tbody>
+              </template>
+            </v-simple-table>
+
+            <v-card-actions>
+              <v-btn
+                color="black"
+                block
+                class="white--text elevation-0  rounded-pill"
+                @click="re_orderapi(identifyid.id_x)"
+                :loading="loading"
+              >
+                Place order
+              </v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
         
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn
-            color="black"
-           class="white--text elevation-0 mr-4"
-            @click="re_orderapi(identifyid.id_x)"
-            small
-            :loading="loading"
-          >
-            Place order
-          </v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
-  </div>
+      </div>
     </v-container>
   </div>
 </template>
@@ -159,12 +167,12 @@ export default {
       loader: null,
       loading: false,
       tabload: true,
-      identifyid:[],
-      order_place_btn:false,
-      dialogbox:false,
+      identifyid: [],
+      order_place_btn: false,
+      dialogbox: false,
       sess: "",
-      usession:'',
-      uid:'',
+      usession: "",
+      uid: "",
       headers: [
         { text: "Id", value: "id" },
         { text: "Baskset name", value: "basket_title" },
@@ -219,16 +227,15 @@ export default {
         .request(config)
         .then((response) => {
           axiosThis.tabload = false;
-          if (typeof(response.data.msg) !== 'string' ){
-          axiosThis.fullresdata = response.data.msg;}
-          else if(response.data.emsg === 'token expired'){
+          if (typeof response.data.msg !== "string") {
+            axiosThis.fullresdata = response.data.msg;
+          } else if (response.data.emsg === "token expired") {
             eventBus.$emit("login-event");
-          }
-           else {
+          } else {
             axiosThis.snackbar = false;
             axiosThis.snackcolor = "error";
             axiosThis.mesg = response.data.msg;
-          } 
+          }
         })
         .catch((error) => {
           console.log(error);
@@ -238,8 +245,8 @@ export default {
           axiosThis.mesg = "Network Error";
         });
     },
-    order_details_show(item){
-      this.identifyid=item
+    order_details_show(item) {
+      this.identifyid = item;
       //  this.identifyid=this.fullresdata.find(({id_x})=>id_x===id)
       //  this.identifyid[0]=this.identifyid.order_detail.map((key)=>{
       //   if((key.msg=="REJECTED") || (key.stat=='Not Ok') ){
@@ -252,7 +259,7 @@ export default {
       //  console.log(this.identifyid)
     },
     re_orderapi(id) {
-      this.loading=true
+      this.loading = true;
       let data = JSON.stringify({
         orderbook_id: id,
         session: this.sess,
@@ -275,24 +282,24 @@ export default {
           console.log(JSON.stringify(response.data));
           if (response.data.msg === "order initiated") {
             axiosThis.loading = false;
-            axiosThis.dialogbox=false
-            axiosThis.dialog = false
+            axiosThis.dialogbox = false;
+            axiosThis.dialog = false;
             axiosThis.snackbar = true;
             axiosThis.snackcolor = "success";
             axiosThis.mesg = response.data.msg.toUpperCase();
           } else {
             axiosThis.loading = false;
-            axiosThis.dialogbox=false
+            axiosThis.dialogbox = false;
             axiosThis.snackbar = true;
             axiosThis.snackcolor = "error";
             axiosThis.mesg = response.data.msg.toUpperCase();
           }
-          this.oredrdetails()
+          this.oredrdetails();
         })
         .catch((error) => {
           console.log(error);
           axiosThis.loading = false;
-          axiosThis.dialogbox=false
+          axiosThis.dialogbox = false;
           axiosThis.snackbar = true;
           axiosThis.snackcolor = "error";
           axiosThis.mesg = "Network Error";

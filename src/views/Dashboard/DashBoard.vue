@@ -24,19 +24,19 @@
     </v-snackbar>
     <v-col cols="12" md="9" class="mt-3">
       <div class="headingSearch">
-        <v-toolbar class="elevation-0 ">
-          <div >
-          <v-badge
+        <v-toolbar class="elevation-0">
+          <div>
+            <!-- <v-badge
             :content="collections.length ? collections.length : 0"
             :value="collections.length ? collections.length : 0"
             overlap
             
-          >
-            <p class="title font-weight-bold ">Top Collections</p>
-          </v-badge>
-        </div>
-          <v-spacer class=" d-none d-sm-inline"></v-spacer>
-          <div class=" d-block d-sm-flex ">
+          > -->
+            <p class="title font-weight-bold">Top Collections</p>
+            <!-- </v-badge> -->
+          </div>
+          <v-spacer class="d-none d-sm-inline"></v-spacer>
+          <div class="d-block d-sm-flex">
             <v-text-field
               v-model="searchkeyfield"
               class="body-2"
@@ -48,9 +48,15 @@
               dense
               rounded
             />
-            <v-btn icon class="ms-1 d-none d-sm-inline-block" height="40" width="40" @click="toggleView">
+            <v-btn
+              icon
+              class="ms-1 d-none d-sm-inline-block"
+              height="40"
+              width="40"
+              @click="toggleView"
+            >
               <v-icon dense>{{
-                listView ? "mdi-view-module" : "mdi-view-list"
+                listView ? "mdi-view-day":"mdi-view-dashboard" 
               }}</v-icon>
             </v-btn>
           </div>
@@ -73,9 +79,8 @@
               style="cursor: pointer"
               @click="
                 $router.push({
-                  name: 'singlePage stock',
-                  params: { best: item.id },
-                })
+                  name: 'singlePage stock'
+                }),setId(item.id)
               "
             >
               <v-toolbar class="elevation-0 pa-0 align-center transparent">
@@ -87,41 +92,41 @@
                 />
                 <v-spacer></v-spacer>
                 <v-chip
-                  class="px-4 py-0 mx-auto caption"
+                  class="px-4 py-3 rounded-lg mx-auto caption"
                   x-small
                   :style="{
-                    color: item.access === 'free' ? 'green' : '#0040ff',
-                    background: item.access === 'free' ? '#d3f5c6' : '#ccd9ff',
+                          color: item.access === 'free' ? '#4BAC3C' : '#093FBA',
+                          background:
+                            item.access === 'free' ? '#ECF8F1' : '#ccd9ff',
                   }"
-                  >{{ item.access }}</v-chip
+                  ><span>{{ item.access }}</span></v-chip
                 ></v-toolbar
               >
               <p
-                class="text-uppercase py-2 ps-5 mb-0 subtitle-1 font-weight-bold"
+                class="text-uppercase py-1 ps-5 mb-0 subtitle-1 font-weight-bold"
               >
                 {{ item.basket_title }}
               </p>
               <div class="ps-3 mb-5">
                 <v-chip
+                  style="background-color: #f1f3f8"
                   label
-                  class="font-weight-bold text--secondary mx-1 text-capitalize caption"
+                  class="text--secondary mx-1 text-capitalize caption mt-2"
                   small
-                  v-for="(j, l) in item.etfs_weights"
+                  v-for="(j, l) in item.tags"
                   :key="l"
-                  >{{ j }}</v-chip
+                  ><span style="color: #666">{{ j }}</span></v-chip
                 >
               </div>
-              <v-toolbar
-                class="elevation-0 pt-2 caption transparent font-weight-bold"
-              >
+              <v-toolbar class="elevation-0 pt-2 caption transparent">
                 <div>
                   <span style="color: gray">MIN. INVEST</span>
-                  <p class="font-weight-bold body-2">{{ item.price }}</p>
+                  <p class="body-2">{{ item.price }}</p>
                 </div>
                 <v-spacer></v-spacer>
                 <div>
                   <span style="color: gray">TOTAL STOCKS</span>
-                  <p class="font-weight-bold body-2">
+                  <p class="font-weight-semibold body-2">
                     {{ item.stockcount }} stocks
                   </p>
                 </div>
@@ -155,41 +160,42 @@
               <v-list-item-content class="py-1">
                 <div class="d-flex">
                   <div>
-                    <p class="font-weight-bold title text-uppercase mb-2">
+                    <p class="font-weight-bold text-uppercase mb-2">
                       {{ item.basket_title }}
                       <v-chip
-                        class="px-4 py-0 mx-auto caption text-lowercase"
-                        x-small
+                        class="px-4 py-2 mx-auto caption text-lowercase"
+                        small
                         :style="{
-                          color: item.access === 'free' ? 'green' : '#0040ff',
+                          color: item.access === 'free' ? '#4BAC3C' : '#093FBA',
                           background:
-                            item.access === 'free' ? '#d3f5c6' : '#ccd9ff',
+                            item.access === 'free' ? '#ECF8F1' : '#ccd9ff',
                         }"
                         >{{ item.access }}</v-chip
                       >
                     </p>
                     <div class="d-flex">
                       <v-chip
+                        style="background-color: #f1f3f8"
                         label
-                        class="font-weight-bold text--secondary mx-1 text-capitalize caption"
+                        class="ml-3 text--secondary text-capitalize caption mx-1"
                         small
-                        v-for="(j, l) in item.etfs_weights"
+                        v-for="(j, l) in item.tags"
                         :key="l"
-                        >{{ j }}</v-chip
+                        ><span style="color: #666">{{ j }}</span></v-chip
                       >
                     </div>
                   </div>
                   <v-spacer></v-spacer>
                   <div class="d-flex">
-                    <div class="font-weight-bold caption">
+                    <div class="caption">
                       <span style="color: gray">MIN. INVEST</span>
-                      <p class="font-weight-bold body-2 pt-1">
+                      <p class="body-2 pt-1">
                         {{ item.price }}
                       </p>
                     </div>
-                    <div class="font-weight-bold caption ms-6">
+                    <div class="caption ms-6">
                       <span style="color: gray">TOTAL STOCKS</span>
-                      <p class="font-weight-bold body-2 pt-1">
+                      <p class="font-weight-semibold body-2 pt-1">
                         {{ item.stockcount }} stocks
                       </p>
                     </div>
@@ -210,51 +216,73 @@
       </div>
     </v-col>
     <v-col cols="3">
-      <div class="" style="position: sticky; top: 123px;z-index: 1;">
-        <v-toolbar class="elevation-0 my-auto transparent">
+      <div style="position: sticky; top: 123px; z-index: 1">
+        <v-toolbar class="elevation-0 my-auto transparent px-0 mx-0 tool-sty">
           <p class="subtitle-1 font-weight-bold mb-0">Filters</p>
           <v-spacer></v-spacer>
 
-          <v-btn class="font-weight-bold body-1 elevation-0 transparent text-capitalize" style="color: #0037b7;" @click="handleReset" 
+          <v-btn
+            class="font-weight-bold body-1 elevation-0 transparent text-capitalize"
+            text
+            style="color:#0037B7;"
+            @click="handleReset"
+            :disabled="resetbtn"
             >Reset</v-btn
           >
         </v-toolbar>
 
         <v-expansion-panels
-          class="mx-0 py-0 elevation-0"
+          class="mx-0 py-0 elevation-0 expan"
           flat
           style="width: 100%"
         >
-          <v-expansion-panel class=" ">
-            <v-expansion-panel-header class=""> AMU </v-expansion-panel-header>
-            <v-expansion-panel-content>
-              <div>
-                      <v-range-slider
-                        v-model="range"
-                        :max="max"
-                        :min="min"
-                        hide-details
-                        class="align-center"
-                        @change="handleRangeChange"
-
-                      >
-                      <template v-slot:prepend>
-                        <p :value="range[0]"
-                          class="my-auto" style="width: 50px;" @change="$set(range, 0, $event)">₹{{range[0]>1000?Math.round(range[0]/1000)+"K":range[0]}}<span class="caption text--secondary ">Cr</span></p>
-                      </template>
-                      <template v-slot:append>
-                        <p :value="range[1]"
-                          class="my-auto" @change="$set(range, 1, $event)">₹{{range[1]>1000?Math.round(range[1]/1000)+"K":range[1]}}<span class="caption text--secondary">Cr</span></p>
-                      </template>
-                    </v-range-slider>
+          <v-expansion-panel class="px-0 mx-0">
+            <v-expansion-panel-header class="px-0 mx-0"> AMU </v-expansion-panel-header>
+            <v-expansion-panel-content class="px-0 mx-0"> 
+              <div class="">
+                <v-range-slider
+                  v-model="range"
+                  :max="max"
+                  :min="min"
+                  hide-details
+                  class="align-center "
+                  @change="handleRangeChange"
+                  color="#FF1717"
+                >
+                  <template v-slot:prepend>
+                    <p
+                      :value="range[0]"
+                      class="my-auto caption"
+                      style="width: 30px"
+                      @change="$set(range, 0, $event)"
+                    >
+                      ₹{{
+                        range[0] > 1000
+                          ? Math.round(range[0] / 1000) + "K"
+                          : range[0]
+                      }}<span class="caption text--secondary">Cr</span>
+                    </p>
+                  </template>
+                  <template v-slot:append>
+                    <p
+                      :value="range[1]"
+                      class="my-auto caption"
+                      @change="$set(range, 1, $event)"
+                    >
+                      ₹{{
+                        range[1] > 1000
+                          ? Math.round(range[1] / 1000) + "K"
+                          : range[1]
+                      }}<span class="caption text--secondary">Cr</span>
+                    </p>
+                  </template>
+                </v-range-slider>
               </div>
             </v-expansion-panel-content>
           </v-expansion-panel>
-          
         </v-expansion-panels>
         <v-divider></v-divider>
       </div>
-
     </v-col>
   </v-row>
 </template>
@@ -271,11 +299,12 @@ export default {
     snakebarcolor: "#000",
     listView: true,
     msg: "",
-    condition:"",
+    condition: "",
     searchkeyfield: "",
     min: 10,
     max: 100000,
-    range: [10,100000],
+    resetbtn:true,
+    range: [10, 100000],
     apiurlcollection: `${apiurl.collectionurl}`,
   }),
   methods: {
@@ -317,28 +346,33 @@ export default {
     toggleView() {
       this.listView = !this.listView;
     },
-    handleRangeChange(){
-    this.condition = "range";
-  },
-  handleReset(){
-    this.condition = "";
-  }
+    handleRangeChange() {
+      this.condition = "range";
+      this.resetbtn=false
+    },
+    handleReset() {
+      this.condition = "";
+      this.resetbtn=true
+      this.range=[10, 100000]
+    },
+    setId(id){
+      localStorage.setItem('id',id)
+    }
   },
   computed: {
     MobsearchItem() {
       if (this.condition === "range") {
         return this.collections.filter((item) => {
-            return item.price >= this.range[0] && item.price <= this.range[1];
+          return item.price >= this.range[0] && item.price <= this.range[1];
         });
-    }
-        else {
-          return this.collections.filter((post) => {
-        return post.basket_title.toLowerCase().includes(this.searchkeyfield.toLowerCase());});
-
-    }
-  },
- 
-
+      } else {
+        return this.collections.filter((post) => {
+          return post.basket_title
+            .toLowerCase()
+            .includes(this.searchkeyfield.toLowerCase());
+        });
+      }
+    },
   },
   mounted() {
     this.collection();

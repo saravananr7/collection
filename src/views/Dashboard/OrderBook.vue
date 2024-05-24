@@ -15,7 +15,7 @@
 
       <p class="title font-weight-bold">Order Book</p>
       <v-data-table :loading="tabload" style="border: 1px solid #efeef3" disable-sort :headers="headers"
-        :items="fullresdata" single-expand show-expand :expanded.sync="expanded1" item-key="date_time"
+        :items="fullresdata" single-expand show-expand :expanded.sync="expanded1" fixed-header  item-key="date_time"
         class="elevation-0">
         <template v-slot:[`item.id`]="{ index }">
           <span>{{ index + 1 }}</span>
@@ -24,15 +24,20 @@
           <v-btn color="success" v-if="item.order_status === 'success'" outlined small>
             success
           </v-btn>
-          <v-btn color="info" class="ma-2 white--text" v-else
+          <v-btn elevation="0" rounded outlined color="black"  class="text-none ma-2 bodu-2 black--text" v-else
             @click="order_details_show(item), (dialogbox = !dialogbox)" small>
-            Re-Order
+            
+            <span class="font-weight-bold">Re-Order</span>
           </v-btn>
         </template>
         <template v-slot:expanded-item="{ headers, item }">
           <td :colspan="headers.length" class="pl-0 pr-0">
-            <v-data-table :loading="tabload" :items-per-page="10" hide-default-footer dense :headers="bidherder"
-              :items="item.order_detail" @click:row="toggleExpanded" fixed-header disable-sort class="elevation-1">
+            <v-data-table :loading="tabload" :items-per-page="10" hide-default-footer  :headers="bidherder"
+              :items="item.order_detail" @click:row="toggleExpanded" fixed-header disable-sort class="elevation-0">
+
+              <template v-slot:[`item.msg`]="{ item }">
+        <v-chip small label :style="{'border':item.msg == 'REJECTED' ? '1px solid #FFCDCD' : '1px solid #C1E7BA','background-color' :item.msg == 'REJECTED' ? '#FCF3F3' : '#ECF8F1' }"><span class="caption" style="text-transform: capitalize" :style="{'color':item.msg == 'REJECTED' ? '#FF1717' : '#43A833' }"> {{ item.msg }}</span></v-chip>
+        </template>
             </v-data-table>
           </td>
         </template>
@@ -58,7 +63,7 @@
                 <v-icon>mdi-close</v-icon>
               </v-btn>
             </v-card-title>
-            <v-simple-table style="border: 1px solid gray;" class="mx-4 my-2">
+            <v-simple-table style="border: 1px solid #E0E0E0;" class="mx-4 my-2">
               <template v-slot:default>
                 <thead>
                   <tr>

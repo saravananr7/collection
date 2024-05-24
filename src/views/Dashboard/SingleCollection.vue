@@ -234,7 +234,24 @@
                               <v-col cols="3" class="py-0 text-center my-1">
                                 <div class="d-flex">
                                   <v-text-field v-model="m.weights"
-                                    class="mt-0 pt-0 px-0 elevation-0 caption text-center" hide-details @change="
+                                    class="mt-0 pt-0 px-0 elevation-0 caption text-center" hide-details 
+                                    @keyup="m.weights < maxvalueperc
+                                            ? (m.weights = Number(m.weights) + 1)
+                                            : null,getAddbtn(
+                                        fullsingleres[0].etfs_weights[index][j]
+                                          .token,
+                                        parseFloat(m.weights)
+                                      )"
+                                    @keydown="m.weights > 1
+                                            ? (m.weights = Number(m.weights) - 1)
+                                            : null,
+                                          getAddbtn(
+                                            fullsingleres[0].etfs_weights[
+                                              index
+                                            ][j].token,
+                                            m.weights
+                                          )"
+                                    @change="
                                       getAddbtn(
                                         fullsingleres[0].etfs_weights[index][j]
                                           .token,
@@ -332,7 +349,7 @@
                         })
                         "><span class="font-weight-bold">Customize collection</span></v-btn>
                       <v-btn class="elevation-0 white--text text-none float-end" rounded color="black"
-                        @click="checkloginstatus()">{{
+                        @click="checkloginstatus()"  >{{
                           fullsingleres[0].rebalance ? 'Rebalance' : 'Invest' }}</v-btn></v-col>
                   </v-row>
                 </div>
@@ -662,6 +679,19 @@ export default {
         .request(config)
         .then((response) => {
           axiosThis.fullsingleres[0].price = response.data.minprice;
+          axiosThis.ltpminpricedump = response.data.minprice;
+          
+          axiosThis.fullsingleres[0].etfs_weights = response.data.msg;
+          axiosThis.dumpdata = JSON.parse(
+              JSON.stringify(axiosThis.fullsingleres[0].etfs_weights)
+            );
+            if (
+              axiosThis.fullsingleres[0] &&
+              axiosThis.fullsingleres[0].etfs_weights
+            ) {
+              let count = parseInt(axiosThis.fullsingleres[0].stockcount) - 1;
+              axiosThis.maxvalueperc = 100 - count;
+            }
         })
         .catch((error) => {
           console.log(error);

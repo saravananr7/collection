@@ -9,13 +9,12 @@
             Collection
           </v-tab>
           <v-spacer></v-spacer>
-          <v-tab>
+          <v-tab :to="'/orderbook'">
             <v-tooltip bottom color="black">
               <template v-slot:activator="{ on, attrs }">
-                <v-btn v-on="on" v-bind="attrs" class="elevation-0 rounded-0 transparent" icon height="100%"
-                  color="#ffffff" :to="'/orderbook'">
+                <div v-on="on" v-bind="attrs">
                   <img src="@/assets/usermenu/orderbook_icon.svg" alt="Order book icon" />
-                </v-btn>
+                </div>
               </template>
               <span>Order book</span>
             </v-tooltip>

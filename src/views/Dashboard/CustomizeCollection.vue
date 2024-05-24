@@ -8,9 +8,9 @@
       <v-icon @click="snackbar = false" class="float-right" :color="snackcolor">mdi-close-circle</v-icon>
     </v-snackbar>
     <p style="word-spacing: 5px" class="mb-0 pt-16 caption">
-      <span style="color: #003f9e; cursor: pointer; " @click="$router.push('/')">Collection</span>
+      <span style="color: #0037b7; cursor: pointer; " @click="$router.push('/')">Collection</span>
       <span style="color: #000; "> > </span>
-      <span style="color: #003f9e; cursor: pointer; "
+      <span style="color: #0037b7; cursor: pointer; "
         @click="$router.push('/collection/singlepage')">SinglePage</span>
       <span style="color: #000; "> > </span>
       <span style="color: #000; ">Customize</span>
@@ -661,13 +661,8 @@ export default {
       this.params_id = params.itemid;
       this.singlepagedata();
     } else {
-      if (this.$router) {
-        setTimeout(() => {
-          this.$router.push("/collection");
-        }, 200);
-      } else {
-        console.error("Vue Router instance is not available.");
-      }
+      this.$router.push("/collection");
+
     }
     if (
       localStorage.getItem("sess") === "" ||

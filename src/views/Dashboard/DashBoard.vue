@@ -22,7 +22,7 @@
         <!-- <v-divider></v-divider> -->
         <div class="cardused">
           <v-row class="mt-2" v-if="!collectload && listView">
-            <v-col class="mb-2" v-for="(item, i) in MobsearchItem" :key="i" cols="12" sm="6" md="4">
+            <v-col class="mb-2" v-for="(item, i) in MobsearchItem" :key="i" cols="12" sm="6" md="4" xl="3">
               <v-card class="rounded-lg px-4 pos-rlt" outlined style="cursor: pointer" @click="
                 $router.push({
                   name: 'singlePage stock'
@@ -31,11 +31,10 @@
                 <p class="mb-0 text-right lh-16">
                   <v-chip class="px-2 text-capitalize" style="top:8px; z-index:1px;" x-small
                     :text-color="item.access === 'free' ? '#4BAC3C' : '#093FBA'"
-                    :color="item.access === 'free' ? '#ECF8F1' : '#ccd9ff'"><span>{{ item.access == 'free' ? 'free' :
-                      'paid' }}</span></v-chip>
+                    :color="item.access === 'free' ? '#ECF8F1' : '#ccd9ff'"><span>{{ item.access }}</span></v-chip>
                 </p>
                 <v-list-item class="px-0">
-                  <v-list-item-avatar class="mr-2 mt-auto">
+                  <v-list-item-avatar size="48" class="mr-2 mt-auto">
                     <img width="100%" :src="modifyurl(item.basket_img)" />
                   </v-list-item-avatar>
                   <v-list-item-content class="pt-0">
@@ -62,7 +61,7 @@
                   <v-list-item-content>
                     <div class="fs-13">
                       <span style="color: gray">Min. Invest</span>
-                      <p class="font-weight-medium body-2 mb-0  mt-1">{{ item.price }}</p>
+                      <p class="font-weight-medium body-2 mb-0">{{ item.price ? Number(item.price).toFixed(2) : '0.00' }}</p>
                     </div>
                   </v-list-item-content>
                   <v-list-item-content>
@@ -83,68 +82,66 @@
             </v-col>
           </v-row>
           <v-row class="mt-2" v-else-if="!collectload && !listView" no-gutters>
-            <v-card v-for="(item, i) in MobsearchItem" :key="i" width="100%" class="my-3 pt-1 pb-2 px-4 " outlined
-              @click="
-                $router.push({
-                  name: 'singlePage stock',
-                  params: { best: item.id },
-                })
-                ">
-              <!-- <p class="mb-0 text-right lh-16">
-                <v-chip class="px-2 text-capitalize" x-small
-                  :text-color="item.access === 'free' ? '#4BAC3C' : '#093FBA'"
-                  :color="item.access === 'free' ? '#ECF8F1' : '#ccd9ff'"><span>{{ item.access == 'free' ? 'free' :
-                    'paid' }}</span></v-chip>
-              </p> -->
-              <v-list-item class="px-0">
-                <v-list-item-avatar class="mr-2">
-                  <v-img :src="modifyurl(item.basket_img)"></v-img>
-                </v-list-item-avatar>
-                <v-list-item-content>
-
-                  <v-list-item-title class="text-uppercase subtitle-2 mb-1">
-                    {{ item.basket_title }}
-                  </v-list-item-title>
-
-                  <v-list-item-subtitle class="fs-12">
-                    by <span class="font-weight-medium">{{ item.master_name }}</span>
-                  </v-list-item-subtitle>
-                </v-list-item-content>
-                <v-list-item-content class="pr-1">
+            <v-card v-for="(item, i) in MobsearchItem" :key="i" width="100%" class="my-3 py-2  px-4" outlined @click="
+              $router.push({
+                name: 'singlePage stock',
+                params: { best: item.id },
+              })
+              ">
+              <v-row>
+                <v-col cols="9">
+                  <v-list-item class="px-0">
+                    <v-list-item-avatar size="48" class="mr-2">
+                      <v-img :src="modifyurl(item.basket_img)"></v-img>
+                    </v-list-item-avatar>
+                    <v-list-item-content>
+    
+                      <v-list-item-title class="text-uppercase subtitle-2 mb-1">
+                        {{ item.basket_title }}
+                      </v-list-item-title>
+    
+                      <v-list-item-subtitle class="fs-12">
+                        by <span class="font-weight-medium">{{ item.master_name }}</span>
+                      </v-list-item-subtitle>
+    
+                    </v-list-item-content>
+                  </v-list-item>
+                  <v-list-item-subtitle>
+                    <v-chip color="#f1f3f8" text-color="#666666" label class="text--secondary mr-1 text-capitalize px-1"
+                      x-small v-for="(j, l) in item.tags" :key="l">{{
+                        j
+                      }}</v-chip></v-list-item-subtitle>
                   <p style="display: -webkit-box;
                   -webkit-line-clamp: 2;
                   -webkit-box-orient: vertical;
                   overflow: hidden;
-                  text-overflow: ellipsis;" class="mb-0 subtitle-2 txt-666 font-weight-regular lh-20">{{
+                  text-overflow: ellipsis;" class="mb-0 subtitle-2 txt-666 font-weight-regular mt-2 lh-20">{{
                     item.mang_sht_con }}</p>
-                </v-list-item-content>
-                <v-list-item-content>
+                </v-col>
+                <v-col cols="2" class="d-flex align-center justify-center">
                   <div class="fs-13">
                     <span style="color: gray">Min. Invest</span>
-                    <p class="font-weight-medium body-2 mb-0  mt-1">{{ item.price }}</p>
+                    <p class="font-weight-medium body-2 mb-0">{{ item.price ? Number(item.price).toFixed(2) : '0.00' }}</p>
                   </div>
-                </v-list-item-content>
-                <v-list-item-content>
-                  <div class="fs-13">
-                    <span style="color: gray">No.of Stocks</span>
-                    <p class="font-weight-medium body-2 mb-0 mt-1">
-                      {{ item.stockcount }}
-                    </p>
-                  </div>
-                </v-list-item-content>
-                <v-list-item-content class="py-0 pos-rlt">
-                  <v-chip class="px-2 text-capitalize pos-abs" style="top:0; right:0;" x-small
-                  :text-color="item.access === 'free' ? '#4BAC3C' : '#093FBA'"
-                  :color="item.access === 'free' ? '#ECF8F1' : '#ccd9ff'"><span>{{ item.access == 'free' ? 'free' :
-                    'paid' }}</span></v-chip>
-                  <v-btn class="elevation-0 rounded-pill text-none txt-fobly font-weight-bold mt-5"
-                    color="#F1F3F8">Invest</v-btn>
-                </v-list-item-content>
-              </v-list-item>
-              <v-list-item-subtitle> <v-chip color="#f1f3f8" text-color="#666666" label
-                  class="text--secondary mr-1 text-capitalize px-1" x-small v-for="(j, l) in item.tags" :key="l">{{
-                    j
-                  }}</v-chip></v-list-item-subtitle>
+                </v-col>
+                <v-col cols="1" class="d-flex align-center justify-end pos-rlt">
+                  <!-- <v-list-item class="px-0">
+                    <v-list-item-content style="max-width: 100px;" class="pb-0">
+                  
+                    </v-list-item-content> -->
+                    <div class="py-0 pos-abs" style="top:8px; right:4px;">
+                      <!-- <p class="mb-0 text-right lh-16"> -->
+                        <v-chip class="px-2 text-capitalize" x-small
+                          :text-color="item.access === 'free' ? '#4BAC3C' : '#093FBA'"
+                          :color="item.access === 'free' ? '#ECF8F1' : '#ccd9ff'"><span>{{ item.access }}</span></v-chip>
+                      <!-- </p> -->
+                    </div>
+
+                      <v-btn class="elevation-0 rounded-pill text-none txt-fobly font-weight-bold mt-1 px-8"
+                        color="#F1F3F8">Invest</v-btn>
+                  <!-- </v-list-item> -->
+                </v-col>
+              </v-row> 
             </v-card>
           </v-row>
           <v-row class="mt-2" v-if="collectload">

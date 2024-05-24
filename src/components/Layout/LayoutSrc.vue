@@ -12,7 +12,7 @@
           <v-tab>
             <v-tooltip bottom color="black">
               <template v-slot:activator="{ on, attrs }">
-                <v-btn v-on="on" v-bind="attrs" class="elevation-0 rounded-0 transparent" text height="100%"
+                <v-btn v-on="on" v-bind="attrs" class="elevation-0 rounded-0 transparent" icon height="100%"
                   color="#ffffff" :to="'/orderbook'">
                   <img src="@/assets/usermenu/orderbook_icon.svg" alt="Order book icon" />
                 </v-btn>

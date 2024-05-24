@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Basket List View</title>
+
+    <style>
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f5f5f5;
+    margin: 0;
+    padding: 20px;
+}
+
+.basket-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.basket-item {
+    background-color: white;
+    border-radius: 8px;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.basket-details {
+    max-width: 80%;
+}
+
+.basket-details h3 {
+    margin: 0;
+    font-size: 1.2em;
+    color: #333;
+}
+
+.basket-details p {
+    margin: 5px 0;
+    color: #666;
+}
+
+.basket-details .tags {
+    font-size: 0.9em;
+    color: #999;
+}
+
+.basket-details .min-invest {
+    font-weight: bold;
+    color: #333;
+}
+
+.invest-button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.invest-button:hover {
+    background-color: #0056b3;
+}
+
+    </style>
+</head>
+<body>
+    <div class="basket-list">
+        <div class="basket-item">
+            <div class="basket-details">
+                <h3>THURSDAY BASKET</h3>
+                <p>by sabarish</p>
+                <p class="tags">Arbitrage, Breakout</p>
+                <p>hai this is new</p>
+                <p class="min-invest">Min. Invest: 7845.92</p>
+            </div>
+            <button class="invest-button">Invest</button>
+        </div>
+
+        <div class="basket-item">
+            <div class="basket-details">
+                <h3>FREE BASKET</h3>
+                <p>by sabarish</p>
+                <p class="tags">Bearish, Arbitrage</p>
+                <p>free basketfree basketfree basketfree basketfree basket</p>
+                <p class="min-invest">Min. Invest: 7922.5</p>
+            </div>
+            <button class="invest-button">Invest</button>
+        </div>
+
+        <div class="basket-item">
+            <div class="basket-details">
+                <h3>NEW BASKET EVE</h3>
+                <p>by sabarish</p>
+                <p class="tags">Bearish, Arbitrage</p>
+                <p>safe trade</p>
+                <p class="min-invest">Min. Invest: 7904.55</p>
+            </div>
+            <button class="invest-button">Invest</button>
+        </div>
+
+        <div class="basket-item">
+            <div class="basket-details">
+                <h3>TESTING SUBSCRIBE BASKET</h3>
+                <p>by sabarish</p>
+                <p class="tags">Arbitrage, Bearish</p>
+                <p>new subscribe basket</p>
+                <p class="min-invest">Min. Invest: 11637.95</p>
+            </div>
+            <button class="invest-button">Invest</button>
+        </div>
+
+        <div class="basket-item">
+            <div class="basket-details">
+                <h3>NEW BASKET</h3>
+                <p>by saravan</p>
+                <p class="tags">Bearish, Breakout, Bullish</p>
+                <p>safe trade</p>
+                <p class="min-invest">Min. Invest: 1341.9</p>
+            </div>
+            <button class="invest-button">Invest</button>
+        </div>
+
+        <div class="basket-item">
+            <div class="basket-details">
+                <h3>SERIAL BUS</h3>
+                <p>by saravan</p>
+                <p class="tags">Bearish, Breakout, Buy&Hold, Bullish, CalendarSpreads</p>
+                <p>By combining the datasets according to the mobile_no column, this method guarantees that the...</p>
+                <p class="min-invest">Min. Invest: 3854.2</p>
+            </div>
+            <button class="invest-button">Invest</button>
+        </div>
+    </div>
+</body>
+</html>

@@ -21,7 +21,7 @@
           class="elevation-0 rounded-lg pb-5 d-none d-md-block">
           <v-card style="background-color: #fafbff" class="py-3 px-4 mb-4" elevation="0">
             <v-toolbar style="background-color: #fafbff" class="tool-sty elevation-0 mb-1 px-0" color="#fff" dense>
-              <v-list-item class="px-0">
+              <v-list-item class="pl-0 pr-1">
                 <v-list-item-avatar class="mr-2">
                   <img :src="modifiedUrl" />
                 </v-list-item-avatar>
@@ -52,7 +52,7 @@
                     ₹ {{
                       fullsingleres[0] && fullsingleres[0].price
                         ? fullsingleres[0].price
-                        : ""
+                        : "0.00"
                     }}
                     <v-btn class="ml-3" @click="refrshltp()" text icon><v-icon size="18">mdi-refresh</v-icon>
                     </v-btn>
@@ -492,7 +492,7 @@ max-width: 220px;" background-color="#f1f3f8" v-model="weightselected" :items="w
               hide-default-footer class="elevation-0 mb-3 ma-0 pa-0" outlined fixed-header disable-sort dense
               style="border:1px solid grey"></v-data-table>
           </div>
-          <p class="font-weight-semibold">Min.invest amount : <span class="font-weight-bold"> {{
+          <p class="font-weight-semibold">Invest amount : <span class="font-weight-bold"> {{
             fullsingleres[0] && fullsingleres[0].price
               ? fullsingleres[0].price
               : ''

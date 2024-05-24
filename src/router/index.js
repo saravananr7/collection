@@ -1,5 +1,5 @@
 import LayoutSrc from "@/components/Layout/LayoutSrc.vue";
-import CustomizeCollection from "@/views/Dashboard/CustomizeCollection.vue";
+// import CustomizeCollection from "@/views/Dashboard/CustomizeCollection.vue";
 import DashBoard from "@/views/Dashboard/DashBoard.vue";
 import OrderBook from "@/views/Dashboard/OrderBook.vue";
 // import CollectionPage from "@/views/Dashboard/pages/CollectionPage.vue";
@@ -32,11 +32,11 @@ const routes = [
         name: "collection order book",
         component: OrderBook,
       },
-      {
-        path: "/collection/singlepage/customizecollection",
-        name: "customize collection",
-        component: CustomizeCollection,
-      },
+      // {
+      //   path: "/collection/singlepage/customizecollection",
+      //   name: "customize collection",
+      //   component: CustomizeCollection,
+      // },
       // {
       //   path: "/stock",
       //   name: "single page stock",

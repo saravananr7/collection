@@ -1,89 +1,57 @@
 <template>
   <div>
-    <v-snackbar
-      class="snakbar-sty rounded-pill"
-      transition="slide-x-reverse-transition"
-      v-model="snackbar"
-      timeout="6000"
-      :value="true"
-      :color="snackcolor"
-      top
-      right
-      outlined
-      absolute
-      text-color="white"
-    >
+    <v-snackbar class="snakbar-sty rounded-pill" transition="slide-x-reverse-transition" v-model="snackbar"
+      timeout="6000" :value="true" :color="snackcolor" top right outlined absolute text-color="white">
       <v-icon class="mr-2" :color="snackcolor">mdi-alert-outline</v-icon>
       {{ mesg }}
-      <v-icon @click="snackbar = false" class="float-right" :color="snackcolor"
-        >mdi-close-circle</v-icon
-      >
+      <v-icon @click="snackbar = false" class="float-right" :color="snackcolor">mdi-close-circle</v-icon>
     </v-snackbar>
-    <v-container>
-      <p style="word-spacing: 5px" class="caption">
-        <span
-          style="color: #003f9e; cursor: pointer; font-weight: 700"
-          @click="$router.push('/')"
-          >Collection</span
-        >
-        <span style="color: #000; font-weight: 700"> > </span>
-        <span style="color: #000; font-weight: 700">Orderbook</span>
+    <div>
+      <p style="word-spacing: 5px" class="caption pt-16">
+        <span style="color: #0037b7; cursor: pointer; " @click="$router.push('/')">Collection</span>
+        <span style="color: #000; "> > </span>
+        <span style="color: #000; ">Orderbook</span>
       </p>
 
       <p class="title font-weight-bold">Order Book</p>
-      <v-data-table
-        :loading="tabload"
-        style="border: 1px solid #efeef3"
-        disable-sort
-        :headers="headers"
-        :items="fullresdata"
-        single-expand
-        show-expand
-        :expanded.sync="expanded1"
-        item-key="date_time"
-        class="elevation-0"
-      >
+      <v-data-table :loading="tabload" style="border: 1px solid #efeef3" disable-sort :headers="headers"
+        :items="fullresdata" single-expand show-expand :expanded.sync="expanded1" fixed-header  item-key="date_time"
+        class="elevation-0">
         <template v-slot:[`item.id`]="{ index }">
           <span>{{ index + 1 }}</span>
         </template>
         <template v-slot:[`item.button`]="{ item }">
-          <v-btn
-            
-            color="success"
-            v-if="item.order_status === 'success'"
-            outlined
-            small
-          >
+          <v-btn color="success" v-if="item.order_status === 'success'" outlined small>
             success
           </v-btn>
-          <v-btn
+          <v-btn elevation="0" rounded outlined color="black"  class="text-none ma-2 bodu-2 black--text" v-else
+            @click="order_details_show(item), (dialogbox = !dialogbox)" small>
             
-            color="info"
-            class="ma-2 white--text"
-            v-else
-            @click="order_details_show(item), (dialogbox = !dialogbox)"
-            small
-          >
-            Re-Order
+            <span class="font-weight-bold">Re-Order</span>
           </v-btn>
         </template>
         <template v-slot:expanded-item="{ headers, item }">
           <td :colspan="headers.length" class="pl-0 pr-0">
-            <v-data-table
-              :loading="tabload"
-              :items-per-page="10"
-              hide-default-footer
-              dense
-              :headers="bidherder"
-              :items="item.order_detail"
-              @click:row="toggleExpanded"
-              fixed-header
-              disable-sort
-              class="elevation-1"
-            >
+            <v-data-table :loading="tabload" :items-per-page="10" hide-default-footer  :headers="bidherder"
+              :items="item.order_detail" @click:row="toggleExpanded" fixed-header disable-sort class="elevation-0">
+
+              <template v-slot:[`item.msg`]="{ item }">
+        <v-chip small label :style="{'border':item.msg == 'REJECTED' ? '1px solid #FFCDCD' : '1px solid #C1E7BA','background-color' :item.msg == 'REJECTED' ? '#FCF3F3' : '#ECF8F1' }"><span class="caption" style="text-transform: capitalize" :style="{'color':item.msg == 'REJECTED' ? '#FF1717' : '#43A833' }"> {{ item.msg }}</span></v-chip>
+        </template>
             </v-data-table>
           </td>
         </template>
+        <template v-slot:no-data>
+          <v-col cols="12" class="text-center pa-16">
+              <div class="mx-auto ">
+                  <img class="align-self-stretch mx-auto" width="80px"
+                      :src="require('@/assets/no data folder.svg')" alt="no data" />
+                  <h5 class="txt-999 font-weight-regular">There is no
+                      data here yet!
+                  </h5>
+              </div>
+          </v-col>
+      </template>
       </v-data-table>
       <div class="text-center">
         <v-dialog v-model="dialogbox" width="400">
@@ -95,7 +63,7 @@
                 <v-icon>mdi-close</v-icon>
               </v-btn>
             </v-card-title>
-            <v-simple-table style="border: 1px solid gray;" class="mx-4 my-2">
+            <v-simple-table style="border: 1px solid #E0E0E0;" class="mx-4 my-2">
               <template v-slot:default>
                 <thead>
                   <tr>
@@ -107,23 +75,18 @@
                 </thead>
                 <tbody v-if="identifyid && identifyid.order_detail">
                   <tr v-for="item in identifyid.order_detail" :key="item.token">
-                    <td
-                      v-if="
-                        item.msg == 'REJECTED' ||
-                        item.stat == 'Not Ok' ||
-                        item.msg == 'order failed'
-                      "
-                    >
+                    <td v-if="
+                      item.msg == 'REJECTED' ||
+                      item.stat == 'Not Ok' ||
+                      item.msg == 'order failed'
+                    ">
                       {{ item.tsym }}
                     </td>
-                    <td
-                      v-if="
-                        item.msg == 'REJECTED' ||
-                        item.stat == 'Not Ok' ||
-                        item.msg == 'order failed'
-                      "
-                      class="text-center"
-                    >
+                    <td v-if="
+                      item.msg == 'REJECTED' ||
+                      item.stat == 'Not Ok' ||
+                      item.msg == 'order failed'
+                    " class="text-center">
                       {{ item.quantity }}
                     </td>
                   </tr>
@@ -132,21 +95,16 @@
             </v-simple-table>
 
             <v-card-actions>
-              <v-btn
-                color="black"
-                block
-                class="white--text elevation-0  rounded-pill"
-                @click="re_orderapi(identifyid.id_x)"
-                :loading="loading"
-              >
+              <v-btn color="black" block class="white--text elevation-0  rounded-pill"
+                @click="re_orderapi(identifyid.id_x)" :loading="loading">
                 Place order
               </v-btn>
             </v-card-actions>
           </v-card>
         </v-dialog>
-        
+
       </div>
-    </v-container>
+    </div>
   </div>
 </template>
 
@@ -175,10 +133,11 @@ export default {
       uid: "",
       headers: [
         { text: "Id", value: "id" },
+        { text: "Date & Time", value: "date_time" },
+
         { text: "Baskset name", value: "basket_title" },
 
         { text: "Client Id", value: "client_id" },
-        { text: "Date & Time", value: "date_time" },
         { text: "", value: "button" },
         { text: "", value: "data-table-expand" },
 

@@ -1,35 +1,19 @@
 <template>
   <div>
 
-    <v-snackbar
-      class="snakbar-sty rounded-pill mt-sm-16"
-      transition="slide-x-reverse-transition"
-      v-model="snackbar"
-      timeout="6000"
-      :value="true"
-      :color="snackcolor"
-      top
-      right
-      outlined
-      fixed
-      text-color="white"
-    >
+    <v-snackbar class="snakbar-sty rounded-pill mt-sm-16" transition="slide-x-reverse-transition" v-model="snackbar"
+      timeout="6000" :value="true" :color="snackcolor" top right outlined fixed text-color="white">
       <v-icon class="mr-2" :color="snackcolor">mdi-alert-outline</v-icon>
       {{ snackbarmsg }}
-      <v-icon @click="snackbar = false" class="float-right" :color="snackcolor"
-        >mdi-close-circle</v-icon
-      >
+      <v-icon @click="snackbar = false" class="float-right" :color="snackcolor">mdi-close-circle</v-icon>
     </v-snackbar>
-    <p style="word-spacing: 5px" class="mb-0 mt-3 caption">
-      <span
-        style="color: #003f9e; cursor: pointer; font-weight: 700"
-        @click="$router.push('/')"
-        >Collection</span
-      >
-      <span style="color: #000; font-weight: 700"> > </span>
-      <span style="color: #003f9e; cursor: pointer; font-weight: 700" @click="$router.push('/collection/singlepage')" >SinglePage</span>
-      <span style="color: #000; font-weight: 700"> > </span>
-      <span style="color: #000; font-weight: 700" >Customize</span>
+    <p style="word-spacing: 5px" class="mb-0 pt-16 caption">
+      <span style="color: #003f9e; cursor: pointer; " @click="$router.push('/')">Collection</span>
+      <span style="color: #000; "> > </span>
+      <span style="color: #003f9e; cursor: pointer; "
+        @click="$router.push('/collection/singlepage')">SinglePage</span>
+      <span style="color: #000; "> > </span>
+      <span style="color: #000; ">Customize</span>
     </p>
     <v-row no-gutters>
       <p class="title mt-3">Customize Collection</p>
@@ -41,43 +25,18 @@
             <!-- <v-btn icon class="elevation-0 text-none py-5 transparent blue--text lighten-2 mr-4 px-0" >
                 <v-icon>mdi-plus</v-icon>
             </v-btn> -->
-            <v-autocomplete
-              outlined
-              rounded
-              dense
-              v-model="orderscitt"
-              return-object
-              :search-input.sync="searchaa"
-              :items="searchdataaa"
-              item-text="tsym"
-              item-key="tsym"
-              placeholder="Search Symbol"
-              required
-              hide-details
-              hide-selected
-              no-filter
-              append-icon=""
-              style="
+            <v-autocomplete outlined rounded dense  v-model="orderscitt" return-object :search-input.sync="searchaa"
+              :items="searchdataaa" item-text="tsym" item-key="tsym" placeholder="Search Symbol" required hide-details
+              hide-selected no-filter append-icon="" style="
                 font-size: 13px;
                 min-width: 240px;
                 background-color: #f1f3f8;
-              "
-              solo
-              flat
-              @change="setValue()"
-              :loading="autoload"
-              class="tophundraedmutual searchfundlabel"
-              oninput="this.value = this.value.toUpperCase()"
-              ><template #append
-                ><v-icon v-if="orderscitt" @click="orderscitt = ''" size="14"
-                  >mdi-close</v-icon
-                ></template
-              >
+              " solo flat @change="setValue()" :loading="autoload" class="tophundraedmutual searchfundlabel"
+              oninput="this.value = this.value.toUpperCase()"><template #append><v-icon v-if="orderscitt"
+                  @click="orderscitt = ''" size="14">mdi-close</v-icon></template>
               <template v-slot:no-data>
                 <v-list-item>
-                  <v-list-item-title
-                    class="text-center subtitle-2 font-weight-bold textfnt"
-                  >
+                  <v-list-item-title class="text-center subtitle-2 font-weight-bold textfnt">
                     Type more than 2 letter
                   </v-list-item-title>
                 </v-list-item>
@@ -91,63 +50,34 @@
           <div class="d-flex">
             <v-tooltip bottom color="black">
               <template v-slot:activator="{ on, attrs }">
-                <v-btn
-                  class="elevation-0 transparent caption pa-0 mx-6 font-weight-bold"
-                  style="color: black"
-                  @click="resetsigleres()"
-                  depressed
-                  outlined
-                  icon
-                  v-bind="attrs"
-                  v-on="on"
-                  ><v-icon>mdi-refresh</v-icon></v-btn
-                >
+                <v-btn class="elevation-0 transparent caption pa-0 mx-6 font-weight-bold" style="color: black"
+                  @click="resetsigleres()" outlined icon v-bind="attrs" v-on="on"><v-icon>mdi-refresh</v-icon></v-btn>
               </template>
               <span>Reset Values</span>
             </v-tooltip>
-            <v-select
-              rounded
-              style="max-width: 220px;background-color: #f1f3f8"
-              v-model="weightselected"
-              :items="weightedChange"
-              @change="
+            <v-select rounded style="max-width: 220px;" background-color="#f1f3f8" v-model="weightselected"
+              :items="weightedChange" @change="
                 weightselected == 'Equial-Weighted' ? changetoEqualWeight() : ''
-              "
-              required
-              dense
-              hide-details
-              class="body-2 pt-1 text-center"
-            ></v-select>
+                " required append-icon="mdi-chevron-down" filled dense hide-details class="body-2 pt-1 text-center"></v-select>
           </div>
         </div>
-        <v-row
-          class="text--secondary font-weight-medium py-1 pt-4 my-0"
-          no-gutters
-        >
+        <v-row class="text--secondary subtitle-2 font-weight-medium py-1 pt-4 my-0" no-gutters>
           <v-col cols="4" class="py-0">
-            <p class="mb-0">Segments and stocks</p></v-col
-          >
+            <p class="mb-0">Segments and stocks</p>
+          </v-col>
           <v-col cols="2">Price</v-col>
           <v-col cols="3" class="py-0">
             <span> Weightage (%)</span>
           </v-col>
           <v-col cols="1"> Share </v-col>
-          <v-col cols="2">Avg Weight </v-col>
+          <v-col cols="1" class="text-right">Avg Weight </v-col>
         </v-row>
         <v-divider class="pt-0"> </v-divider>
-        <div
-          v-if="
-            fullsingleres && fullsingleres[0] && fullsingleres[0].etfs_weights
-          "
-        >
-          <div
-            v-for="(item, index, k) in fullsingleres[0].etfs_weights"
-            :key="k"
-          >
-            <v-row
-              class="text--black font-weight-medium py-1 pt-4 my-0"
-              no-gutters
-            >
+        <div v-if="
+          fullsingleres && fullsingleres[0] && fullsingleres[0].etfs_weights
+        ">
+          <div v-for="(item, index, k) in fullsingleres[0].etfs_weights" :key="k">
+            <v-row class="text--black font-weight-medium py-1 pt-4 my-0" no-gutters>
               <v-col cols="12">
                 <v-row no-gutters>
                   <v-col cols="4" class="py-0">
@@ -160,176 +90,101 @@
                         calculateTotalWeight(item)
                           ? calculateTotalWeight(item)
                           : ""
-                      }}%</span
-                    >
+                      }}%</span>
                   </v-col>
                 </v-row>
-                <v-row
-                  v-for="(m, j) in fullsingleres[0].etfs_weights[index]"
-                  :key="j"
-                  no-gutters
-                >
+                <v-row v-for="(m, j) in fullsingleres[0].etfs_weights[index]" :key="j" no-gutters>
                   <v-col cols="4" class="py-0">
-                    <p class="mb-0 text-capitalize caption my-2 ml-1">
+                    <p class="mb-0 text-capitalize caption my-2">
                       {{ m.tsym ? m.tsym : "" }}
                     </p>
                   </v-col>
                   <v-col cols="2" class="py-0">
-                    <p
-                      class="mb-0 text-capitalize body-2 my-2 ml-2 font-weight-medium"
-                    >
-                    ₹{{ m.price ? m.price : "" }}
+                    <p class="mb-0 text-capitalize body-2 my-2 ml-2 font-weight-medium">
+                      ₹{{ m.price ? Number(m.price).toFixed(2) : "" }}
                     </p>
                   </v-col>
                   <v-col cols="3" class="py-0 text-center my-1">
                     <div class="d-flex">
-                      <v-text-field
-                        v-model="m.weights"
-                        class="mt-0 pt-0 px-0 elevation-0 caption text-center"
-                        hide-details
-                        @change="
+                      <v-text-field v-model="m.weights" class="mt-0 pt-0 px-0 elevation-0 caption text-center"
+                        hide-details @change="
                           getAddbtn(
                             fullsingleres[0].etfs_weights[index][j].token,
                             parseFloat(m.weights)
                           )
-                        "
-                        single-line
-                        outlined
-                        type="number"
-                        hide-spin-buttons
-                        style="max-width: 120px; height: 40px"
-                        :min="minweights"
-                        :readonly="weightselected == 'Equial-Weighted'"
-                        :max="maxvalueperc"
-                        dense
-                      >
+                          " outlined type="number" hide-spin-buttons style="max-width: 120px;"
+                        :min="minweights" :readonly="weightselected == 'Equial-Weighted'" :max="maxvalueperc" dense>
                         <template #append>
-                          <v-btn
-                            :disabled="weightselected == 'Equial-Weighted'"
-                            @click="
-                              m.weights < maxvalueperc
-                                ? (m.weights = Number(m.weights) + 1)
-                                : null,
-                                getAddbtn(
-                                  fullsingleres[0].etfs_weights[index][j].token,
-                                  m.weights
-                                )
-                            "
-                            icon
-                            class="elevation-0"
-                            small
-                          >
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              width="20"
-                              height="20"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                            >
+                          <v-btn :disabled="weightselected == 'Equial-Weighted'" @click="
+                            m.weights < maxvalueperc
+                              ? (m.weights = Number(m.weights) + 1)
+                              : null,
+                            getAddbtn(
+                              fullsingleres[0].etfs_weights[index][j].token,
+                              m.weights
+                            )
+                            " icon class="elevation-0" small>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                              fill="none">
                               <circle cx="12" cy="12" r="12" fill="white" />
-                              <path
-                                d="M12 8V16"
-                                stroke="#666666"
-                                stroke-width="2"
-                                stroke-linecap="round"
-                              />
-                              <path
-                                d="M16 12L8 12"
-                                stroke="#666666"
-                                stroke-width="2"
-                                stroke-linecap="round"
-                              />
+                              <path d="M12 8V16" stroke="#666666" stroke-width="2" stroke-linecap="round" />
+                              <path d="M16 12L8 12" stroke="#666666" stroke-width="2" stroke-linecap="round" />
                             </svg>
                           </v-btn>
                         </template>
                         <template #prepend-inner>
-                          <v-btn
-                            :disabled="weightselected == 'Equial-Weighted'"
-                            @click="
-                              m.weights > 1
-                                ? (m.weights = Number(m.weights) - 1)
-                                : null,
-                                getAddbtn(
-                                  fullsingleres[0].etfs_weights[index][j].token,
-                                  m.weights
-                                )
-                            "
-                            icon
-                            class="elevation-0"
-                            small
-                          >
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              width="20"
-                              height="20"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                            >
+                          <v-btn :disabled="weightselected == 'Equial-Weighted'" @click="
+                            m.weights > 1
+                              ? (m.weights = Number(m.weights) - 1)
+                              : null,
+                            getAddbtn(
+                              fullsingleres[0].etfs_weights[index][j].token,
+                              m.weights
+                            )
+                            " icon class="elevation-0" small>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                              fill="none">
                               <circle cx="12" cy="12" r="12" fill="white" />
-                              <path
-                                d="M16 12L8 12"
-                                stroke="#666666"
-                                stroke-width="2"
-                                stroke-linecap="round"
-                              />
+                              <path d="M16 12L8 12" stroke="#666666" stroke-width="2" stroke-linecap="round" />
                             </svg>
                           </v-btn>
                         </template>
                       </v-text-field>
-                      <span
-                        class="title font-weight-semibold my-auto ms-1"
-                        style="color: #666666"
-                      >
+                      <span class="title font-weight-semibold my-auto ms-1" style="color: #666666">
                       </span>
                     </div>
                   </v-col>
                   <v-col cols="1">
-                    <div
-                      class="mb-0 text-capitalize body-2 my-2 ml-2 font-weight-medium"
-                    >
-                      <span
-                        class="justify-end d-inline-flex"
-                        style="width: 20px"
-                        >{{ m.quantity }}</span
-                      >
+                    <div class="mb-0 text-capitalize body-2 my-2 ml-2 font-weight-medium">
+                      <span class="justify-end d-inline-flex" style="width: 20px">{{ m.quantity }}</span>
                     </div>
                   </v-col>
-                  <v-col cols="1" class="py-0">
-                    <div
-                      class="mb-0 text-capitalize body-2 my-2 ml-2 font-weight-medium"
-                    >
+                  <v-col cols="1" class="py-0 text-right">
+                    <div class="mb-0 text-capitalize body-2 my-2 ml-2 font-weight-medium">
                       <span>{{ m.avg_weight_percent }}%</span>
                     </div>
                   </v-col>
-                  <v-col cols="1">
-                    <v-btn
-                      icon
-                      depressed
-                      small
-                      @click="
-                        deletesegment(
-                          fullsingleres[0].etfs_weights[index][j].token
-                        )
-                      "
-                    >
+                  <v-col cols="1" class="text-center">
+                    <v-btn icon small @click="
+                      deletesegment(
+                        fullsingleres[0].etfs_weights[index][j].token
+                      )
+                      ">
                       <v-icon size="20"> mdi-trash-can-outline </v-icon>
                     </v-btn>
                   </v-col>
                 </v-row>
               </v-col>
             </v-row>
-            <v-divider
-              v-if="
-                fullsingleres[0] &&
-                k != Object.entries(fullsingleres[0].etfs_weights).length - 1
-              "
-            ></v-divider>
+            <v-divider v-if="
+              fullsingleres[0] &&
+              k != Object.entries(fullsingleres[0].etfs_weights).length - 1
+            "></v-divider>
           </div>
         </div>
         <v-row class="my-2">
           <v-col cols="10" class="my-auto ps-4">
-            <span class="font-weight-bold"
-              >Min.invest amount :
+            <span class="font-weight-bold">Min.invest amount :
               ₹ {{
                 fullsingleres[0] && fullsingleres[0].price
                   ? fullsingleres[0].price
@@ -338,27 +193,17 @@
             </span>
           </v-col>
           <v-col cols="2" class="text-center d-flex">
-            <v-btn
-              class="elevation-0 white--text text-none px-8"
-              rounded
-              depressed
-              dense
-              color="black"
-              @click="confirmation = true"
-              >Invest</v-btn
-            ></v-col
-          >
+            <v-btn class="elevation-0 white--text text-none px-8" rounded block dense color="black" height="40"
+              @click="confirmation = true">Invest</v-btn></v-col>
         </v-row>
       </v-col>
     </v-row>
     <v-dialog v-model="confirmation" persistent max-width="380">
       <v-card class="rounded-lg px-2 px-md-2">
-        <v-card-title class="pr-2"
-          >Order Confirmation <v-spacer></v-spacer>
+        <v-card-title class="pr-2">Order Confirmation <v-spacer></v-spacer>
           <v-btn icon @click="confirmation = false">
             <v-icon>mdi-close</v-icon>
-          </v-btn></v-card-title
-        >
+          </v-btn></v-card-title>
         <v-card-text>
           <b>{{
             fullsingleres[0]
@@ -376,14 +221,7 @@
           </p>
         </v-card-text>
         <v-card-actions class="pb-4">
-          <v-btn
-            elevation="0"
-            color="black white--text"
-            rounded
-            block
-            @click="deploybasket()"
-            :loading="basload"
-          >
+          <v-btn elevation="0" color="black white--text" rounded block @click="deploybasket()" :loading="basload">
             <span class="text-none">Proceed</span>
           </v-btn>
         </v-card-actions>
@@ -616,7 +454,7 @@ export default {
           axiosThis.basload = false;
           if (response.data.msg == "order initiated") {
             axiosThis.confirmation = false;
-            axiosThis.snackbarmsg = response.data.msg.toUpperCase();
+            axiosThis.snackbarmsg = response.data.msg;
             axiosThis.snackcolor = "success";
             axiosThis.snackbar = true;
           } else {

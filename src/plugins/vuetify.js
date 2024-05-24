@@ -6,9 +6,15 @@ Vue.use(Vuetify);
 export default new Vuetify({
     theme: {
         themes: {
-            primary: "#0037B7",
-            secondary:"#0037B7",       //blue
+          light: {
+            primary: '#0037B7',
+            secondary: '#0037B7',    //blue
+    
+          },
+          dark: {
+            primary: '#0037B7',
+            secondary: "#0037B7",   //blue
+          },
         },
-        
-    }
+      },
 });

@@ -48,7 +48,7 @@
         </template>
         <template v-slot:[`item.button`]="{ item }">
           <v-btn
-            depressed
+            
             color="success"
             v-if="item.order_status === 'success'"
             outlined
@@ -57,7 +57,7 @@
             success
           </v-btn>
           <v-btn
-            depressed
+            
             color="info"
             class="ma-2 white--text"
             v-else
@@ -286,13 +286,13 @@ export default {
             axiosThis.dialog = false;
             axiosThis.snackbar = true;
             axiosThis.snackcolor = "success";
-            axiosThis.mesg = response.data.msg.toUpperCase();
+            axiosThis.mesg = response.data.msg;
           } else {
             axiosThis.loading = false;
             axiosThis.dialogbox = false;
             axiosThis.snackbar = true;
             axiosThis.snackcolor = "error";
-            axiosThis.mesg = response.data.msg.toUpperCase();
+            axiosThis.mesg = response.data.msg;
           }
           this.oredrdetails();
         })

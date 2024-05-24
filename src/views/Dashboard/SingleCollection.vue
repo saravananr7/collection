@@ -191,16 +191,16 @@ max-width: 220px;" background-color="#f1f3f8" v-model="weightselected" :items="w
                     fullsingleres[0].etfs_weights
                   " class="px-4">
                     <div v-for="(item, index, k) in fullsingleres[0].etfs_weights" :key="k">
-                      <template v-for="(m, j) in item">
+                      <template >
 
-                        <div :key="j">
+                        <div v-for="(m, j) in item" :key="j">
                           <v-row no-gutters class="py-2">
                             <v-col cols="3" class="py-0 d-flex align-center">
                               <p class="mb-0 text-capitalize fs-14 font-weight-medium">
-                                {{ m.tsym ? m.tsym : "" }}<span v-if="m.exists" class=" font-weight-bold"
-                                  :style="{ color: m.exists === 'no' ? 'green' : 'red' }">({{
-                                    m.exists ? m.exists == 'no' ? "new" : 'old' : '' }}
-                                  {{ m.newquant ? m.newquant > 0 ? m.newquant : '' : '' }})</span>
+                                {{ m.tsym ? m.tsym : "" }}<v-chip  text-color="white" :color="m.exists == 'no' ? 'green': 'white'" label class="mr-1 text-capitalize px-1"
+                      x-small >{{
+                                    m.exists ? m.exists == 'no' ? "new" : '' : '' }}
+                      </v-chip>
                               </p>
                             </v-col>
                             <v-col cols="2" class="py-0 d-flex align-center justify-end">
@@ -210,16 +210,28 @@ max-width: 220px;" background-color="#f1f3f8" v-model="weightselected" :items="w
                             </v-col>
                             <v-col cols="1"></v-col>
                             <v-col cols="3" class="py-0 d-flex align-center">
-                              <v-text-field block v-model="m.weights" class="weg elevation-0 caption text-center"
-                                hide-details @change="
-                                  getAddbtn(
-                                    fullsingleres[0].etfs_weights[index][j]
-                                      .token,
-                                    parseFloat(m.weights)
-                                  )
-                                  " outlined type="number" hide-spin-buttons style="max-width: 120px;"
+                              <v-text-field block  v-model="m.weights" class="weg elevation-0 caption text-center"
+                                hide-details  outlined type="number" hide-spin-buttons style="max-width: 120px;"
                                 :min="minweights" :readonly="weightselected == 'Equial-Weighted'
-                                  " :max="maxvalueperc" dense>
+                                  " :max="maxvalueperc" dense @keyup="
+                                      m.weights < maxvalueperc
+                                        ? (m.weights = Number(m.weights) + 1)
+                                        : null,
+                                      getAddbtn(
+                                        fullsingleres[0].etfs_weights[
+                                          index
+                                        ][j].token,
+                                        m.weights
+                                      )" @keydown="
+                                      m.weights > 1
+                                        ? (m.weights = Number(m.weights) - 1)
+                                        : null,
+                                      getAddbtn(
+                                        fullsingleres[0].etfs_weights[
+                                          index
+                                        ][j].token,
+                                        m.weights
+                                      )" >
                                 <template #append>
                                   <v-btn :disabled="weightselected == 'Equial-Weighted'
                                     " @click="
@@ -286,7 +298,76 @@ max-width: 220px;" background-color="#f1f3f8" v-model="weightselected" :items="w
                         1
                       "></v-divider>
                     </div>
-
+                  </div>
+                  <div v-if="
+                    fullsingleres &&
+                    fullsingleres[0] &&
+                    fullsingleres[0].deleted_etf
+                  " class="px-4">
+                  <v-divider></v-divider>
+                    <div v-for="(item, index) in fullsingleres[0].deleted_etf" :key="index">
+                          <v-row no-gutters class="py-2">
+                            <v-col cols="3" class="py-0 d-flex align-center">
+                              <p class="mb-0 text-capitalize fs-14 font-weight-medium text--secondary">
+                                {{ item.tsym ? item.tsym : "" }} <v-chip  text-color="white" disabled label class="red darken-1 mr-1 text-capitalize px-1"
+                      x-small > deleted
+                      </v-chip><!-- <span v-if="item.exists" class=" font-weight-bold text--secondary"
+                                  >(delete
+                                  {{ item.newquant ? item.newquant > 0 ? item.newquant : '' : '' }})</span> -->
+                              </p>
+                            </v-col>
+                            <v-col cols="2" class="py-0 d-flex align-center justify-end">
+                              <p class="mb-0 text-capitalize body-2 font-weight-medium text--secondary">
+                                ₹{{ item.price ? Number(item.price).toFixed(2) : "" }}
+                              </p>
+                            </v-col>
+                            <v-col cols="1"></v-col>
+                            <v-col cols="3" class="py-0 d-flex align-center">
+                              <v-text-field block value="0.00"  class="weg elevation-0 caption text-center "
+                                hide-details  outlined type="number" hide-spin-buttons style="max-width: 120px;"
+                                :min="minweights" readonly
+                                   :max="maxvalueperc" dense>
+                                <template #append>
+                                  <v-btn disabled  icon class="elevation-0" small>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                                      fill="none">
+                                      <circle cx="12" cy="12" r="12" fill="white" />
+                                      <path d="M12 8V16" stroke="#666666" stroke-width="2" stroke-linecap="round" />
+                                      <path d="M16 12L8 12" stroke="#666666" stroke-width="2" stroke-linecap="round" />
+                                    </svg>
+                                  </v-btn>
+                                </template>
+                                <template #prepend-inner>
+                                  <v-btn disabled icon class="elevation-0" small>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                                      fill="none">
+                                      <circle cx="12" cy="12" r="12" fill="white" />
+                                      <path d="M16 12L8 12" stroke="#666666" stroke-width="2" stroke-linecap="round" />
+                                    </svg>
+                                  </v-btn>
+                                </template>
+                              </v-text-field>
+                            </v-col>
+                            <v-col cols="1" class="d-flex align-center">
+                              <div class="text-capitalize body-2 font-weight-medium text--secondary">
+                                <span>{{ item.quantity }}</span>
+                              </div>
+                            </v-col>
+                            <v-col cols="2" class="py-0  d-flex align-center justify-end">
+                              <div class="text-capitalize body-2 font-weight-medium text--secondary">
+                                <span>0%</span>
+                              </div>
+                            </v-col>
+                          </v-row>
+                          <v-divider v-if="index != fullsingleres[0].deleted_etf.length - 1"></v-divider>
+                      <v-divider v-if="
+                        fullsingleres[0] &&
+                        k !=
+                        Object.entries(fullsingleres[0].etfs_weights)
+                          .length -
+                        1
+                      "></v-divider>
+                    </div>
                   </div>
                   <v-divider></v-divider>
                 </div>
@@ -490,7 +571,13 @@ max-width: 220px;" background-color="#f1f3f8" v-model="weightselected" :items="w
           <div v-if="fullsingleres[0] && fullsingleres[0].etfs_weights && fullsingleres[0].etfs_weights.equity">
             <v-data-table :headers="headersrebalnce" :items="fullsingleres[0].etfs_weights.equity" :items-per-page="100"
               hide-default-footer class="elevation-0 mb-3 ma-0 pa-0" outlined fixed-header disable-sort dense
-              style="border:1px solid grey"></v-data-table>
+              style="border:1px solid grey">
+              <template v-slot:[`item.weights`]="{ item }">
+         <span> {{ item.weights }}%</span>
+        </template><template v-slot:[`item.price`]="{ item }">
+         <span> {{ Number(item.price).toFixed(2) }}</span>
+        </template>
+            </v-data-table>
           </div>
           <p class="font-weight-semibold">Invest amount : <span class="font-weight-bold"> {{
             fullsingleres[0] && fullsingleres[0].price
@@ -601,8 +688,8 @@ export default {
 
       headersrebalnce: [
         { text: "Symbol", value: "tsym" },
-        { text: "Price", value: "price" },
-        { text: "Quantity", value: "quantity" },
+        { text: "Price", value: "price",align:'right' },
+        { text: "Quantity", value: "quantity",align:'center' },
         // { text: "ISIN", value: "ISIN" },
         { text: "Weight", value: "weights" }]
     };

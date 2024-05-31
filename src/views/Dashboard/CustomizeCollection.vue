@@ -30,7 +30,7 @@
               hide-selected no-filter append-icon="" style="
                 font-size: 13px;
                 min-width: 240px;
-                background-color: #f1f3f8;
+                background-color: #FAFBFF;
               " solo flat @change="setValue()" :loading="autoload" class="tophundraedmutual searchfundlabel"
               oninput="this.value = this.value.toUpperCase()"><template #append><v-icon v-if="orderscitt"
                   @click="orderscitt = ''" size="14">mdi-close</v-icon></template>
@@ -55,7 +55,7 @@
               </template>
               <span>Reset Values</span>
             </v-tooltip>
-            <v-select rounded style="max-width: 220px;" background-color="#f1f3f8" v-model="weightselected"
+            <v-select rounded style="max-width: 220px;" background-color="#FAFBFF" v-model="weightselected"
               :items="weightedChange" @change="
                 weightselected == 'Equial-Weighted' ? changetoEqualWeight() : ''
                 " required append-icon="mdi-chevron-down" filled dense hide-details class="body-2 pt-1 text-center"></v-select>

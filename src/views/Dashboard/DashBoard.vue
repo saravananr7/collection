@@ -12,7 +12,7 @@
           <p class="title font-weight-bold mb-0">Top Collections</p>
           <v-spacer></v-spacer>
           <v-text-field v-model="searchkeyfield" class="body-2" prepend-inner-icon="mdi-magnify" hide-details
-            style="max-width: 270px" label="Search" single-line background-color="#F1F3F8" filled dense rounded />
+            style="max-width: 270px" label="Search" single-line background-color="#FAFBFF" filled dense rounded />
           <v-btn icon class="ms-1 d-none d-sm-inline-block" color="#000" @click="listView = !listView">
             <v-icon dense>{{
               listView ? "mdi-view-day" : "mdi-view-dashboard"
@@ -47,7 +47,7 @@
                     </v-list-item-subtitle>
                   </v-list-item-content>
                 </v-list-item>
-                <v-list-item-subtitle class="mb-2"> <v-chip color="#f1f3f8" text-color="#666666" label
+                <v-list-item-subtitle class="mb-2"> <v-chip color="#FAFBFF" text-color="#666666" label
                     class="text--secondary mr-1 text-capitalize px-1" x-small v-for="(j, l) in item.tags" :key="l">{{ j
                     }}</v-chip></v-list-item-subtitle>
                 <div style="height: 40px;">
@@ -72,7 +72,7 @@
                       </p>
                     </div> -->
                     <v-btn block class="elevation-0 rounded-pill text-none txt-fobly font-weight-bold"
-                      color="#F1F3F8">Invest</v-btn>
+                      color="#FAFBFF">Invest</v-btn>
                   </v-list-item-content>
                 </v-list-item>
 
@@ -107,7 +107,7 @@
                     </v-list-item-content>
                   </v-list-item>
                   <v-list-item-subtitle>
-                    <v-chip color="#f1f3f8" text-color="#666666" label class="text--secondary mr-1 text-capitalize px-1"
+                    <v-chip color="#FAFBFF" text-color="#666666" label class="text--secondary mr-1 text-capitalize px-1"
                       x-small v-for="(j, l) in item.tags" :key="l">{{
                         j
                       }}</v-chip></v-list-item-subtitle>
@@ -138,7 +138,7 @@
                     </div>
 
                       <v-btn class="elevation-0 rounded-pill text-none txt-fobly font-weight-bold mt-1 px-8"
-                        color="#F1F3F8">Invest</v-btn>
+                        color="#FAFBFF">Invest</v-btn>
                   <!-- </v-list-item> -->
                 </v-col>
               </v-row> 

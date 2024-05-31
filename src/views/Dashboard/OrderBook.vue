@@ -15,43 +15,67 @@
 
       <p class="title font-weight-bold">Order Book</p>
       <v-data-table :loading="tabload" style="border: 1px solid #efeef3" disable-sort :headers="headers"
-        :items="fullresdata" single-expand show-expand :expanded.sync="expanded1" fixed-header  item-key="date_time"
+        :items="fullresdata" single-expand show-expand :expanded.sync="expanded1" fixed-header item-key="date_time"
         class="elevation-0">
         <template v-slot:[`item.id`]="{ index }">
           <span>{{ index + 1 }}</span>
+        </template>
+        <template v-slot:[`item.stat`]="{ item }">
+
+          <p class="font-weight-medium black--text mb-0">
+            <svg v-if="item.order_status != 'failed'" xmlns="http://www.w3.org/2000/svg"
+              width="20" height="15" viewBox="0 0 20 15" fill="none">
+              <rect width="20" height="15" rx="7" fill="#2DB266" />
+              <path d="M6.25 8.2475L8.415 10.4125L13.8275 5" stroke="white" stroke-width="1.2"
+                stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+            <svg v-else xmlns="http://www.w3.org/2000/svg" width="20" height="15"
+              viewBox="0 0 20 15" fill="none">
+              <rect width="20" height="15" rx="7" fill="#DC2626" />
+              <path d="M7.5 10L12.5 5M7.5 5L12.5 10" stroke="white" stroke-width="1.2" stroke-linecap="round"
+                stroke-linejoin="round" />
+            </svg>
+
+            <span class="ml-1 text-capitalize">
+            {{ item.order_status ? item.order_status : '' }}
+            </span>
+          </p>
         </template>
         <template v-slot:[`item.button`]="{ item }">
           <v-btn color="success" v-if="item.order_status === 'success'" outlined small>
             success
           </v-btn>
-          <v-btn elevation="0" rounded outlined color="black"  class="text-none ma-2 bodu-2 black--text" v-else
+          <v-btn elevation="0" rounded outlined color="black" class="text-none ma-2 bodu-2 black--text" v-else
             @click="order_details_show(item), (dialogbox = !dialogbox)" small>
-            
+
             <span class="font-weight-bold">Re-Order</span>
           </v-btn>
         </template>
         <template v-slot:expanded-item="{ headers, item }">
           <td :colspan="headers.length" class="pl-0 pr-0">
-            <v-data-table :loading="tabload" :items-per-page="10" hide-default-footer  :headers="bidherder"
+            <v-data-table :loading="tabload" :items-per-page="10" hide-default-footer :headers="bidherder"
               :items="item.order_detail" @click:row="toggleExpanded" fixed-header disable-sort class="elevation-0">
 
               <template v-slot:[`item.msg`]="{ item }">
-        <v-chip small label :style="{'border':item.msg == 'REJECTED' ? '1px solid #FFCDCD' : '1px solid #C1E7BA','background-color' :item.msg == 'REJECTED' ? '#FCF3F3' : '#ECF8F1' }"><span class="caption" style="text-transform: capitalize" :style="{'color':item.msg == 'REJECTED' ? '#FF1717' : '#43A833' }"> {{ item.msg }}</span></v-chip>
-        </template>
+                <v-chip small label
+                  :style="{ 'border': item.msg == 'REJECTED' ? '1px solid #FFCDCD' : '1px solid #C1E7BA', 'background-color': item.msg == 'REJECTED' ? '#FCF3F3' : '#ECF8F1' }"><span
+                    class="caption" style="text-transform: capitalize"
+                    :style="{ 'color': item.msg == 'REJECTED' ? '#FF1717' : '#43A833' }"> {{ item.msg }}</span></v-chip>
+              </template>
             </v-data-table>
           </td>
         </template>
         <template v-slot:no-data>
           <v-col cols="12" class="text-center pa-16">
-              <div class="mx-auto ">
-                  <img class="align-self-stretch mx-auto" width="80px"
-                      :src="require('@/assets/no data folder.svg')" alt="no data" />
-                  <h5 class="txt-999 font-weight-regular">There is no
-                      data here yet!
-                  </h5>
-              </div>
+            <div class="mx-auto ">
+              <img class="align-self-stretch mx-auto" width="80px" :src="require('@/assets/no data folder.svg')"
+                alt="no data" />
+              <h5 class="txt-999 font-weight-regular">There is no
+                data here yet!
+              </h5>
+            </div>
           </v-col>
-      </template>
+        </template>
       </v-data-table>
       <div class="text-center">
         <v-dialog v-model="dialogbox" width="400">
@@ -134,11 +158,10 @@ export default {
       headers: [
         { text: "Id", value: "id" },
         { text: "Date & Time", value: "date_time" },
-
         { text: "Baskset name", value: "basket_title" },
-
         { text: "Client Id", value: "client_id" },
         { text: "", value: "button" },
+        { text: "Status", value: "stat" },
         { text: "", value: "data-table-expand" },
 
         // { text: "Amount", value: "amount", },

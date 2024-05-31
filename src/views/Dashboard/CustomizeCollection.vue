@@ -107,7 +107,24 @@
                   <v-col cols="3" class="py-0 text-center my-1">
                     <div class="d-flex">
                       <v-text-field v-model="m.weights" class="mt-0 pt-0 px-0 elevation-0 caption text-center"
-                        hide-details @change="
+                        hide-details 
+                        @keyup="m.weights < maxvalueperc
+                                            ? (m.weights = Number(m.weights) + 1)
+                                            : null,getAddbtn(
+                                        fullsingleres[0].etfs_weights[index][j]
+                                          .token,
+                                        parseFloat(m.weights)
+                                      )"
+                                    @keydown="m.weights > 1
+                                            ? (m.weights = Number(m.weights) - 1)
+                                            : null,
+                                          getAddbtn(
+                                            fullsingleres[0].etfs_weights[
+                                              index
+                                            ][j].token,
+                                            m.weights
+                                          )"
+                        @change="
                           getAddbtn(
                             fullsingleres[0].etfs_weights[index][j].token,
                             parseFloat(m.weights)

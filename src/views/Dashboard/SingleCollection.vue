@@ -197,7 +197,7 @@ max-width: 220px;" background-color="#f1f3f8" v-model="weightselected" :items="w
                           <v-row no-gutters class="py-2">
                             <v-col cols="3" class="py-0 d-flex align-center">
                               <p class="mb-0 text-capitalize fs-14 font-weight-medium">
-                                {{ m.tsym ? m.tsym : "" }}<v-chip  text-color="white" :color="m.exists == 'no' ? 'green': 'white'" label class="mr-1 text-capitalize px-1"
+                                {{ m.tsym ? m.tsym : "" }} <v-chip  text-color="white" :color="m.exists == 'no' ? 'green': 'white'" label class="mr-1 text-capitalize px-1"
                       x-small >{{
                                     m.exists ? m.exists == 'no' ? "new" : '' : '' }}
                       </v-chip>
@@ -759,11 +759,24 @@ export default {
     },
     deploybasket() {
       this.basload = true;
-      let data = JSON.stringify({
+      var data = ''
+      
+      if(this.fullsingleres[0].rebalance){
+        data = JSON.stringify({
         basketid: this.fullsingleres[0].id,
         etfs_weights: this.fullsingleres[0].etfs_weights,
         session: localStorage.getItem("sess"),
-      });
+        rebalance_status:"yes",
+        deleted_etf:this.fullsingleres[0].deleted_etf
+      })
+      }else{
+        data = JSON.stringify({
+        basketid: this.fullsingleres[0].id,
+        etfs_weights: this.fullsingleres[0].etfs_weights,
+        session: localStorage.getItem("sess"),
+        rebalance_status:''
+
+      });}
 
       let config = {
         method: "post",

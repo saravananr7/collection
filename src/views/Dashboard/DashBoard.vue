@@ -27,7 +27,7 @@
           <p class="title font-weight-bold mb-0">Top Collections</p>
           <v-spacer></v-spacer>
           <v-text-field v-model="searchkeyfield" class="body-2" prepend-inner-icon="mdi-magnify" hide-details
-            style="max-width: 270px" label="Search" single-line background-color="#FAFBFF" filled dense rounded />
+            style="max-width: 270px" label="Search" single-line background-color="#F1F3F8" filled dense rounded />
           <v-btn icon class="ms-1 d-none d-sm-inline-block" color="#000" @click="listView = !listView">
             <v-icon dense>{{
               listView ? "mdi-view-day" : "mdi-view-dashboard"
@@ -89,23 +89,10 @@
                     </v-list-item-subtitle>
                   </v-list-item-content>
                 </v-list-item>
-                <v-list-item-subtitle class="mb-2"> <v-chip color="#FAFBFF" text-color="#666666" label
+                <v-list-item-subtitle class="mb-2"> <v-chip color="#f1f3f8" text-color="#666666" label
                     class="text--secondary mr-1 text-capitalize px-1" x-small v-for="(j, l) in item.tags" :key="l">{{ j
                     }}</v-chip></v-list-item-subtitle>
                 <div style="height: 40px;">
-                <v-list-item-subtitle class="mb-2">
-                  <v-chip
-                    color="#f1f3f8"
-                    text-color="#666666"
-                    label
-                    class="text--secondary mr-1 text-capitalize px-1"
-                    x-small
-                    v-for="(j, l) in item.tags"
-                    :key="l"
-                    >{{ j }}</v-chip
-                  ></v-list-item-subtitle
-                >
-                <div style="height: 40px">
                   <v-list-item three-line class="px-0">
                     <v-list-item-content style="height: 40px" class="py-0">
                       <v-list-item-subtitle class="mb-auto">
@@ -132,14 +119,8 @@
                         {{ item.stockcount }}
                       </p>
                     </div> -->
-                    <v-btn
-                      block
-                      class="elevation-0 rounded-pill text-none txt-fobly font-weight-bold"
-                      color="#F1F3F8"
-                      >Invest</v-btn
-                    >
                     <v-btn block class="elevation-0 rounded-pill text-none txt-fobly font-weight-bold"
-                      color="#FAFBFF">Invest</v-btn>
+                      color="#F1F3F8">Invest</v-btn>
                   </v-list-item-content>
                 </v-list-item>
               </v-card>
@@ -180,29 +161,29 @@
                   </v-list-item>
                   <v-list-item-subtitle>
                     <v-chip
-                      color="#f1f3f8"
-                      text-color="#666666"
-                      label
-                      class="text--secondary mr-1 text-capitalize px-1"
-                      x-small
-                      v-for="(j, l) in item.tags"
-                      :key="l"
-                      >{{ j }}</v-chip
-                    ></v-list-item-subtitle
-                  >
-                  <p
-                    style="
-                      display: -webkit-box;
-                      -webkit-line-clamp: 2;
-                      -webkit-box-orient: vertical;
-                      overflow: hidden;
-                      text-overflow: ellipsis;
-                    "
-                    class="mb-0 subtitle-2 txt-666 font-weight-regular mt-2 lh-20"
-                  >
-                    {{ item.mang_sht_con }}
-                  </p>
-                </v-col>
+                    color="#f1f3f8"
+                    text-color="#666666"
+                    label
+                    class="text--secondary mr-1 text-capitalize px-1"
+                    x-small
+                    v-for="(j, l) in item.tags"
+                    :key="l"
+                    >{{ j }}</v-chip
+                  ></v-list-item-subtitle
+                >
+                <p
+                  style="
+                    display: -webkit-box;
+                    -webkit-line-clamp: 2;
+                    -webkit-box-orient: vertical;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                  "
+                  class="mb-0 subtitle-2 txt-666 font-weight-regular mt-2 lh-20"
+                >
+                  {{ item.mang_sht_con }}
+                </p>
+              </v-col>
                 <v-col cols="2" class="d-flex align-center justify-center">
                   <div class="fs-13">
                     <span style="color: gray">Min. Invest</span>
@@ -231,7 +212,7 @@
                   </div>
 
                       <v-btn class="elevation-0 rounded-pill text-none txt-fobly font-weight-bold mt-1 px-8"
-                        color="#FAFBFF">Invest</v-btn>
+                        color="#F1F3F8">Invest</v-btn>
                   <!-- </v-list-item> -->
                 </v-col>
               </v-row>

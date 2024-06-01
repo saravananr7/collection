@@ -23,7 +23,19 @@
             <v-toolbar style="background-color: #fafbff" class="tool-sty elevation-0 mb-1 px-0" color="#fff" dense>
               <v-list-item class="pl-0 pr-1">
                 <v-list-item-avatar class="mr-2">
-                  <img :src="modifiedUrl" />
+                  <img v-if="fullsingleres[0] && fullsingleres[0].basket_img" :src="modifiedUrl" />
+                    <v-avatar v-else :color="params>=9?letters[params%10]:letters[params]" size="48">
+                      <span class="subtitle-1 white--text font-weight-bold">{{  fullsingleres[0]
+                        ? fullsingleres[0].basket_title
+                          ? fullsingleres[0].basket_title.split(" ")[0][0]
+                          : ""
+                        : "" }}{{fullsingleres[0]
+                        ? fullsingleres[0].basket_title
+                          ? fullsingleres[0].basket_title.split(" ")[1][0]
+                          : ""
+                        : "" }}</span>
+                    </v-avatar>
+                  <!-- <img :src="modifiedUrl" /> -->
                 </v-list-item-avatar>
                 <v-list-item-content>
                   <v-list-item-title class="font-weight-bold title" style="text-transform: capitalize">
@@ -656,6 +668,7 @@ export default {
       dumpdata: [],
       stockcountdump: 0,
       urlPrefix: apiurl.collectionurl,
+      params:'',
       modifiedUrl: "",
       modifiedUrl1: "",
       textfieltext: "",
@@ -685,7 +698,7 @@ export default {
       subscribedialog: false,
       leadgerBal: 0,
       basketprice: 0,
-
+      letters: ["#F44336","#E91E63","#9C27B0","#673AB7","#3F51B5","#2196F3","#03A9F4","#00BCD4","#009688","#FFC107"],
       headersrebalnce: [
         { text: "Symbol", value: "tsym" },
         { text: "Price", value: "price",align:'right' },
@@ -1099,10 +1112,11 @@ export default {
   },
   mounted() {
     this.singleload = true;
-    let params = localStorage.getItem("id");
+    this.params = localStorage.getItem("id");
 
-    if (params) {
-      this.bestmfdata = params;
+    if (this.params) {
+      this.bestmfdata = this.params;
+      this.params = parseInt(localStorage.getItem("id"));
       this.singlepagedata();
       this.singleload = true;
       this.localsess = localStorage.getItem("usession");

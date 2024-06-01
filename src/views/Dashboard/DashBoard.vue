@@ -86,7 +86,7 @@
                 <v-list-item class="px-0">
                   <v-list-item-avatar size="48" class="mr-2 mt-auto">
                     <img v-if="item.basket_img" width="100%" :src="modifyurl(item.basket_img)" />
-                    <v-avatar v-else :color="getRandomColor()" size="48">
+                    <v-avatar v-else :color="i>=9?letters[i%10]:letters[i]" size="48">
                       <span class="subtitle-1 white--text font-weight-bold">{{ item.basket_title.split(" ")[0][0] }}{{ item.basket_title.split(" ")[1][0] }}</span>
                     </v-avatar>
                   </v-list-item-avatar>
@@ -173,7 +173,10 @@
                 <v-col cols="9">
                   <v-list-item class="px-0">
                     <v-list-item-avatar size="48" class="mr-2">
-                      <v-img :src="modifyurl(item.basket_img)"></v-img>
+                      <img v-if="item.basket_img" width="100%" :src="modifyurl(item.basket_img)" />
+                    <v-avatar v-else :color="i>=9?letters[i%10]:letters[i]" size="48">
+                      <span class="subtitle-1 white--text font-weight-bold">{{ item.basket_title.split(" ")[0][0] }}{{ item.basket_title.split(" ")[1][0] }}</span>
+                    </v-avatar>
                     </v-list-item-avatar>
                     <v-list-item-content>
                       <v-list-item-title class="text-uppercase subtitle-2 mb-1">
@@ -356,13 +359,9 @@ export default {
     resetbtn: true,
     range: [10, 100000],
     apiurlcollection: `${apiurl.collectionurl}`,
+    letters: ["#F44336","#E91E63","#9C27B0","#673AB7","#3F51B5","#2196F3","#03A9F4","#00BCD4","#009688","#FFC107"],
   }),
   methods: {
-    getRandomColor() {
-        var letters = ["#F44336","#E91E63","#9C27B0","#673AB7","#3F51B5","#2196F3","#03A9F4","#00BCD4","#009688","#FFC107"]
-        var color =letters[Math.floor(Math.random() * letters.length)]
-        return color;
-      },
     collection() {
       this.collections = [];
       this.collectload = true;

@@ -52,7 +52,7 @@
                     fullsingleres[0].etfs_weights &&
                     Object.keys(fullsingleres[0].etfs_weights).length > 0
                   ">
-                    <v-chip color="#f1f3f8" text-color="#666666" label class="text--secondary mr-1 text-capitalize px-1"
+                    <v-chip color="#FAFBFF" text-color="#666666" label class="text--secondary mr-1 text-capitalize px-1"
                       x-small v-for="(j, l) in fullsingleres[0].tags" :key="l">{{ j
                       }}</v-chip>
                   </div>
@@ -166,7 +166,7 @@
                     <v-spacer></v-spacer>
 
                     <v-select rounded style="
-max-width: 220px;" background-color="#f1f3f8" v-model="weightselected" :items="weightedChange" @change="
+max-width: 220px;" background-color="#FAFBFF" v-model="weightselected" :items="weightedChange" @change="
   weightselected == 'Equial-Weighted'
     ? changetoEqualWeight()
     : ''
@@ -185,7 +185,7 @@ max-width: 220px;" background-color="#f1f3f8" v-model="weightselected" :items="w
                     </div>
                   </v-toolbar>
 
-                  <v-card color="#f1f3f8" class="rounded-0 elevation-0 px-4">
+                  <v-card color="#FAFBFF" class="rounded-0 elevation-0 px-4">
                     <v-row class="text--secondary subtitle-2 font-weight-medium my-0" style="padding: 10px 0;"
                       no-gutters>
                       <v-col cols="3" class="py-0">Stocks</v-col>

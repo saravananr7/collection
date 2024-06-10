@@ -133,6 +133,7 @@ export default {
       axios
         .request(config)
         .then((response) => {
+          if(!response.data.emsg ){
           let conval = this.decryptionFunction(response.data.str);
           let con1 = JSON.parse(conval).client_data;
           if (con1 && con1.CLIENT_ID) {
@@ -140,6 +141,11 @@ export default {
             axiosthis.userdata = con1;
           } else {
             axiosthis.userdata = [];
+          }}
+          else{
+            localStorage.removeItem("usession")
+            localStorage.removeItem("userid")
+            localStorage.removeItem("sess")
           }
           axiosthis.load = true;
         })

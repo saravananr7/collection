@@ -8,15 +8,16 @@
     </v-snackbar>
     <!-- <v-progress-circular :size="50" color="primary" indeterminate 
       class="text-centre"></v-progress-circular> -->
-    <v-progress-circular :size="50" color="primary" indeterminate v-if="singleload"
-      class="text-centre"></v-progress-circular>
+    
     <p style="word-spacing: 5px" class="mb-0 pt-16 caption">
       <span style="color: #0037B7; cursor: pointer; " @click="$router.push('/')">Collection</span>
       <span style="color: #000; "> > </span>
       <span style="color: #000; ">SinglePage</span>
     </p>
+  
     <v-row no-glutters class="pt-2">
       <v-col cols="12" md="9">
+        <v-progress-linear style="max-height: 3px;" indeterminate v-if="singleload"></v-progress-linear>
         <v-card style="border-radius: 4px; border: 1px solid #ddd"
           class="elevation-0 rounded-lg pb-5 d-none d-md-block">
           <v-card style="background-color: #fafbff" class="py-3 px-4 mb-4" elevation="0">
@@ -31,7 +32,7 @@
                           : ""
                         : "" }}{{fullsingleres[0]
                         ? fullsingleres[0].basket_title
-                          ? fullsingleres[0].basket_title.split(" ")[1][0]
+                          ? fullsingleres[0].basket_title.split(" ")[1]?fullsingleres[0].basket_title.split(" ")[1][0]:''
                           : ""
                         : "" }}</span>
                     </v-avatar>
@@ -42,7 +43,7 @@
                     {{
                       fullsingleres[0]
                         ? fullsingleres[0].basket_title
-                          ? fullsingleres[0].basket_title
+                          ? fullsingleres[0].basket_title.toUpperCase()
                           : ""
                         : ""
                     }}

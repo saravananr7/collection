@@ -71,7 +71,7 @@
                   <v-list-item-avatar size="48" class="mr-2 mt-auto">
                     <img v-if="item.basket_img" width="100%" :src="modifyurl(item.basket_img)" />
                     <v-avatar v-else :color="i>=9?letters[i%10]:letters[i]" size="48">
-                      <span class="subtitle-1 white--text font-weight-bold">{{ item.basket_title.split(" ")[0][0] }}{{ item.basket_title.split(" ")[1][0] }}</span>
+                      <span class="title white--text font-weight-bold">{{ item.basket_title.split(" ")[0][0] }}{{ item.basket_title.split(" ")[1]?item.basket_title.split(" ")[1][0]:''  }}</span>
                     </v-avatar>
                   </v-list-item-avatar>
                   <v-list-item-content class="pt-0">
@@ -146,7 +146,7 @@
                     <v-list-item-avatar size="48" class="mr-2">
                       <img v-if="item.basket_img" width="100%" :src="modifyurl(item.basket_img)" />
                     <v-avatar v-else :color="i>=9?letters[i%10]:letters[i]" size="48">
-                      <span class="subtitle-1 white--text font-weight-bold">{{ item.basket_title.split(" ")[0][0] }}{{ item.basket_title.split(" ")[1][0] }}</span>
+                      <span class="subtitle-1 white--text font-weight-bold">{{ item.basket_title.split(" ")[0][0] }}{{ item.basket_title.split(" ")[1]?item.basket_title.split(" ")[1][0]:''  }}</span>
                     </v-avatar>
                     </v-list-item-avatar>
                     <v-list-item-content>

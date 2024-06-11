@@ -48,7 +48,7 @@
                         : ""
                     }}
                   </v-list-item-title>
-                  <div v-if="
+                  <!-- <div v-if="
                     fullsingleres[0] &&
                     fullsingleres[0].etfs_weights &&
                     Object.keys(fullsingleres[0].etfs_weights).length > 0
@@ -56,7 +56,7 @@
                     <v-chip color="#FAFBFF" text-color="#666666" label class="text--secondary mr-1 text-capitalize px-1"
                       x-small v-for="(j, l) in fullsingleres[0].tags" :key="l">{{ j
                       }}</v-chip>
-                  </div>
+                  </div> -->
                 </v-list-item-content>
                 <v-spacer></v-spacer>
                 <div>
@@ -130,7 +130,7 @@
         <v-card hide-actions style="border-radius: 4px; border: 1px solid #ddd"
           class="elevation-0 rounded-lg mt-5 d-none d-md-block">
           <div class="pt-4">
-            <div class="px-4">
+            <!-- <div class="px-4">
               <p class="font-weight-bold headline">Collection Weights</p>
               <p class="subtitle-1 font-weight-bold mb-0">
                 Constituents Weights and Segment Composition
@@ -144,7 +144,7 @@
                 portfolio</p>
               <v-divider class="my-3"></v-divider>
 
-            </div>
+            </div> -->
             <div>
               <div v-if="
                 fullsingleres[0] && fullsingleres[0].access != 'subscribe'
@@ -163,7 +163,13 @@
 
                 <div>
                   <v-toolbar class="elevation-0 mb-3" color="#fff" dense>
-                    <p class="title font-weight-bold mb-2">Invest Collection</p>
+                    <p class="title font-weight-bold mb-2">Invest  {{
+                      fullsingleres[0]
+                        ? fullsingleres[0].basket_title
+                          ? fullsingleres[0].basket_title.toUpperCase()
+                          : ""
+                        : ""
+                    }}</p>
                     <v-spacer></v-spacer>
 
                     <v-select rounded style="
@@ -223,6 +229,7 @@ max-width: 220px;" background-color="#FAFBFF" v-model="weightselected" :items="w
                             </v-col>
                             <v-col cols="1"></v-col>
                             <v-col cols="3" class="py-0 d-flex align-center">
+                              <div  v-if="weightselected != 'Equial-Weighted'">
                               <v-text-field block  v-model="m.weights" class="weg elevation-0 caption text-center"
                                 hide-details  outlined type="number" hide-spin-buttons style="max-width: 120px;"
                                 :min="minweights" :readonly="weightselected == 'Equial-Weighted'
@@ -287,6 +294,75 @@ max-width: 220px;" background-color="#FAFBFF" v-model="weightselected" :items="w
                                   </v-btn>
                                 </template>
                               </v-text-field>
+                            </div>
+                            <div  v-if="weightselected == 'Equial-Weighted'" >
+                              <v-text-field block  v-model="m.weights"  class="weg elevation-0 caption text-center"
+                                hide-details  outlined type="number" hide-spin-buttons style="max-width: 120px;"
+                                :min="minweights" :readonly="weightselected == 'Equial-Weighted'
+                                  " :max="maxvalueperc" dense @keyup="
+                                      m.weights < maxvalueperc
+                                        ? (m.weights = Number(m.weights) + 1)
+                                        : null,
+                                      getAddbtn(
+                                        fullsingleres[0].etfs_weights[
+                                          index
+                                        ][j].token,
+                                        m.weights
+                                      )" @keydown="
+                                      m.weights > 1
+                                        ? (m.weights = Number(m.weights) - 1)
+                                        : null,
+                                      getAddbtn(
+                                        fullsingleres[0].etfs_weights[
+                                          index
+                                        ][j].token,
+                                        m.weights
+                                      )" > 
+                                <template #append>
+                                  <v-btn   :disabled="weightselected == 'Equial-Weighted'
+                                    " @click="
+                                      m.weights < maxvalueperc
+                                        ? (m.weights = Number(m.weights) + 1)
+                                        : null,
+                                      getAddbtn(
+                                        fullsingleres[0].etfs_weights[
+                                          index
+                                        ][j].token,
+                                        m.weights
+                                      )
+                                      " icon class="elevation-0" small>
+                                    <svg  xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                                      fill="none">
+                                      <circle cx="12" cy="12" r="12" fill="white" />
+                                      <path d="M12 8V16" stroke="white" stroke-width="2" stroke-linecap="round" />
+                                      <path d="M16 12L8 12" stroke="white" stroke-width="2" stroke-linecap="round" />
+                                    </svg>
+                                  </v-btn>
+                                </template>
+                                <template #prepend-inner>
+                                  <v-btn color="white" :disabled="weightselected == 'Equial-Weighted'
+                                    " @click="
+                                      m.weights > 1
+                                        ? (m.weights = Number(m.weights) - 1)
+                                        : null,
+                                      getAddbtn(
+                                        fullsingleres[0].etfs_weights[
+                                          index
+                                        ][j].token,
+                                        m.weights
+                                      )
+                                      " icon class="elevation-0" small>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                                      fill="none">
+                                      <circle cx="12" cy="12" r="12" fill="white" />
+                                      <path d="M16 12L8 12" stroke="white" stroke-width="2" stroke-linecap="round" />
+                                    </svg>
+                                  </v-btn>
+                                </template>
+                              </v-text-field>
+                            
+                            
+                            </div>
                             </v-col>
                             <v-col cols="1" class="d-flex align-center">
                               <div class="text-capitalize body-2 font-weight-medium">
@@ -402,11 +478,11 @@ max-width: 220px;" background-color="#FAFBFF" v-model="weightselected" :items="w
                       })
                       "><span class="font-weight-bold">Customize collection</span></v-btn>
                   </v-col> -->
-                  <v-col cols="2" class="pl-0">
+                  <!-- <v-col cols="2" class="pl-0">
                     <v-btn class="elevation-0 white--text text-none float-end" rounded color="black" block
                       @click="checkloginstatus()">{{
                         fullsingleres[0].rebalance ? 'Rebalance' : 'Invest' }}</v-btn>
-                  </v-col>
+                  </v-col> -->
                 </v-row>
               </div>
               <div v-else class="text-center mt-2 mb-6">
@@ -428,8 +504,8 @@ max-width: 220px;" background-color="#FAFBFF" v-model="weightselected" :items="w
             }}
           </p>
 
-          <v-row no-gutters>
-            <v-col cols="7">
+          <v-row >
+            <v-col cols="6">
               <p class="body-1 fs-24 ml-0 font-weight-bold mb-0">
                 Collection Objective
               </p>
@@ -443,7 +519,7 @@ max-width: 220px;" background-color="#FAFBFF" v-model="weightselected" :items="w
                 }}
               </p>
             </v-col>
-            <v-col cols="5">
+            <v-col cols="6">
               <p class="mb-0 body-1 fs-24 font-weight-bold mb-1">
                 Collection Managers
               </p>
@@ -554,7 +630,23 @@ max-width: 220px;" background-color="#FAFBFF" v-model="weightselected" :items="w
             your bank account.
           </p>
           <v-divider></v-divider>
-          <div class="text-center mt-4" v-if="
+
+          <div>
+            <p v-if="fullsingleres[0] && fullsingleres[0].access == 'free'" class="font-weight-semibold mt-3 text-center">Invest amount : <span class="font-weight-bold"> {{
+            fullsingleres[0] && fullsingleres[0].price
+              ? fullsingleres[0].price
+              : ''
+              }}</span></p>
+          <v-btn v-if="
+            fullsingleres[0] && fullsingleres[0].access === 'free' && (localsess !== '' || localsess !== null)
+              
+          "  class="elevation-0 white--text text-none float-end" rounded color="black" block
+                      @click="checkloginstatus()">Inverst</v-btn>
+          </div>
+        
+<!-- {{localsess}} -->
+
+          <!-- <div class="text-center mt-4" v-if="
             fullsingleres[0] && fullsingleres[0].access == 'subscribe'
               ? false
               : localsess === '' || localsess === null
@@ -564,7 +656,8 @@ max-width: 220px;" background-color="#FAFBFF" v-model="weightselected" :items="w
             <v-btn @click="deploybas()" elevation="0" rounded class="text-none" color="black" dark><span
                 style="color: #fff">
                 Login </span></v-btn>
-          </div>
+          </div> -->
+      
         </div>
       </v-col>
     </v-row>
@@ -662,7 +755,7 @@ export default {
   data() {
     return {
       inputchange: "",
-      weightselected: "Custom-Weighted",
+      weightselected: "Equial-Weighted",
       weightedChange: ["Equial-Weighted", "Custom-Weighted"],
       bestmfdata: "",
       fullsingleres: [],
@@ -919,7 +1012,7 @@ export default {
       );
       this.fullsingleres[0].price = this.ltpminpricedump;
       this.fullsingleres[0].stockcount = this.stockcountdump;
-      this.weightselected = this.weightedChange[1];
+      this.weightselected = this.weightedChange[0];
     },
     changetoEqualWeight() {
       this.countvalue = 0;

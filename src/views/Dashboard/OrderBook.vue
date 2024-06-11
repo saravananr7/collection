@@ -53,7 +53,7 @@
         </template>
         <template v-slot:expanded-item="{ headers, item }">
           <td :colspan="headers.length" class="pl-0 pr-0">
-            <v-data-table :loading="tabload" :items-per-page="10" hide-default-footer :headers="bidherder"
+            <v-data-table :loading="tabload" :items-per-page="10"  :headers="bidherder"
               :items="item.order_detail" @click:row="toggleExpanded" fixed-header disable-sort class="elevation-0">
 
               <template v-slot:[`item.msg`]="{ item }">

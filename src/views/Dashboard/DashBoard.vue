@@ -88,6 +88,11 @@
                       }}</span>
                     </v-list-item-subtitle>
                   </v-list-item-content>
+
+                  <div v-if="item.cagr['cagr_3year'] " style="height: 40px;" > 
+                    <p class=" mt-6 text-caption font-weight-bold mb-0 pb-0 fs-10" style="letter-spacing: 0em;line-height: 0.5em;">3Y CAGR</p>
+                    <span class="fs-12 mt-0 pt-0" :style="{ color: parseInt(item.cagr.cagr_3year) > 0 ? '#4BAC3C' : '#E42B2B' }" >{{ item.cagr?item.cagr.cagr_3year?item.cagr.cagr_3year:"":"" }}%</span>
+                  </div>
                 </v-list-item>
                 <v-list-item-subtitle class="mb-2"> <v-chip color="#f1f3f8" text-color="#666666" label
                     class="text--secondary mr-1 text-capitalize px-1" x-small v-for="(j, l) in item.tags" :key="l">{{ j

@@ -48,6 +48,7 @@
                         : ""
                     }}
                   </v-list-item-title>
+
                   <!-- <div v-if="
                     fullsingleres[0] &&
                     fullsingleres[0].etfs_weights &&
@@ -104,17 +105,18 @@
           </div>
 
           <v-row class="pt-4 px-1">
-            <v-col cols="6">
+            <v-col cols="4">
               <div class="ml-3">
                 <span style="color: #666666" class="caption mb-0">Rebalance Frequency</span>
                 <!-- <v-text-field v-model="textfieltext" readonly  hide-details style="color:black" class="subtitle-1 mt-0 pt-0 font-weight-bold"></v-text-field> -->
                 <p class="subtitle-1 mb-0 mt-0 pt-0 font-weight-bold">
                   {{ textfieltext }}
                 </p>
+                
                 <v-divider></v-divider>
               </div>
             </v-col>
-            <v-col cols="6">
+            <v-col cols="4">
               <div class="mr-8">
                 <span style="color: #666666" class="caption mb-0">Launched Date</span>
                 <!-- <v-text-field v-model="textdate" readonly  hide-details style="color:black" class="subtitle-1 mt-0 pt-0 font-weight-bold"></v-text-field> -->
@@ -123,6 +125,13 @@
                 </p>
                 <v-divider></v-divider>
               </div>
+            </v-col>
+            <v-col cols="4">
+              <div v-if="fullsingleres[0] && fullsingleres[0].cagr['cagr_3year'] "  > 
+                    <p class="mt-2 caption mb-0 pb-0 fs-7" style="letter-spacing: 0em;color: #666666">3Y CAGR</p>
+                    <span class="fs-14 mt-0 pt-0 font-weight-bold" :style="{ color: parseInt(fullsingleres[0].cagr.cagr_3year) > 0 ? '#4BAC3C' : '#E42B2B',letterSpacing:'0.1em'}" >{{ fullsingleres[0].cagr?fullsingleres[0].cagr.cagr_3year?fullsingleres[0].cagr.cagr_3year:"":"" }}%</span>
+                  </div>
+                  <v-divider v-if="fullsingleres[0] && fullsingleres[0].cagr['cagr_3year'] "></v-divider>
             </v-col>
           </v-row>
         </v-card>

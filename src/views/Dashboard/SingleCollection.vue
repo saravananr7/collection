@@ -12,16 +12,28 @@
     <p style="word-spacing: 5px" class="mb-0 pt-16 caption">
       <span style="color: #0037B7; cursor: pointer; " @click="$router.push('/')">Collection</span>
       <span style="color: #000; "> > </span>
-      <span style="color: #000; ">SinglePage</span>
+      <span style="color: #000; ">    {{
+                      fullsingleres[0]
+                        ? fullsingleres[0].basket_title
+                          ? fullsingleres[0].basket_title
+                          : ""
+                        : ""
+                    }}</span>
     </p>
   
     <v-row no-glutters class="pt-2">
       <v-col cols="12" md="9">
         <v-progress-linear style="max-height: 3px;" indeterminate v-if="singleload"></v-progress-linear>
+
+   
+
+
+
+
         <v-card style="border-radius: 4px; border: 1px solid #ddd"
-          class="elevation-0 rounded-lg pb-5 d-none d-md-block">
-          <v-card style="background-color: #fafbff" class="py-3 px-4 mb-4" elevation="0">
-            <v-toolbar style="background-color: #fafbff" class="tool-sty elevation-0 mb-1 px-0" color="#fff" dense>
+          class="elevation-0 mt-3 rounded-lg  ">
+          <v-card style="background-color: #fafbff" class="" elevation="0">
+            <v-toolbar  class="tool-sty pl-3 pr-3 mt-3 elevation-0 mb-1 px-0" color="#fff" dense>
               <v-list-item class="pl-0 pr-1">
                 <v-list-item-avatar class="mr-2">
                   <img v-if="fullsingleres[0] && fullsingleres[0].basket_img" :src="modifiedUrl" />
@@ -48,18 +60,41 @@
                         : ""
                     }}
                   </v-list-item-title>
-                  <!-- <div v-if="
-                    fullsingleres[0] &&
-                    fullsingleres[0].etfs_weights &&
-                    Object.keys(fullsingleres[0].etfs_weights).length > 0
-                  ">
-                    <v-chip color="#FAFBFF" text-color="#666666" label class="text--secondary mr-1 text-capitalize px-1"
-                      x-small v-for="(j, l) in fullsingleres[0].tags" :key="l">{{ j
-                      }}</v-chip>
-                  </div> -->
+                  <v-list-item-subtitle class="fs-12">
+                        by
+                        <span class="font-weight-medium">
+                          {{
+                      fullsingleres[0]
+                        ? fullsingleres[0].master_name
+                          ? fullsingleres[0].master_name.toUpperCase()
+                          : ""
+                        : ""
+                    }}
+                         </span>
+                      </v-list-item-subtitle>
                 </v-list-item-content>
                 <v-spacer></v-spacer>
                 <div>
+                  <v-chip
+  class=" float-right mt-2 text-capitalize"
+  x-small
+  :text-color="
+    fullsingleres[0] && fullsingleres[0].access
+    ? (fullsingleres[0].access === 'free' ? '#4BAC3C' : '#093FBA')
+    : '#defaultColor'
+  "
+  :color="
+    fullsingleres[0] && fullsingleres[0].access
+    ? (fullsingleres[0].access === 'free' ? '#ECF8F1' : '#ccd9ff')
+    : '#defaultBackgroundColor'
+  "
+>
+  <span>{{
+                      fullsingleres[0] && fullsingleres[0].access
+                        ? fullsingleres[0].access
+                        : "--"
+                    }}</span>
+</v-chip><br>
                   <span class="caption" style="color: #666666;">Min. Invest</span>
                   <p class="fs-12 txt-000 font-weight-bold mb-0 body-2">
                     ₹ {{
@@ -83,17 +118,22 @@
                   </p>
                 </div> -->
               </v-list-item>
+              
             </v-toolbar>
+           
           </v-card>
-          <div class="px-4">
-            <span class="body-2" style="color: #666666">
-              {{
-                fullsingleres[0]
-                  ? fullsingleres[0].basket_title
-                    ? fullsingleres[0].basket_title
-                    : ""
-                  : ""
-              }}
+          <div class="ml-3" v-if="
+                    fullsingleres[0] &&
+                    fullsingleres[0].etfs_weights &&
+                    Object.keys(fullsingleres[0].etfs_weights).length > 0
+                  ">
+                    <v-chip color="#FAFBFF" text-color="#666666" label class="text--secondary mr-1 text-capitalize px-1"
+                      x-small v-for="(j, l) in fullsingleres[0].tags" :key="l">{{ j
+                      }}</v-chip>
+                  </div>
+          <div class="mt-2 ml-3 mr-3 ">
+            <span class="body-2 " style="color: #666666">
+           
               {{
                 fullsingleres[0]
                   ? fullsingleres[0].mang_sht_con
@@ -103,8 +143,8 @@
               }}</span>
           </div>
 
-          <v-row class="pt-4 px-1">
-            <v-col cols="6">
+          <v-row class="pt-4 mb-2 px-1">
+            <v-col cols="12" lg="6" sm="12">
               <div class="ml-3">
                 <span style="color: #666666" class="caption mb-0">Rebalance Frequency</span>
                 <!-- <v-text-field v-model="textfieltext" readonly  hide-details style="color:black" class="subtitle-1 mt-0 pt-0 font-weight-bold"></v-text-field> -->
@@ -114,12 +154,12 @@
                 <v-divider></v-divider>
               </div>
             </v-col>
-            <v-col cols="6">
-              <div class="mr-8">
+            <v-col cols="12" lg="6" sm="12">
+              <div class="mr-lg-8 pl-sm-12 ">
                 <span style="color: #666666" class="caption mb-0">Launched Date</span>
                 <!-- <v-text-field v-model="textdate" readonly  hide-details style="color:black" class="subtitle-1 mt-0 pt-0 font-weight-bold"></v-text-field> -->
                 <p class="subtitle-1 mb-0 mt-0 pt-0 font-weight-bold">
-                  {{ textdate }}
+                  {{ textdate.slice(4, 17) }}
                 </p>
                 <v-divider></v-divider>
               </div>
@@ -171,6 +211,43 @@
                         : ""
                     }}</p>
                     <v-spacer></v-spacer>
+
+                    <v-text-field v-model="value" 
+          type="number"
+          :min="1"
+          :max="100"
+          hide-details
+          readonly
+          block
+          required dense filled 
+          hide-spin-buttons
+          @input="validateValue()"
+          style="max-width: 170px;"
+          class="body-2 font-weight-bold mb-0 mr-3 pt-0 mt-0" rounded background-color="#FAFBFF">
+          <template #append>
+                                  <v-btn @click="increment" icon class="elevation-0"  small>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20"   height="20" viewBox="0 0 24 24"
+                                      fill="none">
+                                      <!-- <circle cx="12" cy="12" r="12" fill="white" /> -->
+                                      <path d="M12 8V16" stroke="#666666" stroke-width="2" stroke-linecap="round" />
+                                      <path d="M16 12L8 12" stroke="#666666" stroke-width="2" stroke-linecap="round" />
+                                    </svg>
+                                  </v-btn>
+                                </template>
+                                <template #prepend-inner>
+                                  <v-btn @click="decrement"
+                                     icon class="elevation-0" small>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                                      fill="none">
+                                      <!-- <circle cx="12" cy="12" r="12" fill="white" /> -->
+                                      <path d="M16 12L8 12" stroke="#666666" stroke-width="2" stroke-linecap="round" />
+                                    </svg>
+                                  </v-btn>
+                                </template>
+        
+        </v-text-field>
+
+
 
                     <v-select rounded style="
 max-width: 220px;" background-color="#FAFBFF" v-model="weightselected" :items="weightedChange" @change="
@@ -492,7 +569,7 @@ max-width: 220px;" background-color="#FAFBFF" v-model="weightselected" :items="w
             </div>
           </div>
         </v-card>
-        <v-card outlined elevation="0" class="mt-7 px-4 py-3" rounded-lg style="border: 1px solid #dddddd">
+        <!-- <v-card outlined elevation="0" class="mt-7 px-4 py-3" rounded-lg style="border: 1px solid #dddddd">
           <p class="mb-2 font-weight-bold title ml-0 mt-1">
             About the
             {{
@@ -502,9 +579,9 @@ max-width: 220px;" background-color="#FAFBFF" v-model="weightselected" :items="w
                   : ""
                 : ""
             }}
-          </p>
+          </p> -->
 
-          <v-row >
+          <!-- <v-row >
             <v-col cols="6">
               <p class="body-1 fs-24 ml-0 font-weight-bold mb-0">
                 Collection Objective
@@ -531,7 +608,7 @@ max-width: 220px;" background-color="#FAFBFF" v-model="weightselected" :items="w
                   <v-col cols="2">
                     <div>
                       <img class="rounded-xl" :src="modifiedUrl1" width="45px" height="45px" />
-                      <!-- {{modifiedUrl1}} -->
+                  
                     </div>
                   </v-col>
                   <v-col>
@@ -560,7 +637,7 @@ max-width: 220px;" background-color="#FAFBFF" v-model="weightselected" :items="w
                 </v-row>
               </v-card>
             </v-col>
-          </v-row>
+          </v-row> -->
           <!-- <v-row>
             <v-col cols="6" >
     <div class="ml-3">
@@ -579,9 +656,9 @@ max-width: 220px;" background-color="#FAFBFF" v-model="weightselected" :items="w
               </div>
             </v-col>
           </v-row> -->
-        </v-card>
+        <!-- </v-card> -->
       </v-col>
-      <v-col cols="3">
+      <v-col cols="3" class="d-none d-lg-block d-xl-block">
         <div class="mr-14" style="position: fixed">
           <p style="text-transform: capitalize" class="subtitle-1 font-weight-bold text-">
             {{
@@ -641,7 +718,7 @@ max-width: 220px;" background-color="#FAFBFF" v-model="weightselected" :items="w
             fullsingleres[0] && fullsingleres[0].access === 'free' && (localsess !== '' || localsess !== null)
               
           "  class="elevation-0 white--text text-none float-end" rounded color="black" block
-                      @click="checkloginstatus()">Inverst</v-btn>
+                      @click="checkloginstatus(),getLedgerPrice()">Inverst</v-btn>
           </div>
         
 <!-- {{localsess}} -->
@@ -690,8 +767,26 @@ max-width: 220px;" background-color="#FAFBFF" v-model="weightselected" :items="w
               ? fullsingleres[0].price
               : ''
               }}</span></p>
-          <v-btn color="black" height="48px" :loading="basload" class="text-none white--text" block
+
+<v-alert class="mb-0 mt-2 py-1" v-if="ledgerBal >= (fullsingleres[0] && fullsingleres[0].price ? fullsingleres[0].price : '') ? false : true"
+ dense outlined type="info"
+                color="red" elevation="0">
+                <p style="font-size:14px;" class="text-center mb-0">Insufficient balance, Add fund
+                  <a :href="`https://fund.mynt.in/?uid=${cleid}&token=${localsess}`"><b>Click here</b></a>
+                </p>
+              </v-alert>
+
+
+
+          <v-btn v-if="leadgerBal >= (fullsingleres[0] && fullsingleres[0].price ? fullsingleres[0].price : '') ? true : false" color="black" height="48px" :loading="basload" class="text-none white--text" block
             @click="deploybasket()" rounded>Proceed</v-btn>
+
+            <!-- <v-btn color="black" height="48px" :loading="basload" class="text-none white--text" block
+            @click="deploybasket()" rounded>Proceed</v-btn> -->
+            <!-- {{typeof leadgerBal}} -->
+<!-- {{leadgerBal}}
+{{ (fullsingleres[0] && fullsingleres[0].price ? fullsingleres[0].price : '') }} -->
+
         </div>
       </v-card>
     </v-dialog>
@@ -798,7 +893,10 @@ export default {
         { text: "Price", value: "price",align:'right' },
         { text: "Quantity", value: "quantity",align:'center' },
         // { text: "ISIN", value: "ISIN" },
-        { text: "Weight", value: "weights" }]
+        { text: "Weight", value: "weights" }],
+        ledgerBal:'',
+    value: 1
+
     };
   },
   //     computed: {
@@ -807,6 +905,27 @@ export default {
   //     }
   //   },
   methods: {
+    decrement() {
+      if (this.value > 1) {
+        this.value--;
+        this.weightCalculation()
+      }
+    },
+    increment() {
+      if (this.value < 100) {
+        this.value++;
+        this.weightCalculation()
+
+      }
+    },
+    validateValue() {
+      if (this.value < 1) {
+        this.value = 1;
+      } else if (this.value > 100) {
+        this.value = ''
+        this.value = 100;
+      }
+    },
     refrshltp() {
       let data = JSON.stringify({
         basketid: this.fullsingleres[0].id,
@@ -881,7 +1000,8 @@ export default {
         basketid: this.fullsingleres[0].id,
         etfs_weights: this.fullsingleres[0].etfs_weights,
         session: localStorage.getItem("sess"),
-        rebalance_status:''
+        rebalance_status:'',
+        order_count:this.value,
 
       });}
 
@@ -1013,6 +1133,7 @@ export default {
       this.fullsingleres[0].price = this.ltpminpricedump;
       this.fullsingleres[0].stockcount = this.stockcountdump;
       this.weightselected = this.weightedChange[0];
+      this.value = 1
     },
     changetoEqualWeight() {
       this.countvalue = 0;
@@ -1070,8 +1191,12 @@ export default {
           ).toFixed(2);
         })
       );
-      this.fullsingleres[0].price = minprice.toFixed(2);
+      this.fullsingleres[0].price = minprice.toFixed(2) * this.value;
     },
+    // weightmultiply(){
+    //   this.fullsingleres[0].price = minprice.toFixed(2) ;
+
+    // },
 
     getAddbtn(token, value) {
       if (!value) {
@@ -1192,7 +1317,9 @@ export default {
       axios.request(config)
         .then((response) => {
           var res = response.data
-          axiosThis.leadgerBal = res.total
+          // axiosThis.leadgerBal = res.total
+          axiosThis.leadgerBal = Number(res.total)
+          console.log(typeof axiosThis.leadgerBal);
         })
         .catch((error) => {
           console.log(error);

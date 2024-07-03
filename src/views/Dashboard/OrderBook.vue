@@ -229,6 +229,7 @@ export default {
     },
     order_details_show(item) {
       this.identifyid = item;
+      this.getLedgerPrice()
       //  this.identifyid=this.fullresdata.find(({id_x})=>id_x===id)
       //  this.identifyid[0]=this.identifyid.order_detail.map((key)=>{
       //   if((key.msg=="REJECTED") || (key.stat=='Not Ok') ){
@@ -294,6 +295,35 @@ export default {
       } else {
         this.expanded1 = this.expanded1.filter((el) => el !== item);
       }
+    },
+    getLedgerPrice() {
+      var axiosThis = this
+      let data = JSON.stringify({
+        "clientid": this.uid
+      });
+
+      let config = {
+        method: 'post',
+        url: `${apiurl.legetbalance_api}/all_ledger_balance`,
+        headers: {
+          "Authorization": this.usession ,
+          "Clientid": this.uid,
+          'Content-Type': 'application/json'
+        },
+        data: data
+      };
+
+      axios.request(config)
+        .then((response) => {
+          var res = response.data
+          // axiosThis.leadgerBal = res.total
+          axiosThis.leadgerBal = Number(res.total)
+          console.log(typeof axiosThis.leadgerBal);
+
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     },
   },
 

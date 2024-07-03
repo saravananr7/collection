@@ -26,14 +26,17 @@
         <v-toolbar dense class="elevation-0 tool-sty">
           <p class="title font-weight-bold mb-0">Top Collections</p>
           <v-spacer></v-spacer>
-          <v-text-field v-model="searchkeyfield" class="body-2" prepend-inner-icon="mdi-magnify" hide-details
+          <v-text-field v-model="searchkeyfield" class="d-none d-lg-block d-xl-block body-2"  prepend-inner-icon="mdi-magnify" hide-details
             style="max-width: 270px" label="Search" single-line background-color="#F1F3F8" filled dense rounded />
-          <v-btn icon class="ms-1 d-none d-sm-inline-block" color="#000" @click="listView = !listView">
+          <v-btn icon class="ms-1 d-none d-lg-block d-xl-block d-sm-inline-block" color="#000" @click="listView = !listView">
             <v-icon dense>{{
               listView ? "mdi-view-day" : "mdi-view-dashboard"
             }}</v-icon>
           </v-btn>
         </v-toolbar>
+
+        <v-text-field v-model="searchkeyfield" class="d-block d-lg-none body-2"  prepend-inner-icon="mdi-magnify" hide-details
+        style="max-width: 270px" label="Search" single-line background-color="#F1F3F8" filled dense rounded />
         <!-- <v-divider></v-divider> -->
         <div class="cardused">
           <v-row class="mt-2" v-if="!collectload && listView">
@@ -330,6 +333,7 @@ export default {
     letters: ["#F44336","#E91E63","#9C27B0","#673AB7","#3F51B5","#2196F3","#03A9F4","#00BCD4","#009688","#FFC107"],
   }),
   methods: {
+  
     collection() {
       this.collections = [];
       this.collectload = true;

@@ -275,9 +275,9 @@ max-width: 220px;" background-color="#FAFBFF" v-model="weightselected" :items="w
                       <v-col cols="3" class="py-0">Stocks</v-col>
                       <v-col cols="2" class="text-right">Price</v-col>
                       <v-col cols="1"></v-col>
-                      <v-col cols="3">Weightage (%)</v-col>
-                      <v-col cols="1"> Share </v-col>
-                      <v-col cols="2" class="text-right">Avg Weight </v-col>
+                      <v-col v-if="weightselected != 'Custom-Share'" cols="3">Weightage (%)</v-col>
+                      <v-col :cols="weightselected == 'Custom-Share'?4:1"> Share </v-col>
+                      <v-col cols="2" class="text-right ">Avg Weight </v-col>
                     </v-row>
                   </v-card>
                   <v-divider></v-divider>
@@ -305,8 +305,8 @@ max-width: 220px;" background-color="#FAFBFF" v-model="weightselected" :items="w
                               </p>
                             </v-col>
                             <v-col cols="1"></v-col>
-                            <v-col cols="3" class="py-0 d-flex align-center">
-                              <div  v-if="weightselected != 'Equial-Weighted'">
+                            <v-col v-if="weightselected != 'Custom-Share'" cols="3" class="py-0 d-flex align-center ">
+                              <div  v-if="weightselected == 'Custom-Weighted'">
                               <v-text-field block  v-model="m.weights" class="weg elevation-0 caption text-center"
                                 hide-details  outlined type="number" hide-spin-buttons style="max-width: 120px;"
                                 :min="minweights" :readonly="weightselected == 'Equial-Weighted'
@@ -372,41 +372,16 @@ max-width: 220px;" background-color="#FAFBFF" v-model="weightselected" :items="w
                                 </template>
                               </v-text-field>
                             </div>
+                            <div class="text-capitalize body-2 font-weight-medium " v-if="weightselected=='Custom-Share'">
+                                <span>{{ m.weights }}</span>
+                              </div>
                             <div  v-if="weightselected == 'Equial-Weighted'" >
                               <v-text-field block  v-model="m.weights"  class="weg elevation-0 caption text-center"
                                 hide-details  outlined type="number" hide-spin-buttons style="max-width: 120px;"
                                 :min="minweights" :readonly="weightselected == 'Equial-Weighted'
-                                  " :max="maxvalueperc" dense @keyup="
-                                      m.weights < maxvalueperc
-                                        ? (m.weights = Number(m.weights) + 1)
-                                        : null,
-                                      getAddbtn(
-                                        fullsingleres[0].etfs_weights[
-                                          index
-                                        ][j].token,
-                                        m.weights
-                                      )" @keydown="
-                                      m.weights > 1
-                                        ? (m.weights = Number(m.weights) - 1)
-                                        : null,
-                                      getAddbtn(
-                                        fullsingleres[0].etfs_weights[
-                                          index
-                                        ][j].token,
-                                        m.weights
-                                      )" > 
+                                  " :max="maxvalueperc" dense> 
                                 <template #append>
                                   <v-btn   :disabled="weightselected == 'Equial-Weighted'
-                                    " @click="
-                                      m.weights < maxvalueperc
-                                        ? (m.weights = Number(m.weights) + 1)
-                                        : null,
-                                      getAddbtn(
-                                        fullsingleres[0].etfs_weights[
-                                          index
-                                        ][j].token,
-                                        m.weights
-                                      )
                                       " icon class="elevation-0" small>
                                     <svg  xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
                                       fill="none">
@@ -418,16 +393,6 @@ max-width: 220px;" background-color="#FAFBFF" v-model="weightselected" :items="w
                                 </template>
                                 <template #prepend-inner>
                                   <v-btn color="white" :disabled="weightselected == 'Equial-Weighted'
-                                    " @click="
-                                      m.weights > 1
-                                        ? (m.weights = Number(m.weights) - 1)
-                                        : null,
-                                      getAddbtn(
-                                        fullsingleres[0].etfs_weights[
-                                          index
-                                        ][j].token,
-                                        m.weights
-                                      )
                                       " icon class="elevation-0" small>
                                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
                                       fill="none">
@@ -441,11 +406,73 @@ max-width: 220px;" background-color="#FAFBFF" v-model="weightselected" :items="w
                             
                             </div>
                             </v-col>
-                            <v-col cols="1" class="d-flex align-center">
-                              <div class="text-capitalize body-2 font-weight-medium">
+                            <v-col :cols="weightselected == 'Custom-Share'?4:1" class="d-flex align-center " >
+                              <div class="text-capitalize body-2 font-weight-medium " v-if="weightselected != 'Custom-Share'">
                                 <span>{{ m.quantity }}</span>
                               </div>
+                              <div class="d-flex align-center" v-if="weightselected == 'Custom-Share'">
+                                <v-text-field block  v-model="m.quantity" class="weg elevation-0 caption text-center"
+                                hide-details  outlined type="number" hide-spin-buttons style="max-width: 120px;"
+                                :min="minweights"
+                                  dense @keyup="
+                                      m.quantity = Number(m.quantity) + 1,
+                                        quantityChange(
+                                        fullsingleres[0].etfs_weights[
+                                          index
+                                        ][j].token,
+                                        m.quantity
+                                      )" @keydown="
+                                      m.quantity > 1
+                                        ? (m.quantity = Number(m.quantity) - 1)
+                                        : null,
+                                        quantityChange(
+                                        fullsingleres[0].etfs_weights[
+                                          index
+                                        ][j].token,
+                                        m.quantity
+                                      )" >
+                                <template #append>
+                                  <v-btn
+                                     @click="
+                                      m.quantity = Number(m.quantity) + 1,
+                                        quantityChange(
+                                        fullsingleres[0].etfs_weights[
+                                          index
+                                        ][j].token,
+                                        m.quantity
+                                      )
+                                      " icon class="elevation-0" small>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                                      fill="none">
+                                      <circle cx="12" cy="12" r="12" fill="white" />
+                                      <path d="M12 8V16" stroke="#666666" stroke-width="2" stroke-linecap="round" />
+                                      <path d="M16 12L8 12" stroke="#666666" stroke-width="2" stroke-linecap="round" />
+                                    </svg>
+                                  </v-btn>
+                                </template>
+                                <template #prepend-inner>
+                                  <v-btn  @click="
+                                      m.quantity > 1
+                                        ? (m.quantity = Number(m.quantity) - 1)
+                                        : null,
+                                        quantityChange(
+                                        fullsingleres[0].etfs_weights[
+                                          index
+                                        ][j].token,
+                                        m.quantity
+                                      )
+                                      " icon class="elevation-0" small>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                                      fill="none">
+                                      <circle cx="12" cy="12" r="12" fill="white" />
+                                      <path d="M16 12L8 12" stroke="#666666" stroke-width="2" stroke-linecap="round" />
+                                    </svg>
+                                  </v-btn>
+                                </template>
+                              </v-text-field>
+                              </div>
                             </v-col>
+
                             <v-col cols="2" class="py-0  d-flex align-center justify-end">
                               <div class="text-capitalize body-2 font-weight-medium">
                                 <span>{{ m.avg_weight_percent }}%</span>
@@ -851,7 +878,7 @@ export default {
     return {
       inputchange: "",
       weightselected: "Equial-Weighted",
-      weightedChange: ["Equial-Weighted", "Custom-Weighted"],
+      weightedChange: ["Equial-Weighted", "Custom-Weighted","Custom-Share"],
       bestmfdata: "",
       fullsingleres: [],
       dumpdata: [],
@@ -1193,11 +1220,44 @@ export default {
       );
       this.fullsingleres[0].price = minprice.toFixed(2) * this.value;
     },
-    // weightmultiply(){
-    //   this.fullsingleres[0].price = minprice.toFixed(2) ;
-
-    // },
-
+    quantityChange(token, value){
+      if(!value){
+        value=1.0
+      }
+      Object.keys(this.fullsingleres[0].etfs_weights).forEach((key) =>
+            this.fullsingleres[0].etfs_weights[key].forEach((key2, i) => {
+              if (this.fullsingleres[0].etfs_weights[key][i].token == token) {
+                if (value == 1) {
+                  this.fullsingleres[0].etfs_weights[key][i].quantity = 1.0;
+                  this.snackcolor = "red";
+                  this.snackbar = true;
+                  this.mesg = "Invaild input value";
+                } else {
+                  this.fullsingleres[0].etfs_weights[key][i].quantity =
+                    value.toFixed(0);
+                }
+              }
+            })
+          );
+      
+      let minprice = 0;
+      Object.keys(this.fullsingleres[0].etfs_weights).forEach((key) =>
+      this.fullsingleres[0].etfs_weights[key].forEach((key2, i) => {
+        this.fullsingleres[0].etfs_weights[key][i].total_value =
+            key2.price * this.fullsingleres[0].etfs_weights[key][i].quantity;
+        minprice +=this.fullsingleres[0].etfs_weights[key][i].total_value
+          }))
+      
+      Object.keys(this.fullsingleres[0].etfs_weights).forEach((key) =>
+        this.fullsingleres[0].etfs_weights[key].forEach((key2, i) => {
+          this.fullsingleres[0].etfs_weights[key][i].avg_weight_percent = (
+            (key2.total_value / minprice) *
+            100
+          ).toFixed(2);
+        })
+      );
+      this.fullsingleres[0].price = minprice.toFixed(2);
+    },
     getAddbtn(token, value) {
       if (!value) {
         value = 1.0;
@@ -1246,6 +1306,7 @@ export default {
           }
         })
       );
+      
       this.weightCalculation();
 
       this.countvalue = 0;

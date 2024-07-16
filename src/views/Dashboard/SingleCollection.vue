@@ -8,46 +8,46 @@
     </v-snackbar>
     <!-- <v-progress-circular :size="50" color="primary" indeterminate 
       class="text-centre"></v-progress-circular> -->
-    
+
     <p style="word-spacing: 5px" class="mb-0 pt-16 caption">
       <span style="color: #0037B7; cursor: pointer; " @click="$router.push('/')">Collection</span>
       <span style="color: #000; "> > </span>
-      <span style="color: #000; ">    {{
-                      fullsingleres[0]
-                        ? fullsingleres[0].basket_title
-                          ? fullsingleres[0].basket_title
-                          : ""
-                        : ""
-                    }}</span>
+      <span style="color: #000; "> {{
+        fullsingleres[0]
+          ? fullsingleres[0].basket_title
+            ? fullsingleres[0].basket_title
+            : ""
+          : ""
+      }}</span>
     </p>
-  
+
     <v-row no-glutters class="pt-2">
       <v-col cols="12" md="9">
         <v-progress-linear style="max-height: 3px;" indeterminate v-if="singleload"></v-progress-linear>
 
-   
 
 
 
 
-        <v-card style="border-radius: 4px; border: 1px solid #ddd"
-          class="elevation-0 mt-3 rounded-lg  ">
+
+        <v-card style="border-radius: 4px; border: 1px solid #ddd" class="elevation-0 mt-3 rounded-lg  ">
           <v-card style="background-color: #fafbff" class="" elevation="0">
-            <v-toolbar  class="tool-sty pl-3 pr-3 mt-3 elevation-0 mb-1 px-0" color="#fff" dense>
+            <v-toolbar class="tool-sty pl-3 pr-3 mt-3 elevation-0 mb-1 px-0" color="#fff" dense>
               <v-list-item class="pl-0 pr-1">
                 <v-list-item-avatar class="mr-2">
                   <img v-if="fullsingleres[0] && fullsingleres[0].basket_img" :src="modifiedUrl" />
-                    <v-avatar v-else :color="params>=9?letters[params%10]:letters[params]" size="48">
-                      <span class="subtitle-1 white--text font-weight-bold">{{  fullsingleres[0]
+                  <v-avatar v-else :color="params >= 9 ? letters[params % 10] : letters[params]" size="48">
+                    <span class="subtitle-1 white--text font-weight-bold">{{ fullsingleres[0]
+                      ? fullsingleres[0].basket_title
+                        ? fullsingleres[0].basket_title.split(" ")[0][0]
+                        : ""
+                      : "" }}{{ fullsingleres[0]
                         ? fullsingleres[0].basket_title
-                          ? fullsingleres[0].basket_title.split(" ")[0][0]
-                          : ""
-                        : "" }}{{fullsingleres[0]
-                        ? fullsingleres[0].basket_title
-                          ? fullsingleres[0].basket_title.split(" ")[1]?fullsingleres[0].basket_title.split(" ")[1][0]:''
+                          ? fullsingleres[0].basket_title.split(" ")[1] ? fullsingleres[0].basket_title.split(" ")[1][0] :
+                            ''
                           : ""
                         : "" }}</span>
-                    </v-avatar>
+                  </v-avatar>
                   <!-- <img :src="modifiedUrl" /> -->
                 </v-list-item-avatar>
                 <v-list-item-content>
@@ -72,26 +72,19 @@
                 </v-list-item-content>
                 <v-spacer></v-spacer>
                 <div>
-                  <v-chip
-  class=" float-right mt-2 text-capitalize"
-  x-small
-  :text-color="
-    fullsingleres[0] && fullsingleres[0].access
-    ? (fullsingleres[0].access === 'free' ? '#4BAC3C' : '#093FBA')
-    : '#defaultColor'
-  "
-  :color="
-    fullsingleres[0] && fullsingleres[0].access
-    ? (fullsingleres[0].access === 'free' ? '#ECF8F1' : '#ccd9ff')
-    : '#defaultBackgroundColor'
-  "
->
-  <span>{{
+                  <v-chip class=" float-right mt-2 text-capitalize" x-small :text-color="fullsingleres[0] && fullsingleres[0].access
+                    ? (fullsingleres[0].access === 'free' ? '#4BAC3C' : '#093FBA')
+                    : '#defaultColor'
+                    " :color="fullsingleres[0] && fullsingleres[0].access
+                      ? (fullsingleres[0].access === 'free' ? '#ECF8F1' : '#ccd9ff')
+                      : '#defaultBackgroundColor'
+                      ">
+                    <span>{{
                       fullsingleres[0] && fullsingleres[0].access
                         ? fullsingleres[0].access
                         : "--"
                     }}</span>
-</v-chip><br>
+                  </v-chip><br>
                   <span class="caption" style="color: #666666;">Min. Invest</span>
                   <p class="fs-12 txt-000 font-weight-bold mb-0 body-2">
                     ₹ {{
@@ -115,22 +108,22 @@
                   </p>
                 </div> -->
               </v-list-item>
-              
+
             </v-toolbar>
-           
+
           </v-card>
           <div class="ml-3" v-if="
-                    fullsingleres[0] &&
-                    fullsingleres[0].etfs_weights &&
-                    Object.keys(fullsingleres[0].etfs_weights).length > 0
-                  ">
-                    <v-chip color="#FAFBFF" text-color="#666666" label class="text--secondary mr-1 text-capitalize px-1"
-                      x-small v-for="(j, l) in fullsingleres[0].tags" :key="l">{{ j
-                      }}</v-chip>
-                  </div>
+            fullsingleres[0] &&
+            fullsingleres[0].etfs_weights &&
+            Object.keys(fullsingleres[0].etfs_weights).length > 0
+          ">
+            <v-chip color="#FAFBFF" text-color="#666666" label class="text--secondary mr-1 text-capitalize px-1" x-small
+              v-for="(j, l) in fullsingleres[0].tags" :key="l">{{ j
+              }}</v-chip>
+          </div>
           <div class="mt-2 ml-3 mr-3 ">
             <span class="body-2 " style="color: #666666">
-           
+
               {{
                 fullsingleres[0]
                   ? fullsingleres[0].mang_sht_con
@@ -148,7 +141,7 @@
                 <p class="subtitle-1 mb-0 mt-0 pt-0 font-weight-bold">
                   {{ textfieltext }}
                 </p>
-                
+
                 <v-divider></v-divider>
               </div>
             </v-col>
@@ -163,13 +156,150 @@
               </div>
             </v-col>
             <v-col cols="4">
-              <div v-if="fullsingleres[0] && fullsingleres[0].cagr['cagr_3year'] "  > 
-                    <p class="mt-2 caption mb-0 pb-0 fs-7" style="letter-spacing: 0em;color: #666666">3Y CAGR</p>
-                    <span class="fs-14 mt-0 pt-0 font-weight-bold" :style="{ color: parseInt(fullsingleres[0].cagr.cagr_3year) > 0 ? '#4BAC3C' : '#E42B2B',letterSpacing:'0.1em'}" >{{ fullsingleres[0].cagr?fullsingleres[0].cagr.cagr_3year?fullsingleres[0].cagr.cagr_3year:"":"" }}%</span>
-                  </div>
-                  <v-divider v-if="fullsingleres[0] && fullsingleres[0].cagr['cagr_3year'] "></v-divider>
+              <div v-if="fullsingleres[0] && fullsingleres[0].cagr['cagr_3year']">
+                <p class="mt-2 caption mb-0 pb-0 fs-7" style="letter-spacing: 0em;color: #666666">3Y CAGR</p>
+                <span class="fs-14 mt-0 pt-0 font-weight-bold"
+                  :style="{ color: parseInt(fullsingleres[0].cagr.cagr_3year) > 0 ? '#4BAC3C' : '#E42B2B', letterSpacing: '0.1em' }">{{
+                    fullsingleres[0].cagr ? fullsingleres[0].cagr.cagr_3year ? fullsingleres[0].cagr.cagr_3year : "" : ""
+                  }}%</span>
+              </div>
+              <v-divider v-if="fullsingleres[0] && fullsingleres[0].cagr['cagr_3year']"></v-divider>
             </v-col>
           </v-row>
+        </v-card>
+
+        <v-card v-if="errrrordata != 'no data found'" outlined elevation="0" class="mt-7 px-4 py-3" rounded-lg style="border: 1px solid #dddddd">
+          <div class="d-flex">
+
+            <p class="title font-weight-bold mb-2">Historical NAV</p>
+            <v-btn-toggle @change="linechartdata()" class="ml-auto" v-model="toggle_exclusive" color="black" dense
+              group>
+              <v-btn small dense :value="0" text>
+                1M
+              </v-btn>
+
+              <v-btn small dense :value="1" text>
+                1Y
+              </v-btn>
+
+              <v-btn small dense :value="3" text>
+                3Y
+              </v-btn>
+
+              <v-btn small dense :value="5" text>
+                5Y
+              </v-btn>
+            </v-btn-toggle>
+          </div>
+          <v-divider></v-divider>
+          <v-progress-linear v-if="chartlineload" indeterminate color="indigo"></v-progress-linear>
+          <div id="mainnew" style="width: 100%; height: 300px"></div>
+        </v-card>
+
+
+        <v-card v-if="pieschartdata.error != 'no data found'" outlined elevation="0" class="mt-7 px-4 py-3" rounded-lg style="border: 1px solid #dddddd">
+          <p class="title font-weight-bold mt-2 mb-2">Collection Weights</p>
+
+          <v-row>
+            <v-col cols="7">
+              <!-- <v-expansion-panels style="border: 1px solid #dddddd" outlined dense small
+                class="mt-3 pt-0 pa-0 ma-0 expan" elevation="0">
+                <v-expansion-panel dense small elevation="0" v-for="(group, sector) in groupedData" :key="sector">
+                  <v-expansion-panel-header dense small
+                    :style="{ 'border-left': activePanel === sector ? '6px solid black' : 'transparent' }"
+                    class="pa-0 ma-0" expand-icon="" :class="{ 'active-header': activePanel === sector }"
+                    style="text-transform: capitalize;" elevation="0"
+                    @click="activePanel = (activePanel === sector ? -1 : sector)">
+                    <div class="d-flex">
+                      <p class="mb-0 body-1 font-weight-bold ml-3">{{ sector }} <v-icon>{{ activePanel === sector ?
+                          'mdi-menu-up' : 'mdi-menu-down' }}</v-icon> </p>
+                      <span class="body-1 ml-auto font-weight-bold  mr-4 mt-2 "
+                        style="color:#666666;text-transform: capitalize;"> {{ group.totalWeights.toFixed(0) }} %</span>
+
+                    </div>
+                  </v-expansion-panel-header>
+                  <v-expansion-panel-content class="">
+                    <div v-for="(item, index) in group.items" :key="index">
+                      <div class="d-flex">
+                        <span class="body-1 ml-4 mr-4 mt-2 mb-2" style="color:#666666;text-transform: capitalize;">{{
+                          item.SYMBOL }}</span>
+                        <span class="body-1 ml-auto ml-4 mr-4 mt-2 mb-2"
+                          style="color:#666666;text-transform: capitalize;">{{ item.weights }}</span>
+                      </div>
+                      <v-divider class="mt-2 mb-2"></v-divider>
+                    </div>
+                  </v-expansion-panel-content>
+                </v-expansion-panel>
+              </v-expansion-panels> -->
+
+              <v-expansion-panels
+    style="border: 1px solid #dddddd"
+    outlined
+    dense
+    small
+    class="mt-3 pt-0 pa-0 ma-0 expan"
+    elevation="0"
+  >
+    <v-expansion-panel
+      dense
+      small
+      elevation="0"
+      v-for="(group, sector) in sortedGroupedData"
+      :key="sector"
+    >
+      <v-expansion-panel-header
+        dense
+        small
+        :style="{ 'border-left': activePanel === sector ? '6px solid black' : 'transparent' }"
+        class="pa-0 ma-0"
+        expand-icon=""
+        :class="{ 'active-header': activePanel === sector }"
+        style="text-transform: capitalize;"
+        elevation="0"
+        @click="activePanel = (activePanel === sector ? -1 : sector)"
+      >
+        <div class="d-flex">
+          <p class="mb-0 body-1 font-weight-bold ml-3">
+            {{ sector }}
+            <v-icon>
+              {{ activePanel === sector ? 'mdi-menu-up' : 'mdi-menu-down' }}
+            </v-icon>
+          </p>
+          <span
+            class="body-1 ml-auto font-weight-bold mr-4 mt-2"
+            style="color: #666666; text-transform: capitalize;"
+            >{{ group.totalWeights.toFixed(1) }} %</span
+          >
+        </div>
+      </v-expansion-panel-header>
+      <v-expansion-panel-content class="">
+        <div v-for="(item, index) in group.items" :key="index">
+          <div class="d-flex">
+            <span
+              class="body-1 ml-4 mr-4 mt-2"
+              style="color: #666666; text-transform: capitalize;"
+              >{{ item.company_name }}</span
+            >
+            <span
+              class="body-1 ml-auto ml-4 mr-4 mt-2"
+              style="color: #666666; text-transform: capitalize;"
+              >{{ item.weights }} %</span
+            >
+          </div>
+          <v-divider class="mt-2 mb-2"></v-divider>
+        </div>
+      </v-expansion-panel-content>
+    </v-expansion-panel>
+  </v-expansion-panels>
+
+            </v-col>
+            <v-col cols="5">
+              <div id="sector-chart"></div>
+
+            </v-col>
+
+          </v-row>
+
         </v-card>
 
         <v-card hide-actions style="border-radius: 4px; border: 1px solid #ddd"
@@ -208,7 +338,7 @@
 
                 <div>
                   <v-toolbar class="elevation-0 mb-3" color="#fff" dense>
-                    <p class="title font-weight-bold mb-2">Invest  {{
+                    <p class="title font-weight-bold mb-2">Invest {{
                       fullsingleres[0]
                         ? fullsingleres[0].basket_title
                           ? fullsingleres[0].basket_title.toUpperCase()
@@ -217,40 +347,30 @@
                     }}</p>
                     <v-spacer></v-spacer>
 
-                    <v-text-field v-model="value" 
-          type="number"
-          :min="1"
-          :max="100"
-          hide-details
-          readonly
-          block
-          required dense filled 
-          hide-spin-buttons
-          @input="validateValue()"
-          style="max-width: 170px;"
-          class="body-2 font-weight-bold mb-0 mr-3 pt-0 mt-0" rounded background-color="#FAFBFF">
-          <template #append>
-                                  <v-btn @click="increment" icon class="elevation-0"  small>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="20"   height="20" viewBox="0 0 24 24"
-                                      fill="none">
-                                      <!-- <circle cx="12" cy="12" r="12" fill="white" /> -->
-                                      <path d="M12 8V16" stroke="#666666" stroke-width="2" stroke-linecap="round" />
-                                      <path d="M16 12L8 12" stroke="#666666" stroke-width="2" stroke-linecap="round" />
-                                    </svg>
-                                  </v-btn>
-                                </template>
-                                <template #prepend-inner>
-                                  <v-btn @click="decrement"
-                                     icon class="elevation-0" small>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
-                                      fill="none">
-                                      <!-- <circle cx="12" cy="12" r="12" fill="white" /> -->
-                                      <path d="M16 12L8 12" stroke="#666666" stroke-width="2" stroke-linecap="round" />
-                                    </svg>
-                                  </v-btn>
-                                </template>
-        
-        </v-text-field>
+                    <v-text-field v-model="value" type="number" :min="1" :max="100" hide-details readonly block required
+                      dense filled hide-spin-buttons @input="validateValue()" style="max-width: 170px;"
+                      class="body-2 font-weight-bold mb-0 mr-3 pt-0 mt-0" rounded background-color="#FAFBFF">
+                      <template #append>
+                        <v-btn @click="increment" icon class="elevation-0" small>
+                          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                            fill="none">
+                            <!-- <circle cx="12" cy="12" r="12" fill="white" /> -->
+                            <path d="M12 8V16" stroke="#666666" stroke-width="2" stroke-linecap="round" />
+                            <path d="M16 12L8 12" stroke="#666666" stroke-width="2" stroke-linecap="round" />
+                          </svg>
+                        </v-btn>
+                      </template>
+                      <template #prepend-inner>
+                        <v-btn @click="decrement" icon class="elevation-0" small>
+                          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                            fill="none">
+                            <!-- <circle cx="12" cy="12" r="12" fill="white" /> -->
+                            <path d="M16 12L8 12" stroke="#666666" stroke-width="2" stroke-linecap="round" />
+                          </svg>
+                        </v-btn>
+                      </template>
+
+                    </v-text-field>
 
 
 
@@ -281,7 +401,7 @@ max-width: 220px;" background-color="#FAFBFF" v-model="weightselected" :items="w
                       <v-col cols="2" class="text-right">Price</v-col>
                       <v-col cols="1"></v-col>
                       <v-col v-if="weightselected != 'Custom-Share'" cols="3">Weightage (%)</v-col>
-                      <v-col :cols="weightselected == 'Custom-Share'?4:1"> Share </v-col>
+                      <v-col :cols="weightselected == 'Custom-Share' ? 4 : 1"> Share </v-col>
                       <v-col cols="2" class="text-right ">Avg Weight </v-col>
                     </v-row>
                   </v-card>
@@ -292,16 +412,17 @@ max-width: 220px;" background-color="#FAFBFF" v-model="weightselected" :items="w
                     fullsingleres[0].etfs_weights
                   " class="px-4">
                     <div v-for="(item, index, k) in fullsingleres[0].etfs_weights" :key="k">
-                      <template >
+                      <template>
 
                         <div v-for="(m, j) in item" :key="j">
                           <v-row no-gutters class="py-2">
                             <v-col cols="3" class="py-0 d-flex align-center">
                               <p class="mb-0 text-capitalize fs-14 font-weight-medium">
-                                {{ m.tsym ? m.tsym : "" }} <v-chip  text-color="white" :color="m.exists == 'no' ? 'green': 'white'" label class="mr-1 text-capitalize px-1"
-                      x-small >{{
+                                {{ m.tsym ? m.tsym : "" }} <v-chip text-color="white"
+                                  :color="m.exists == 'no' ? 'green' : 'white'" label class="mr-1 text-capitalize px-1"
+                                  x-small>{{
                                     m.exists ? m.exists == 'no' ? "new" : '' : '' }}
-                      </v-chip>
+                                </v-chip>
                               </p>
                             </v-col>
                             <v-col cols="2" class="py-0 d-flex align-center justify-end">
@@ -311,11 +432,11 @@ max-width: 220px;" background-color="#FAFBFF" v-model="weightselected" :items="w
                             </v-col>
                             <v-col cols="1"></v-col>
                             <v-col v-if="weightselected != 'Custom-Share'" cols="3" class="py-0 d-flex align-center ">
-                              <div  v-if="weightselected == 'Custom-Weighted'">
-                              <v-text-field block  v-model="m.weights" class="weg elevation-0 caption text-center"
-                                hide-details  outlined type="number" hide-spin-buttons style="max-width: 120px;"
-                                :min="minweights" :readonly="weightselected == 'Equial-Weighted'
-                                  " :max="maxvalueperc" dense @keyup="
+                              <div v-if="weightselected == 'Custom-Weighted'">
+                                <v-text-field block v-model="m.weights" class="weg elevation-0 caption text-center"
+                                  hide-details outlined type="number" hide-spin-buttons style="max-width: 120px;"
+                                  :min="minweights" :readonly="weightselected == 'Equial-Weighted'
+                                    " :max="maxvalueperc" dense @keyup="
                                       m.weights < maxvalueperc
                                         ? (m.weights = Number(m.weights) + 1)
                                         : null,
@@ -325,156 +446,160 @@ max-width: 220px;" background-color="#FAFBFF" v-model="weightselected" :items="w
                                         ][j].token,
                                         m.weights
                                       )" @keydown="
-                                      m.weights > 1
-                                        ? (m.weights = Number(m.weights) - 1)
-                                        : null,
-                                      getAddbtn(
-                                        fullsingleres[0].etfs_weights[
-                                          index
-                                        ][j].token,
-                                        m.weights
-                                      )" >
-                                <template #append>
-                                  <v-btn :disabled="weightselected == 'Equial-Weighted'
-                                    " @click="
-                                      m.weights < maxvalueperc
-                                        ? (m.weights = Number(m.weights) + 1)
-                                        : null,
-                                      getAddbtn(
-                                        fullsingleres[0].etfs_weights[
-                                          index
-                                        ][j].token,
-                                        m.weights
-                                      )
-                                      " icon class="elevation-0" small>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
-                                      fill="none">
-                                      <circle cx="12" cy="12" r="12" fill="white" />
-                                      <path d="M12 8V16" stroke="#666666" stroke-width="2" stroke-linecap="round" />
-                                      <path d="M16 12L8 12" stroke="#666666" stroke-width="2" stroke-linecap="round" />
-                                    </svg>
-                                  </v-btn>
-                                </template>
-                                <template #prepend-inner>
-                                  <v-btn :disabled="weightselected == 'Equial-Weighted'
-                                    " @click="
-                                      m.weights > 1
-                                        ? (m.weights = Number(m.weights) - 1)
-                                        : null,
-                                      getAddbtn(
-                                        fullsingleres[0].etfs_weights[
-                                          index
-                                        ][j].token,
-                                        m.weights
-                                      )
-                                      " icon class="elevation-0" small>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
-                                      fill="none">
-                                      <circle cx="12" cy="12" r="12" fill="white" />
-                                      <path d="M16 12L8 12" stroke="#666666" stroke-width="2" stroke-linecap="round" />
-                                    </svg>
-                                  </v-btn>
-                                </template>
-                              </v-text-field>
-                            </div>
-                            <div class="text-capitalize body-2 font-weight-medium " v-if="weightselected=='Custom-Share'">
+                                        m.weights > 1
+                                          ? (m.weights = Number(m.weights) - 1)
+                                          : null,
+                                        getAddbtn(
+                                          fullsingleres[0].etfs_weights[
+                                            index
+                                          ][j].token,
+                                          m.weights
+                                        )">
+                                  <template #append>
+                                    <v-btn :disabled="weightselected == 'Equial-Weighted'
+                                      " @click="
+                                        m.weights < maxvalueperc
+                                          ? (m.weights = Number(m.weights) + 1)
+                                          : null,
+                                        getAddbtn(
+                                          fullsingleres[0].etfs_weights[
+                                            index
+                                          ][j].token,
+                                          m.weights
+                                        )
+                                        " icon class="elevation-0" small>
+                                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                                        fill="none">
+                                        <circle cx="12" cy="12" r="12" fill="white" />
+                                        <path d="M12 8V16" stroke="#666666" stroke-width="2" stroke-linecap="round" />
+                                        <path d="M16 12L8 12" stroke="#666666" stroke-width="2"
+                                          stroke-linecap="round" />
+                                      </svg>
+                                    </v-btn>
+                                  </template>
+                                  <template #prepend-inner>
+                                    <v-btn :disabled="weightselected == 'Equial-Weighted'
+                                      " @click="
+                                        m.weights > 1
+                                          ? (m.weights = Number(m.weights) - 1)
+                                          : null,
+                                        getAddbtn(
+                                          fullsingleres[0].etfs_weights[
+                                            index
+                                          ][j].token,
+                                          m.weights
+                                        )
+                                        " icon class="elevation-0" small>
+                                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                                        fill="none">
+                                        <circle cx="12" cy="12" r="12" fill="white" />
+                                        <path d="M16 12L8 12" stroke="#666666" stroke-width="2"
+                                          stroke-linecap="round" />
+                                      </svg>
+                                    </v-btn>
+                                  </template>
+                                </v-text-field>
+                              </div>
+                              <div class="text-capitalize body-2 font-weight-medium "
+                                v-if="weightselected == 'Custom-Share'">
                                 <span>{{ m.weights }}</span>
                               </div>
-                            <div  v-if="weightselected == 'Equial-Weighted'" >
-                              <v-text-field block  v-model="m.weights"  class="weg elevation-0 caption text-center"
-                                hide-details  outlined type="number" hide-spin-buttons style="max-width: 120px;"
-                                :min="minweights" :readonly="weightselected == 'Equial-Weighted'
-                                  " :max="maxvalueperc" dense> 
-                                <template #append>
-                                  <v-btn   :disabled="weightselected == 'Equial-Weighted'
+                              <div v-if="weightselected == 'Equial-Weighted'">
+                                <v-text-field block v-model="m.weights" class="weg elevation-0 caption text-center"
+                                  hide-details outlined type="number" hide-spin-buttons style="max-width: 120px;"
+                                  :min="minweights" :readonly="weightselected == 'Equial-Weighted'
+                                    " :max="maxvalueperc" dense>
+                                  <template #append>
+                                    <v-btn :disabled="weightselected == 'Equial-Weighted'
                                       " icon class="elevation-0" small>
-                                    <svg  xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
-                                      fill="none">
-                                      <circle cx="12" cy="12" r="12" fill="white" />
-                                      <path d="M12 8V16" stroke="white" stroke-width="2" stroke-linecap="round" />
-                                      <path d="M16 12L8 12" stroke="white" stroke-width="2" stroke-linecap="round" />
-                                    </svg>
-                                  </v-btn>
-                                </template>
-                                <template #prepend-inner>
-                                  <v-btn color="white" :disabled="weightselected == 'Equial-Weighted'
+                                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                                        fill="none">
+                                        <circle cx="12" cy="12" r="12" fill="white" />
+                                        <path d="M12 8V16" stroke="white" stroke-width="2" stroke-linecap="round" />
+                                        <path d="M16 12L8 12" stroke="white" stroke-width="2" stroke-linecap="round" />
+                                      </svg>
+                                    </v-btn>
+                                  </template>
+                                  <template #prepend-inner>
+                                    <v-btn color="white" :disabled="weightselected == 'Equial-Weighted'
                                       " icon class="elevation-0" small>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
-                                      fill="none">
-                                      <circle cx="12" cy="12" r="12" fill="white" />
-                                      <path d="M16 12L8 12" stroke="white" stroke-width="2" stroke-linecap="round" />
-                                    </svg>
-                                  </v-btn>
-                                </template>
-                              </v-text-field>
-                            
-                            
-                            </div>
+                                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                                        fill="none">
+                                        <circle cx="12" cy="12" r="12" fill="white" />
+                                        <path d="M16 12L8 12" stroke="white" stroke-width="2" stroke-linecap="round" />
+                                      </svg>
+                                    </v-btn>
+                                  </template>
+                                </v-text-field>
+
+
+                              </div>
                             </v-col>
-                            <v-col :cols="weightselected == 'Custom-Share'?4:1" class="d-flex align-center " >
-                              <div class="text-capitalize body-2 font-weight-medium " v-if="weightselected != 'Custom-Share'">
+                            <v-col :cols="weightselected == 'Custom-Share' ? 4 : 1" class="d-flex align-center ">
+                              <div class="text-capitalize body-2 font-weight-medium "
+                                v-if="weightselected != 'Custom-Share'">
                                 <span>{{ m.quantity }}</span>
                               </div>
                               <div class="d-flex align-center" v-if="weightselected == 'Custom-Share'">
-                                <v-text-field block  v-model="m.quantity" class="weg elevation-0 caption text-center"
-                                hide-details  outlined type="number" hide-spin-buttons style="max-width: 120px;"
-                                :min="minweights"
-                                  dense @keyup="
-                                      m.quantity = Number(m.quantity) + 1,
-                                        quantityChange(
-                                        fullsingleres[0].etfs_weights[
-                                          index
-                                        ][j].token,
-                                        m.quantity
-                                      )" @keydown="
+                                <v-text-field block v-model="m.quantity" class="weg elevation-0 caption text-center"
+                                  hide-details outlined type="number" hide-spin-buttons style="max-width: 120px;"
+                                  :min="minweights" dense @keyup="
+                                    m.quantity = Number(m.quantity) + 1,
+                                    quantityChange(
+                                      fullsingleres[0].etfs_weights[
+                                        index
+                                      ][j].token,
+                                      m.quantity
+                                    )" @keydown="
                                       m.quantity > 1
                                         ? (m.quantity = Number(m.quantity) - 1)
                                         : null,
-                                        quantityChange(
+                                      quantityChange(
                                         fullsingleres[0].etfs_weights[
                                           index
                                         ][j].token,
                                         m.quantity
-                                      )" >
-                                <template #append>
-                                  <v-btn
-                                     @click="
+                                      )">
+                                  <template #append>
+                                    <v-btn @click="
                                       m.quantity = Number(m.quantity) + 1,
-                                        quantityChange(
+                                      quantityChange(
                                         fullsingleres[0].etfs_weights[
                                           index
                                         ][j].token,
                                         m.quantity
                                       )
                                       " icon class="elevation-0" small>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
-                                      fill="none">
-                                      <circle cx="12" cy="12" r="12" fill="white" />
-                                      <path d="M12 8V16" stroke="#666666" stroke-width="2" stroke-linecap="round" />
-                                      <path d="M16 12L8 12" stroke="#666666" stroke-width="2" stroke-linecap="round" />
-                                    </svg>
-                                  </v-btn>
-                                </template>
-                                <template #prepend-inner>
-                                  <v-btn  @click="
+                                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                                        fill="none">
+                                        <circle cx="12" cy="12" r="12" fill="white" />
+                                        <path d="M12 8V16" stroke="#666666" stroke-width="2" stroke-linecap="round" />
+                                        <path d="M16 12L8 12" stroke="#666666" stroke-width="2"
+                                          stroke-linecap="round" />
+                                      </svg>
+                                    </v-btn>
+                                  </template>
+                                  <template #prepend-inner>
+                                    <v-btn @click="
                                       m.quantity > 1
                                         ? (m.quantity = Number(m.quantity) - 1)
                                         : null,
-                                        quantityChange(
+                                      quantityChange(
                                         fullsingleres[0].etfs_weights[
                                           index
                                         ][j].token,
                                         m.quantity
                                       )
                                       " icon class="elevation-0" small>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
-                                      fill="none">
-                                      <circle cx="12" cy="12" r="12" fill="white" />
-                                      <path d="M16 12L8 12" stroke="#666666" stroke-width="2" stroke-linecap="round" />
-                                    </svg>
-                                  </v-btn>
-                                </template>
-                              </v-text-field>
+                                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                                        fill="none">
+                                        <circle cx="12" cy="12" r="12" fill="white" />
+                                        <path d="M16 12L8 12" stroke="#666666" stroke-width="2"
+                                          stroke-linecap="round" />
+                                      </svg>
+                                    </v-btn>
+                                  </template>
+                                </v-text-field>
                               </div>
                             </v-col>
 
@@ -502,62 +627,61 @@ max-width: 220px;" background-color="#FAFBFF" v-model="weightselected" :items="w
                     fullsingleres[0] &&
                     fullsingleres[0].deleted_etf
                   " class="px-4">
-                  <v-divider></v-divider>
+                    <v-divider></v-divider>
                     <div v-for="(item, index) in fullsingleres[0].deleted_etf" :key="index">
-                          <v-row no-gutters class="py-2">
-                            <v-col cols="3" class="py-0 d-flex align-center">
-                              <p class="mb-0 text-capitalize fs-14 font-weight-medium text--secondary">
-                                {{ item.tsym ? item.tsym : "" }} <v-chip  text-color="white" disabled label class="red darken-1 mr-1 text-capitalize px-1"
-                      x-small > deleted
-                      </v-chip><!-- <span v-if="item.exists" class=" font-weight-bold text--secondary"
+                      <v-row no-gutters class="py-2">
+                        <v-col cols="3" class="py-0 d-flex align-center">
+                          <p class="mb-0 text-capitalize fs-14 font-weight-medium text--secondary">
+                            {{ item.tsym ? item.tsym : "" }} <v-chip text-color="white" disabled label
+                              class="red darken-1 mr-1 text-capitalize px-1" x-small> deleted
+                            </v-chip><!-- <span v-if="item.exists" class=" font-weight-bold text--secondary"
                                   >(delete
                                   {{ item.newquant ? item.newquant > 0 ? item.newquant : '' : '' }})</span> -->
-                              </p>
-                            </v-col>
-                            <v-col cols="2" class="py-0 d-flex align-center justify-end">
-                              <p class="mb-0 text-capitalize body-2 font-weight-medium text--secondary">
-                                ₹{{ item.price ? Number(item.price).toFixed(2) : "" }}
-                              </p>
-                            </v-col>
-                            <v-col cols="1"></v-col>
-                            <v-col cols="3" class="py-0 d-flex align-center">
-                              <v-text-field block value="0.00"  class="weg elevation-0 caption text-center "
-                                hide-details  outlined type="number" hide-spin-buttons style="max-width: 120px;"
-                                :min="minweights" readonly
-                                   :max="maxvalueperc" dense>
-                                <template #append>
-                                  <v-btn disabled  icon class="elevation-0" small>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
-                                      fill="none">
-                                      <circle cx="12" cy="12" r="12" fill="white" />
-                                      <path d="M12 8V16" stroke="#666666" stroke-width="2" stroke-linecap="round" />
-                                      <path d="M16 12L8 12" stroke="#666666" stroke-width="2" stroke-linecap="round" />
-                                    </svg>
-                                  </v-btn>
-                                </template>
-                                <template #prepend-inner>
-                                  <v-btn disabled icon class="elevation-0" small>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
-                                      fill="none">
-                                      <circle cx="12" cy="12" r="12" fill="white" />
-                                      <path d="M16 12L8 12" stroke="#666666" stroke-width="2" stroke-linecap="round" />
-                                    </svg>
-                                  </v-btn>
-                                </template>
-                              </v-text-field>
-                            </v-col>
-                            <v-col cols="1" class="d-flex align-center">
-                              <div class="text-capitalize body-2 font-weight-medium text--secondary">
-                                <span>{{ item.quantity }}</span>
-                              </div>
-                            </v-col>
-                            <v-col cols="2" class="py-0  d-flex align-center justify-end">
-                              <div class="text-capitalize body-2 font-weight-medium text--secondary">
-                                <span>0%</span>
-                              </div>
-                            </v-col>
-                          </v-row>
-                          <v-divider v-if="index != fullsingleres[0].deleted_etf.length - 1"></v-divider>
+                          </p>
+                        </v-col>
+                        <v-col cols="2" class="py-0 d-flex align-center justify-end">
+                          <p class="mb-0 text-capitalize body-2 font-weight-medium text--secondary">
+                            ₹{{ item.price ? Number(item.price).toFixed(2) : "" }}
+                          </p>
+                        </v-col>
+                        <v-col cols="1"></v-col>
+                        <v-col cols="3" class="py-0 d-flex align-center">
+                          <v-text-field block value="0.00" class="weg elevation-0 caption text-center " hide-details
+                            outlined type="number" hide-spin-buttons style="max-width: 120px;" :min="minweights"
+                            readonly :max="maxvalueperc" dense>
+                            <template #append>
+                              <v-btn disabled icon class="elevation-0" small>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                                  fill="none">
+                                  <circle cx="12" cy="12" r="12" fill="white" />
+                                  <path d="M12 8V16" stroke="#666666" stroke-width="2" stroke-linecap="round" />
+                                  <path d="M16 12L8 12" stroke="#666666" stroke-width="2" stroke-linecap="round" />
+                                </svg>
+                              </v-btn>
+                            </template>
+                            <template #prepend-inner>
+                              <v-btn disabled icon class="elevation-0" small>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                                  fill="none">
+                                  <circle cx="12" cy="12" r="12" fill="white" />
+                                  <path d="M16 12L8 12" stroke="#666666" stroke-width="2" stroke-linecap="round" />
+                                </svg>
+                              </v-btn>
+                            </template>
+                          </v-text-field>
+                        </v-col>
+                        <v-col cols="1" class="d-flex align-center">
+                          <div class="text-capitalize body-2 font-weight-medium text--secondary">
+                            <span>{{ item.quantity }}</span>
+                          </div>
+                        </v-col>
+                        <v-col cols="2" class="py-0  d-flex align-center justify-end">
+                          <div class="text-capitalize body-2 font-weight-medium text--secondary">
+                            <span>0%</span>
+                          </div>
+                        </v-col>
+                      </v-row>
+                      <v-divider v-if="index != fullsingleres[0].deleted_etf.length - 1"></v-divider>
                       <v-divider v-if="
                         fullsingleres[0] &&
                         k !=
@@ -601,6 +725,11 @@ max-width: 220px;" background-color="#FAFBFF" v-model="weightselected" :items="w
             </div>
           </div>
         </v-card>
+
+
+
+
+
         <!-- <v-card outlined elevation="0" class="mt-7 px-4 py-3" rounded-lg style="border: 1px solid #dddddd">
           <p class="mb-2 font-weight-bold title ml-0 mt-1">
             About the
@@ -613,7 +742,7 @@ max-width: 220px;" background-color="#FAFBFF" v-model="weightselected" :items="w
             }}
           </p> -->
 
-          <!-- <v-row >
+        <!-- <v-row >
             <v-col cols="6">
               <p class="body-1 fs-24 ml-0 font-weight-bold mb-0">
                 Collection Objective
@@ -670,7 +799,7 @@ max-width: 220px;" background-color="#FAFBFF" v-model="weightselected" :items="w
               </v-card>
             </v-col>
           </v-row> -->
-          <!-- <v-row>
+        <!-- <v-row>
             <v-col cols="6" >
     <div class="ml-3">
     <span style="text-transform: uppercase;color:#666666" class="caption mb-0">Rebalance Frequency</span>
@@ -741,19 +870,21 @@ max-width: 220px;" background-color="#FAFBFF" v-model="weightselected" :items="w
           <v-divider></v-divider>
 
           <div>
-            <p v-if="fullsingleres[0] && fullsingleres[0].access == 'free'" class="font-weight-semibold mt-3 text-center">Invest amount : <span class="font-weight-bold"> {{
-            fullsingleres[0] && fullsingleres[0].price
-              ? fullsingleres[0].price
-              : ''
+            <p v-if="fullsingleres[0] && fullsingleres[0].access == 'free'"
+              class="font-weight-semibold mt-3 text-center">
+              Invest amount : <span class="font-weight-bold"> {{
+                fullsingleres[0] && fullsingleres[0].price
+                  ? fullsingleres[0].price
+                  : ''
               }}</span></p>
-          <v-btn v-if="
-            fullsingleres[0] && fullsingleres[0].access === 'free' && (localsess !== '' || localsess !== null)
-              
-          "  class="elevation-0 white--text text-none float-end" rounded color="black" block
-                      @click="checkloginstatus(),getLedgerPrice()">Inverst</v-btn>
+            <v-btn v-if="
+              fullsingleres[0] && fullsingleres[0].access === 'free' && (localsess !== '' || localsess !== null)
+
+            " class="elevation-0 white--text text-none float-end" rounded color="black" block
+              @click="checkloginstatus(), getLedgerPrice()">Inverst</v-btn>
           </div>
-        
-<!-- {{localsess}} -->
+
+          <!-- {{localsess}} -->
 
           <!-- <div class="text-center mt-4" v-if="
             fullsingleres[0] && fullsingleres[0].access == 'subscribe'
@@ -766,7 +897,7 @@ max-width: 220px;" background-color="#FAFBFF" v-model="weightselected" :items="w
                 style="color: #fff">
                 Login </span></v-btn>
           </div> -->
-      
+
         </div>
       </v-col>
     </v-row>
@@ -777,21 +908,29 @@ max-width: 220px;" background-color="#FAFBFF" v-model="weightselected" :items="w
             <v-icon>mdi-close</v-icon>
           </v-btn></v-card-title>
         <div class="pa-5">
-          <p class="font-weight-semibold">Basket Name : <span class="font-weight-bold">{{ fullsingleres[0] &&
-            fullsingleres[0].basket_title ? (fullsingleres[0].basket_title).toUpperCase() : ''
-              }}</span>
-          </p>
+          <div class="d-flex">
+            <p class="font-weight-semibold">Basket Name : <span class="font-weight-bold">{{ fullsingleres[0] &&
+              fullsingleres[0].basket_title ? (fullsingleres[0].basket_title).toUpperCase() : ''
+                }}</span>
+            </p>
+            <v-btn elevation="0" class="ml-auto" @click="enablesip_fun()" color="black" small dense>
+              <span v-if="!sipenable" class="white--text">Create SIP</span>
+              <span v-if="sipenable" class="white--text">Cancel SIP</span>
+            </v-btn>
+          </div>
           <!-- <p class="font-weight-semibold">Basket Id : <span class="font-weight-bold">{{ opendiag.id }}</span></p> -->
           <!-- {{fullcovertres}} -->
+         
+
           <div v-if="fullsingleres[0] && fullsingleres[0].etfs_weights && fullsingleres[0].etfs_weights.equity">
-            <v-data-table :headers="headersrebalnce" :items="fullsingleres[0].etfs_weights.equity" :items-per-page="100"
-              hide-default-footer class="elevation-0 mb-3 ma-0 pa-0" outlined fixed-header disable-sort dense
-              style="border:1px solid grey">
+            <v-data-table height="200px" :headers="headersrebalnce" :items="fullsingleres[0].etfs_weights.equity"
+              :items-per-page="100" hide-default-footer class="elevation-0 mt-2 mb-3 ma-0 pa-0" outlined fixed-header
+              disable-sort dense style="border:1px solid grey">
               <template v-slot:[`item.weights`]="{ item }">
-         <span> {{ item.weights }}%</span>
-        </template><template v-slot:[`item.price`]="{ item }">
-         <span> {{ Number(item.price).toFixed(2) }}</span>
-        </template>
+                <span> {{ item.weights }}%</span>
+              </template><template v-slot:[`item.price`]="{ item }">
+                <span> {{ Number(item.price).toFixed(2) }}</span>
+              </template>
             </v-data-table>
           </div>
           <p class="font-weight-semibold">Invest amount : <span class="font-weight-bold"> {{
@@ -800,23 +939,66 @@ max-width: 220px;" background-color="#FAFBFF" v-model="weightselected" :items="w
               : ''
               }}</span></p>
 
-<v-alert class="mb-0 mt-2 py-1" v-if="ledgerBal >= (fullsingleres[0] && fullsingleres[0].price ? fullsingleres[0].price : '') ? false : true"
- dense outlined type="info"
-                color="red" elevation="0">
-                <p style="font-size:14px;" class="text-center mb-0">Insufficient balance, Add fund
-                  <a :href="`https://fund.mynt.in/?uid=${cleid}&token=${localsess}`"><b>Click here</b></a>
-                </p>
-              </v-alert>
+<v-card outlined elevation="0" class="pa-3" v-if="sipenable">
+
+<v-row>
+  <v-col cols="6" class="pb-0">
+    <span class="body-2 ml-3">SIP Name <span class="ml-1 red--text">*</span></span>
+    <v-text-field v-model="sipname" outlined hide-details class="ml-3" dense></v-text-field>
+  </v-col>
+  <v-col cols="6" class="pb-0">
+    <span class="body-2 ">Start Date<span class="ml-1 red--text">*</span></span>
+    <v-menu v-model="menu2" :close-on-content-click="false" :nudge-right="40" transition="scale-transition"
+      offset-y min-width="auto">
+      <template v-slot:activator="{ on, attrs }">
+        <v-text-field hide-details outlined dense v-model="date" prepend-inner-icon="mdi-calendar" readonly
+          v-bind="attrs" v-on="on"></v-text-field>
+      </template>
+      <v-date-picker v-model="date" @input="menu2 = false"></v-date-picker>
+    </v-menu>
+  </v-col>
+  <v-col cols="6" class="pt-0 mt-0">
+    <span class="body-2 mt-0 pt-0 ml-3">Frequency <span class="ml-1 red--text">*</span></span>
+    <v-select v-model="sipfreq" outlined hide-details class="ml-3" dense
+      :items="['Daily', 'Monthly', 'Weekly', 'Fortnightly']"></v-select>
+  </v-col>
+  <v-col cols="6" class="pt-0 mt-0">
+    <span class="body-2 mt-0 pt-0 ">No of SIPs <span class="ml-1 red--text">*</span></span>
+    <v-text-field v-model="noossip" outlined type="number" hide-spin-buttons hide-details dense></v-text-field>
+  </v-col>
+</v-row>
+</v-card>
+
+          <div v-if="sipenable == false">
+
+
+            <v-alert class="mb-0 mt-2 py-1"
+              v-if="ledgerBal >= (fullsingleres[0] && fullsingleres[0].price ? fullsingleres[0].price : '') ? false : true"
+              dense outlined type="info" color="red" elevation="0">
+              <p style="font-size:14px;" class="text-center mb-0">Insufficient balance, Add fund
+                <a :href="`https://fund.mynt.in/?uid=${cleid}&token=${localsess}`"><b>Click here</b></a>
+              </p>
+            </v-alert>
 
 
 
-          <v-btn v-if="leadgerBal >= (fullsingleres[0] && fullsingleres[0].price ? fullsingleres[0].price : '') ? true : false" color="black" height="48px" :loading="basload" class="text-none white--text" block
-            @click="deploybasket()" rounded>Proceed</v-btn>
+            <v-btn
+              v-if="leadgerBal >= (fullsingleres[0] && fullsingleres[0].price ? fullsingleres[0].price : '') ? true : false"
+              color="black" height="48px" :loading="basload" class="text-none white--text" block @click="deploybasket()"
+              rounded>Proceed</v-btn>
+          </div>
 
-            <!-- <v-btn color="black" height="48px" :loading="basload" class="text-none white--text" block
+          <div v-if="sipenable">
+            <v-btn
+          :disabled="sipname == '' ||sipfreq == '' ||noossip == ''"
+             
+              color="black" height="48px"  :loading="sipbtload" class="text-none white--text mt-3" @click="siporderexcute()" block 
+              rounded>Proceed To SIP </v-btn>
+          </div>
+          <!-- <v-btn color="black" height="48px" :loading="basload" class="text-none white--text" block
             @click="deploybasket()" rounded>Proceed</v-btn> -->
-            <!-- {{typeof leadgerBal}} -->
-<!-- {{leadgerBal}}
+          <!-- {{typeof leadgerBal}} -->
+          <!-- {{leadgerBal}}
 {{ (fullsingleres[0] && fullsingleres[0].price ? fullsingleres[0].price : '') }} -->
 
         </div>
@@ -876,6 +1058,8 @@ import apiurl from "@/apiurl";
 import eventBus from "@/eventBus";
 
 import axios from "axios";
+import * as echarts from "echarts";
+
 // import { getBestMF } from '@/components/mixins/getAPIdata'
 
 export default {
@@ -883,13 +1067,13 @@ export default {
     return {
       inputchange: "",
       weightselected: "Equial-Weighted",
-      weightedChange: ["Equial-Weighted", "Custom-Weighted","Custom-Share"],
+      weightedChange: ["Equial-Weighted", "Custom-Weighted", "Custom-Share"],
       bestmfdata: "",
       fullsingleres: [],
       dumpdata: [],
       stockcountdump: 0,
       urlPrefix: apiurl.collectionurl,
-      params:'',
+      params: '',
       modifiedUrl: "",
       modifiedUrl1: "",
       textfieltext: "",
@@ -919,15 +1103,39 @@ export default {
       subscribedialog: false,
       leadgerBal: 0,
       basketprice: 0,
-      letters: ["#F44336","#E91E63","#9C27B0","#673AB7","#3F51B5","#2196F3","#03A9F4","#00BCD4","#009688","#FFC107"],
+      letters: ["#F44336", "#E91E63", "#9C27B0", "#673AB7", "#3F51B5", "#2196F3", "#03A9F4", "#00BCD4", "#009688", "#FFC107"],
       headersrebalnce: [
         { text: "Symbol", value: "tsym" },
-        { text: "Price", value: "price",align:'right' },
-        { text: "Quantity", value: "quantity",align:'center' },
+        { text: "Price", value: "price", align: 'right' },
+        { text: "Quantity", value: "quantity", align: 'center' },
         // { text: "ISIN", value: "ISIN" },
         { text: "Weight", value: "weights" }],
-        ledgerBal:'',
-    value: 1
+      ledgerBal: '',
+      value: 1,
+      equitymapres: [],
+      linchadata: [],
+      linechatres: [],
+      chartIdnew: "mainnew",
+      chartInstancenew: null,
+      toggle_exclusive: 3,
+      chartlineload: false,
+      pieschartdata: [],
+      // activePanel: -1,
+      groupedData: {},
+      sipenable: false,
+      date: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
+      menu: false,
+      modal: false,
+      menu2: false,
+      sipname:'',
+      sipfreq:'Daily',
+      noossip:'',
+      sipbtload:false,
+      filteredEquities:[],
+      newArray:[],
+      chartlabel:'',
+      errrrordata:'',
+      logincheck:''
 
     };
   },
@@ -936,6 +1144,20 @@ export default {
   //       return this.fullsingleres.length > 0 ? this.fullsingleres[0].etfs_weights : {};
   //     }
   //   },
+  computed: {
+    sortedGroupedData() {
+      return Object.entries(this.groupedData)
+        .sort(([, groupA], [, groupB]) => groupB.totalWeights - groupA.totalWeights)
+        .reduce((acc, [sector, group]) => {
+          acc[sector] = {
+            ...group,
+            items: group.items.sort((a, b) => b.weights - a.weights)
+          };
+          return acc;
+        }, {});
+    }
+  },
+
   methods: {
     decrement() {
       if (this.value > 1) {
@@ -949,6 +1171,14 @@ export default {
         this.weightCalculation()
 
       }
+    },
+    enablesip_fun() {
+      this.sipenable = !this.sipenable;
+     if(this.sipenable == false){
+      this.sipname = ''
+      this.sipfreq = ''
+      this.noossip = ''
+     }
     },
     validateValue() {
       if (this.value < 1) {
@@ -979,18 +1209,18 @@ export default {
         .then((response) => {
           axiosThis.fullsingleres[0].price = response.data.minprice;
           axiosThis.ltpminpricedump = response.data.minprice;
-          
+
           axiosThis.fullsingleres[0].etfs_weights = response.data.msg;
           axiosThis.dumpdata = JSON.parse(
-              JSON.stringify(axiosThis.fullsingleres[0].etfs_weights)
-            );
-            if (
-              axiosThis.fullsingleres[0] &&
-              axiosThis.fullsingleres[0].etfs_weights
-            ) {
-              let count = parseInt(axiosThis.fullsingleres[0].stockcount) - 1;
-              axiosThis.maxvalueperc = 100 - count;
-            }
+            JSON.stringify(axiosThis.fullsingleres[0].etfs_weights)
+          );
+          if (
+            axiosThis.fullsingleres[0] &&
+            axiosThis.fullsingleres[0].etfs_weights
+          ) {
+            let count = parseInt(axiosThis.fullsingleres[0].stockcount) - 1;
+            axiosThis.maxvalueperc = 100 - count;
+          }
         })
         .catch((error) => {
           console.log(error);
@@ -1018,24 +1248,25 @@ export default {
     deploybasket() {
       this.basload = true;
       var data = ''
-      
-      if(this.fullsingleres[0].rebalance){
-        data = JSON.stringify({
-        basketid: this.fullsingleres[0].id,
-        etfs_weights: this.fullsingleres[0].etfs_weights,
-        session: localStorage.getItem("sess"),
-        rebalance_status:"yes",
-        deleted_etf:this.fullsingleres[0].deleted_etf
-      })
-      }else{
-        data = JSON.stringify({
-        basketid: this.fullsingleres[0].id,
-        etfs_weights: this.fullsingleres[0].etfs_weights,
-        session: localStorage.getItem("sess"),
-        rebalance_status:'',
-        order_count:this.value,
 
-      });}
+      if (this.fullsingleres[0].rebalance) {
+        data = JSON.stringify({
+          basketid: this.fullsingleres[0].id,
+          etfs_weights: this.fullsingleres[0].etfs_weights,
+          session: localStorage.getItem("sess"),
+          rebalance_status: "yes",
+          deleted_etf: this.fullsingleres[0].deleted_etf
+        })
+      } else {
+        data = JSON.stringify({
+          basketid: this.fullsingleres[0].id,
+          etfs_weights: this.fullsingleres[0].etfs_weights,
+          session: localStorage.getItem("sess"),
+          rebalance_status: '',
+          order_count: this.value,
+
+        });
+      }
 
       let config = {
         method: "post",
@@ -1085,6 +1316,7 @@ export default {
     singlepagedata() {
       this.singleload = true;
       this.fullsingleres = [];
+      this.equitymapres = []
       let data = JSON.stringify({
         basketid: this.bestmfdata,
         client_id: localStorage.getItem('userid'),
@@ -1111,16 +1343,25 @@ export default {
             axiosThis.textdate = axiosThis.fullsingleres[0].date_time;
             axiosThis.ltpminpricedump = axiosThis.fullsingleres[0].price;
             axiosThis.stockcountdump = axiosThis.fullsingleres[0].stockcount;
-            axiosThis.basketprice = axiosThis.fullsingleres[0].basketprice
+            axiosThis.basketprice = axiosThis.fullsingleres[0].basketprice;
             axiosThis.getModifiedImageUrl();
             axiosThis.getModifiedImageUrl11();
-            axiosThis.dumpdata = JSON.parse(
-              JSON.stringify(axiosThis.fullsingleres[0].etfs_weights)
+            axiosThis.dumpdata = JSON.parse(JSON.stringify(axiosThis.fullsingleres[0].etfs_weights));
+
+            axiosThis.equitymapres = axiosThis.dumpdata.equity.map(
+              (element) => {
+                return `${element.exch}:${element.tsym}`;
+
+              }
             );
-            if (
-              axiosThis.fullsingleres[0] &&
-              axiosThis.fullsingleres[0].etfs_weights
-            ) {
+            if (axiosThis.equitymapres) {
+              axiosThis.linechartdata()
+              axiosThis.barchartfun()
+
+            }
+            // console.log('axiosThis.equitymapres', axiosThis.equitymapres);
+
+            if (axiosThis.fullsingleres[0] && axiosThis.fullsingleres[0].etfs_weights) {
               let count = parseInt(axiosThis.fullsingleres[0].stockcount) - 1;
               axiosThis.maxvalueperc = 100 - count;
             }
@@ -1134,6 +1375,265 @@ export default {
           axiosThis.mesg = error;
         });
     },
+
+    linechartdata() {
+      this.chartlineload = true
+      this.linchadata = []
+      this.linechatres = []
+      this.linechadate = []
+      this.linchadata1 = []
+      this.linechatres1 = []
+      this.linechadate1 = []
+      this.chartlabel = ''
+      const axios = require('axios');
+      let data = JSON.stringify({
+        scripts: this.equitymapres,
+        timeFrame: this.toggle_exclusive == 0 ? '1M' : this.toggle_exclusive + 'Y'
+      });
+
+      let config = {
+        method: 'post',
+        maxBodyLength: Infinity,
+        url: 'https://v3.mynt.in/equity/basketReturnsChartData',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        data: data
+      };
+      var axiosThis = this
+      axios.request(config)
+        .then((response) => {
+          axiosThis.chartlineload = false
+axiosThis.chartlabel= response.data.benchmarkIndex
+axiosThis.errrrordata =  response.data.error
+          // console.log(JSON.stringify(response.data));
+          axiosThis.linchadata = response.data.basketChart
+          axiosThis.linchadata1 = response.data.benchmarkChart
+
+          axiosThis.linechatres = axiosThis.linchadata.map(
+            (element) => {
+              return (element.returns)
+
+            }
+          );
+          axiosThis.linechadate = axiosThis.linchadata.map(
+            (element) => {
+              return (element.date);
+
+            }
+          );
+
+// ----------------------------------------------------------------------
+axiosThis.linchadata1 = response.data.benchmarkChart
+          axiosThis.linechatres1 = axiosThis.linchadata1.map(
+            (element) => {
+              return (element.returns)
+
+            }
+          );
+          // axiosThis.linechadate1 = axiosThis.benchmarkChart.map(
+          //   (element) => {
+          //     return (element.date);
+
+          //   }
+          // );
+
+
+          axiosThis.chartfun1(
+            axiosThis.linechatres,
+            axiosThis.linechadate,
+            axiosThis.linechatres1,
+            // axiosThis.linechadate1,
+          );
+        })
+        .catch((error) => {
+          console.log(error);
+          axiosThis.chartlineload = false
+
+        });
+
+    },
+
+    barchartfun() {
+      this.pieschartdata = []
+      const axios = require('axios');
+      let data = JSON.stringify({
+        scripts: this.equitymapres,
+        timeFrame: this.toggle_exclusive == 0 ? '1M' : this.toggle_exclusive + 'Y'
+      });
+
+      let config = {
+        method: 'post',
+        maxBodyLength: Infinity,
+        url: 'https://v3.mynt.in/equity/basketStocksData',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        data: data
+      };
+      var axiosThis = this
+
+      axios.request(config)
+        .then((response) => {
+          axiosThis.pieschartdata = response.data;
+          // axiosThis.errormesspie = 
+          const merged = axiosThis.pieschartdata.map(item => {
+            const equityItem = axiosThis.dumpdata.equity.find(e => `${e.exch}:${e.tsym}` === item.SYMBOL);
+            return equityItem ? { ...item, weights: equityItem.avg_weight_percent } : item;
+          });
+          axiosThis.merged = merged;
+          console.log('axiosThis.merged',axiosThis.merged);
+          const groupedData = merged.reduce((acc, item) => {
+            if (!acc[item.sector]) {
+              acc[item.sector] = {
+                items: [],
+                totalWeights: 0
+              };
+            }
+            acc[item.sector].items.push(item);
+            acc[item.sector].totalWeights += item.weights || 0;
+            return acc;
+          }, {});
+          axiosThis.groupedData = groupedData;
+          axiosThis.prepareChartData();
+          axiosThis.renderChart();
+          // console.log('mergedmergedmerged', merged);
+          // console.log('groupedData', groupedData);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+
+    },
+    prepareChartData() {
+      const chartData = Object.keys(this.groupedData).map(sector => ({
+        name: sector,
+        value: this.groupedData[sector].totalWeights.toFixed(2) // Sum of weights
+      }));
+      this.chartData = chartData;
+      console.log('Chart Data:', chartData);
+    },
+
+    renderChart() {
+      const chart = echarts.init(document.getElementById('sector-chart'));
+      const option = {
+        tooltip: {
+          trigger: 'item'
+        },
+        title: {
+          left: 'center',
+          top: 'center'
+        },
+        series: [
+          {
+            type: 'pie',
+            labelLine: {
+              show: false,
+              fontSize: 0,
+              fontWeight: 'bold'
+            },
+            label: {
+              show: false
+            },
+            data: this.chartData,
+            radius: ['40%', '70%']
+          },
+        ]
+      };
+      chart.setOption(option);
+    },
+
+
+
+    chartfun1(onee, twoo,three) {
+      // console.log('onee',onee)
+      // console.log('three',three)
+
+      this.chartInstancenew = echarts.init(document.getElementById("mainnew"));
+
+      var option = {
+        title: {
+          text: "",
+        },
+      
+        tooltip: {
+          trigger: "axis",
+          axisPointer: {
+            type: "cross",
+            label: {
+              backgroundColor: "#6a7985",
+            },
+          },
+        },
+        legend: {
+          data: [this.fullsingleres[0].basket_title,this.chartlabel],
+        },
+        grid: {
+          left: "3%",
+          right: "4%",
+          bottom: "3%",
+          containLabel: true,
+        },
+        xAxis: [
+          {
+            type: "category",
+            boundaryGap: false,
+            data: twoo,
+          },
+        ],
+        yAxis: [
+          {
+            type: "value",
+            // Adjust max value if needed
+            // max: maxPrice,
+          },
+        ],
+        series: [
+          {
+            name: this.fullsingleres[0].basket_title,
+            type: "line",
+            // stack: "Total",
+            areaStyle: { color: "transparent" },
+            smooth: false,
+            showSymbol: false,
+            label: {
+              // show: true,
+              position: "top",
+              // Customize the label format as needed
+              // formatter: "{c}",
+            },
+            emphasis: {
+              focus: "series",
+            },
+            data: onee,
+          },
+          {
+            name: this.chartlabel,
+            type: "line",
+            // stack: "Total",
+            areaStyle: { color: "transparent" },
+            smooth: false,
+            showSymbol: false,
+            label: {
+              // show: true,
+              position: "top",
+              // Customize the label format as needed
+              // formatter: "{c}",
+            },
+            emphasis: {
+              focus: "series",
+            },
+            data: three,
+          },
+
+        ],
+      };
+      this.chartInstancenew.setOption(option);
+    },
+
+
+
+
     getModifiedImageUrl() {
       const parts = this.fullsingleres[0].basket_img.split("Baskets/");
       this.modifiedUrl = this.urlPrefix + "/" + parts[1];
@@ -1225,34 +1725,34 @@ export default {
       );
       this.fullsingleres[0].price = minprice.toFixed(2) * this.value;
     },
-    quantityChange(token, value){
-      if(!value){
-        value=1.0
+    quantityChange(token, value) {
+      if (!value) {
+        value = 1.0
       }
       Object.keys(this.fullsingleres[0].etfs_weights).forEach((key) =>
-            this.fullsingleres[0].etfs_weights[key].forEach((key2, i) => {
-              if (this.fullsingleres[0].etfs_weights[key][i].token == token) {
-                if (value == 1) {
-                  this.fullsingleres[0].etfs_weights[key][i].quantity = 1.0;
-                  this.snackcolor = "red";
-                  this.snackbar = true;
-                  this.mesg = "Invaild input value";
-                } else {
-                  this.fullsingleres[0].etfs_weights[key][i].quantity =
-                    value.toFixed(0);
-                }
-              }
-            })
-          );
-      
+        this.fullsingleres[0].etfs_weights[key].forEach((key2, i) => {
+          if (this.fullsingleres[0].etfs_weights[key][i].token == token) {
+            if (value == 1) {
+              this.fullsingleres[0].etfs_weights[key][i].quantity = 1.0;
+              this.snackcolor = "red";
+              this.snackbar = true;
+              this.mesg = "Invaild input value";
+            } else {
+              this.fullsingleres[0].etfs_weights[key][i].quantity =
+                value.toFixed(0);
+            }
+          }
+        })
+      );
+
       let minprice = 0;
       Object.keys(this.fullsingleres[0].etfs_weights).forEach((key) =>
-      this.fullsingleres[0].etfs_weights[key].forEach((key2, i) => {
-        this.fullsingleres[0].etfs_weights[key][i].total_value =
+        this.fullsingleres[0].etfs_weights[key].forEach((key2, i) => {
+          this.fullsingleres[0].etfs_weights[key][i].total_value =
             key2.price * this.fullsingleres[0].etfs_weights[key][i].quantity;
-        minprice +=this.fullsingleres[0].etfs_weights[key][i].total_value
-          }))
-      
+          minprice += this.fullsingleres[0].etfs_weights[key][i].total_value
+        }))
+
       Object.keys(this.fullsingleres[0].etfs_weights).forEach((key) =>
         this.fullsingleres[0].etfs_weights[key].forEach((key2, i) => {
           this.fullsingleres[0].etfs_weights[key][i].avg_weight_percent = (
@@ -1311,7 +1811,7 @@ export default {
           }
         })
       );
-      
+
       this.weightCalculation();
 
       this.countvalue = 0;
@@ -1391,6 +1891,96 @@ export default {
           console.log(error);
         });
     },
+
+    siporderexcute(){
+ 
+      // this.filteredEquities = []
+      // for (let i = 0; i < this.fullsingleres.length; i++) {
+      //   const equityData = this.fullsingleres[0].etfs_weights.equity;
+      //   const filteredData = {
+      //     exch: equityData.exch,
+      //     tsym: equityData.tsym,
+      //     prd:'C',
+      //     token:equityData.token,
+      //     qty: equityData.quantity,
+      //   };
+      //   this.filteredEquities.push(filteredData);
+      // }
+
+      let originalArray = this.fullsingleres[0].etfs_weights.equity;
+            this.newArray = [];
+
+            for (let i = 0; i < originalArray.length; i++) {
+                let item = originalArray[i];
+                this.newArray.push({ 
+                  'exch':item.exch,
+                  'prd':'C',
+                  'qty':item.quantity,
+                  'token':item.token,
+                  'tsym':item.tsym
+                 });
+            }
+
+// console.log('this.filteredData',this.newArray)
+      this.sipbtload = true
+      const axios = require('axios');
+let data = JSON.stringify({
+  "siptype": "new",
+  session: localStorage.getItem("sess"),
+  etfs_weights: this.newArray,
+  startdate: this.date.slice(8,10)+this.date.slice(5,7)+this.date.slice(0,4),
+  end_period: this.noossip,
+  sip_name: this.sipname,
+  frequency: this.sipfreq
+});
+
+let config = {
+  method: 'post',
+  maxBodyLength: Infinity,
+  url: 'http://192.168.5.179:5111/siporder',
+  headers: { 
+    Authorization: this.localsess,
+    clientid: localStorage.getItem("userid"),
+    'Content-Type': 'application/json'
+  },
+  data : data
+};
+var axiosThis = this
+axios.request(config)
+.then((response) => {
+  console.log(JSON.stringify(response.data));
+  axiosThis.sipbtload = false
+  if (response.data.msg == "success") {
+            axiosThis.confirmation = false;
+            axiosThis.mesg = response.data.msg;
+            axiosThis.snackcolor = "success";
+            axiosThis.snackbar = true;
+          } else {
+            axiosThis.confirmation = false;
+            axiosThis.snackbar = true;
+            axiosThis.mesg = response.data.msg;
+            axiosThis.snackcolor = "error";
+          }
+          axiosThis.sipname = ''
+  axiosThis.sipfreq = ''
+  axiosThis.noossip = ''
+
+})
+.catch((error) => {
+  console.log(error);
+  axiosThis.sipbtload = false
+  axiosThis.confirmation = false;
+  axiosThis.sipname = ''
+  axiosThis.sipfreq = ''
+  axiosThis.noossip = ''
+  axiosThis.mesg = "Network Error";
+          axiosThis.snackcolor = "error";
+          axiosThis.snackbar = true;
+
+});
+
+    }
+
   },
   watch: {
     searchaa(val) {
@@ -1400,6 +1990,7 @@ export default {
   mounted() {
     this.singleload = true;
     this.params = localStorage.getItem("id");
+    this.logincheck = localStorage.getItem("sess")
 
     if (this.params) {
       this.bestmfdata = this.params;
@@ -1422,6 +2013,8 @@ export default {
   },
 };
 </script>
+
+
 <style scoped>
 .v-expansion-panel--active>.v-expansion-panel-header {
   min-height: 50px;
@@ -1432,9 +2025,7 @@ export default {
   height: 0px;
   width: 0px;
 }
-</style>
 
-<style>
 .weg .v-input__slot {
   min-height: 36px !important;
   padding: 4px !important;
@@ -1447,5 +2038,22 @@ export default {
 
 .weg .v-text-field__slot {
   height: 28px !important;
+}
+
+.v-expansion-panels {
+  border-radius: 4px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  list-style-type: none;
+  padding: 0;
+  width: 100%;
+  z-index: 0;
+}
+
+#sector-chart {
+  /* position: relative; */
+  height: 50vh;
+  /* overflow: hidden; */
 }
 </style>

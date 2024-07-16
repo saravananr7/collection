@@ -4,6 +4,8 @@ import DashBoard from "@/views/Dashboard/DashBoard.vue";
 import OrderBook from "@/views/Dashboard/OrderBook.vue";
 // import CollectionPage from "@/views/Dashboard/pages/CollectionPage.vue";
 import SingleCollection from "@/views/Dashboard/SingleCollection.vue";
+import SIPpage from "@/views/Dashboard/SIPpage.vue";
+
 import Vue from "vue";
 import VueRouter from "vue-router";
 
@@ -31,6 +33,11 @@ const routes = [
         path: "/orderbook",
         name: "collection order book",
         component: OrderBook,
+      },
+      {
+        path: "/sip",
+        name: "sip",
+        component: SIPpage,
       },
       // {
       //   path: "/collection/singlepage/customizecollection",

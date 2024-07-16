@@ -149,7 +149,7 @@
               "
             >
               <v-row>
-                <v-col cols="9">
+                <v-col cols="8">
                   <v-list-item class="px-0">
                     <v-list-item-avatar size="48" class="mr-2">
                       <img v-if="item.basket_img" width="100%" :src="modifyurl(item.basket_img)" />
@@ -159,7 +159,7 @@
                     </v-list-item-avatar>
                     <v-list-item-content>
                       <v-list-item-title class="text-uppercase subtitle-2 mb-1">
-                        {{ item.basket_title }}
+                        {{ item.basket_title }} 
                       </v-list-item-title>
 
                       <v-list-item-subtitle class="fs-12">
@@ -195,7 +195,24 @@
                   {{ item.mang_sht_con }}
                 </p>
               </v-col>
-                <v-col cols="2" class="d-flex align-center justify-center">
+              <!-- <v-col cols="2" class="d-flex align-center justify-center">
+                  <div class="fs-13" v-if="item.cagr['cagr_3year'] ">
+                    <span style="color: gray">3Y CAGR</span><br>
+                   
+                    <span class="fs-12 mt-0 pt-0" :style="{ color: parseInt(item.cagr.cagr_3year) > 0 ? '#4BAC3C' : '#E42B2B' }" >{{ item.cagr?item.cagr.cagr_3year?item.cagr.cagr_3year:"":"" }}%</span>
+
+                  </div>
+                </v-col> -->
+                <v-col cols="3" class="d-flex align-center justify-center">
+                  <div class="fs-13 mr-6" v-if="item.cagr['cagr_3year'] ">
+                    <span style="color: gray">3Y CAGR</span><br>
+                   
+                    <span class="fs-12 mt-0 pt-0"  :style="{
+    color: logincheck === '' || logincheck === null ? 'transparent' : (parseInt(item.cagr?.cagr_3year) > 0 ? '#4BAC3C' : '#E42B2B'),
+    textShadow: logincheck === '' || logincheck === null ? ' 0 0 15px' : ''
+  }" >{{ item.cagr?item.cagr.cagr_3year?item.cagr.cagr_3year:"":"" }}%</span>
+
+                  </div>
                   <div class="fs-13">
                     <span style="color: gray">Min. Invest</span>
                     <p class="font-weight-medium body-2 mb-0">

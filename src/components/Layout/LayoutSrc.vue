@@ -9,6 +9,15 @@
             Collection
           </v-tab>
           <v-spacer></v-spacer>
+
+          <v-tab :to="'/sip'">
+            SIP
+            <v-tooltip bottom color="black">
+             
+              <span>SIP</span>
+            </v-tooltip>
+          </v-tab>
+
           <v-tab :to="'/orderbook'">
             <v-tooltip bottom color="black">
               <template v-slot:activator="{ on, attrs }">

@@ -5,6 +5,8 @@ import OrderBook from "@/views/Dashboard/OrderBook.vue";
 // import CollectionPage from "@/views/Dashboard/pages/CollectionPage.vue";
 import SingleCollection from "@/views/Dashboard/SingleCollection.vue";
 import SIPpage from "@/views/Dashboard/SIPpage.vue";
+import HoldingsPage from "@/views/Dashboard/HoldingsPage.vue";
+
 
 import Vue from "vue";
 import VueRouter from "vue-router";
@@ -25,7 +27,7 @@ const routes = [
         component: DashBoard,
       },
       {
-        path: "/collection/singlepage",
+        path: "/collection/singlepage/:name",
         name: "singlePage stock",
         component: SingleCollection,
       },
@@ -38,6 +40,11 @@ const routes = [
         path: "/sip",
         name: "sip",
         component: SIPpage,
+      },
+      {
+        path: "/holding",
+        name: "holding",
+        component: HoldingsPage,
       },
       // {
       //   path: "/collection/singlepage/customizecollection",

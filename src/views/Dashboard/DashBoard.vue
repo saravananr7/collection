@@ -26,9 +26,13 @@
         <v-toolbar dense class="elevation-0 tool-sty">
           <p class="title font-weight-bold mb-0">Top Collections</p>
           <v-spacer></v-spacer>
+          <!-- <v-select  label="All"  @change="updateFilteredItems()"   v-model="selectedTag"
+          :items="selectOptions" class="d-none d-lg-block d-xl-block body-2 mr-4"  hide-details
+          style="max-width: 170px"  single-line background-color="#F1F3F8" filled dense rounded /> -->
+
           <v-text-field v-model="searchkeyfield" class="d-none d-lg-block d-xl-block body-2"  prepend-inner-icon="mdi-magnify" hide-details
             style="max-width: 270px" label="Search" single-line background-color="#F1F3F8" filled dense rounded />
-          <v-btn icon class="ms-1 d-none d-lg-block d-xl-block d-sm-inline-block" color="#000" @click="listView = !listView">
+          <v-btn icon class="ms-1 d-none d-lg-block d-xl-block " color="#000" @click="listView = !listView">
             <v-icon dense>{{
               listView ? "mdi-view-day" : "mdi-view-dashboard"
             }}</v-icon>
@@ -36,13 +40,13 @@
         </v-toolbar>
 
         <v-text-field v-model="searchkeyfield" class="d-block d-lg-none body-2"  prepend-inner-icon="mdi-magnify" hide-details
-        style="max-width: 270px" label="Search" single-line background-color="#F1F3F8" filled dense rounded />
+      label="Search" single-line background-color="#F1F3F8" filled dense rounded />
         <!-- <v-divider></v-divider> -->
-        <div class="cardused">
-          <v-row class="mt-2" v-if="!collectload && listView">
+        <div class="cardused d-none d-lg-block d-xl-block">
+          <v-row class="mt-2 " v-if="!collectload && listView">
             <v-col
               class="mb-2"
-              v-for="(item, i) in MobsearchItem"
+              v-for="(item, i) in filteredItems12"
               :key="i"
               cols="12"
               sm="6"
@@ -56,6 +60,7 @@
                 @click="
                   $router.push({
                     name: 'singlePage stock',
+                    params: { best: item.id, name: item.basket_title },
                   }),
                     setId(item.id)
                 "
@@ -94,8 +99,13 @@
 
                   <div v-if="item.cagr['cagr_3year'] " style="height: 40px;" > 
                     <p class=" mt-6 text-caption font-weight-bold mb-0 pb-0 fs-10" style="letter-spacing: 0em;line-height: 0.5em;">3Y CAGR</p>
-                    <span class="fs-12 mt-0 pt-0" :style="{ color: parseInt(item.cagr.cagr_3year) > 0 ? '#4BAC3C' : '#E42B2B' }" >{{ item.cagr?item.cagr.cagr_3year?item.cagr.cagr_3year:"":"" }}%</span>
-                  </div>
+                    <span class="fs-12 mt-0 pt-0"  :class="{
+    'blur-text': logincheck === '' || logincheck === null
+  }"  :style="{
+    color: logincheck === '' || logincheck === null ? 'transparent' : (parseInt(item.cagr?.cagr_3year) > 0 ? '#4BAC3C' : '#E42B2B'),
+    textShadow: logincheck === '' || logincheck === null ? '#4BAC3C 0 0 5px' : ''
+  }" >{{ item.cagr?item.cagr.cagr_3year?item.cagr.cagr_3year:"":"" }}%</span>                  </div>
+
                 </v-list-item>
                 <v-list-item-subtitle class="mb-2"> <v-chip color="#f1f3f8" text-color="#666666" label
                     class="text--secondary mr-1 text-capitalize px-1" x-small v-for="(j, l) in item.tags" :key="l">{{ j
@@ -136,7 +146,7 @@
           </v-row>
           <v-row class="mt-2" v-else-if="!collectload && !listView" no-gutters>
             <v-card
-              v-for="(item, i) in MobsearchItem"
+              v-for="(item, i) in filteredItems12"
               :key="i"
               width="100%"
               class="my-3 py-2 px-4"
@@ -144,7 +154,7 @@
               @click="
                 $router.push({
                   name: 'singlePage stock',
-                  params: { best: item.id },
+                  params: { best: item.id ,name: item.basket_title},
                 })
               "
             >
@@ -207,9 +217,13 @@
                   <div class="fs-13 mr-6" v-if="item.cagr['cagr_3year'] ">
                     <span style="color: gray">3Y CAGR</span><br>
                    
-                    <span class="fs-12 mt-0 pt-0"  :style="{
+                    <span class="fs-12 mt-0 pt-0"
+                    :class="{
+    'blur-text': logincheck === '' || logincheck === null
+  }"
+                    :style="{
     color: logincheck === '' || logincheck === null ? 'transparent' : (parseInt(item.cagr?.cagr_3year) > 0 ? '#4BAC3C' : '#E42B2B'),
-    textShadow: logincheck === '' || logincheck === null ? ' 0 0 15px' : ''
+    textShadow: logincheck === '' || logincheck === null ? '#4BAC3C 0 0 5px' : ''
   }" >{{ item.cagr?item.cagr.cagr_3year?item.cagr.cagr_3year:"":"" }}%</span>
 
                   </div>
@@ -255,6 +269,122 @@
             </v-col>
           </v-row>
         </div>
+
+        <div class="cardused mb-12 d-block d-lg-none">
+          <v-row class="mt-1" >
+            <v-col
+              class=""
+              v-for="(item, i) in filteredItems12"
+              :key="i"
+              cols="12"
+              sm="6"
+              md="4"
+              xl="3"
+            >
+              <v-card
+                class="rounded-lg px-4 pos-rlt"
+                outlined
+                style="cursor: pointer"
+                @click="
+                  $router.push({
+                    name: 'singlePage stock',
+                    params: { best: item.id, name: item.basket_title },
+                  }),
+                    setId(item.id)
+                "
+              >
+                <p class="mb-0 text-right lh-16">
+                  <v-chip
+                    class="px-2 text-capitalize"
+                    style="top: 8px; z-index: 1px"
+                    x-small
+                    :text-color="item.access === 'free' ? '#4BAC3C' : '#093FBA'"
+                    :color="item.access === 'free' ? '#ECF8F1' : '#ccd9ff'"
+                    ><span>{{ item.access }}</span></v-chip
+                  >
+                </p>
+                <v-list-item class="px-0">
+                  <v-list-item-avatar size="48" class="mr-2 mt-auto">
+                    <img v-if="item.basket_img" width="100%" :src="modifyurl(item.basket_img)" />
+                    <v-avatar v-else :color="i>=9?letters[i%10]:letters[i]" size="48">
+                      <span class="title white--text font-weight-bold">{{ item.basket_title.split(" ")[0][0] }}{{ item.basket_title.split(" ")[1]?item.basket_title.split(" ")[1][0]:''  }}</span>
+                    </v-avatar>
+                  </v-list-item-avatar>
+                  <v-list-item-content class="pt-0">
+                    <v-list-item-title
+                      class="text-uppercase font-weight-medium fs-13 mb-1"
+                    >
+                      {{ item.basket_title }}
+                    </v-list-item-title>
+
+                    <v-list-item-subtitle class="fs-12">
+                      by
+                      <span class="font-weight-medium">{{
+                        item.master_name
+                      }}</span>
+                    </v-list-item-subtitle>
+                  </v-list-item-content>
+
+                  <div v-if="item.cagr['cagr_3year'] " style="height: 40px;" > 
+                    <p class=" mt-6 text-caption font-weight-bold mb-0 pb-0 fs-10" style="letter-spacing: 0em;line-height: 0.5em;">3Y CAGR</p>
+                    <span class="fs-12 mt-0 pt-0"  :class="{
+    'blur-text': logincheck === '' || logincheck === null
+  }"  :style="{
+    color: logincheck === '' || logincheck === null ? 'transparent' : (parseInt(item.cagr?.cagr_3year) > 0 ? '#4BAC3C' : '#E42B2B'),
+    textShadow: logincheck === '' || logincheck === null ? '#4BAC3C 0 0 5px' : ''
+  }" >{{ item.cagr?item.cagr.cagr_3year?item.cagr.cagr_3year:"":"" }}%</span>                  </div>
+
+                </v-list-item>
+                <v-list-item-subtitle class="mb-2"> <v-chip color="#f1f3f8" text-color="#666666" label
+                    class="text--secondary mr-1 text-capitalize px-1" x-small v-for="(j, l) in item.tags" :key="l">{{ j
+                    }}</v-chip></v-list-item-subtitle>
+                <div style="height: 40px;">
+                  <v-list-item three-line class="px-0">
+                    <v-list-item-content style="height: 40px" class="py-0">
+                      <v-list-item-subtitle class="mb-auto">
+                        {{ item.mang_sht_con }}</v-list-item-subtitle
+                      >
+                    </v-list-item-content>
+                  </v-list-item>
+                </div>
+                <v-list-item class="px-0">
+                  <v-list-item-content>
+                    <div class="fs-13">
+                      <span style="color: gray">Min. Invest</span>
+                      <p class="font-weight-medium body-2 mb-0">
+                        {{
+                          item.price ? Number(item.price).toFixed(2) : "0.00"
+                        }}
+                      </p>
+                    </div>
+                  </v-list-item-content>
+                  <v-list-item-content>
+                    <!-- <div class="fs-13">
+                      <span style="color: gray">No.of Stocks</span>
+                      <p class="font-weight-medium body-2 mb-0 mt-1">
+                        {{ item.stockcount }}
+                      </p>
+                    </div> -->
+                    <v-btn block class="elevation-0 rounded-pill text-none txt-fobly font-weight-bold"
+                      color="#F1F3F8">Invest</v-btn>
+                  </v-list-item-content>
+                </v-list-item>
+              </v-card>
+            </v-col>
+          </v-row>
+         
+          <v-row class="mt-2 d-block d-lg-none" v-if="collectload">
+            <v-col class="mb-2" cols="12" sm="6" md="4" v-for="i in 6" :key="i">
+              <v-skeleton-loader
+                type="image"
+                class="custom-skeleton-loader"
+              ></v-skeleton-loader>
+            </v-col>
+          </v-row>
+        </div>
+
+
+
       </v-col>
       <v-col cols="3" class="d-none">
         <div style="position: sticky; top: 123px; z-index: 1">
@@ -353,6 +483,11 @@ export default {
     range: [10, 100000],
     apiurlcollection: `${apiurl.collectionurl}`,
     letters: ["#F44336","#E91E63","#9C27B0","#673AB7","#3F51B5","#2196F3","#03A9F4","#00BCD4","#009688","#FFC107"],
+    logincheck:'',
+    uniqueTags: [],
+      selectedTag: 'All',
+      filteredItems: [],
+      selectOptions: [],
   }),
   methods: {
   
@@ -368,9 +503,10 @@ export default {
       axios
         .request(config)
         .then((response) => {
-          this.collectload = false;
+          axiosThis.collectload = false;
           if (response.data.stat == "ok" && response.data.msg != "No data") {
             axiosThis.collections = response.data.msg;
+            axiosThis.updateUniqueTags();
           } else {
             axiosThis.snakebar = true;
             axiosThis.collectload = false;
@@ -386,6 +522,27 @@ export default {
           axiosThis.msg = error;
         });
     },
+    updateUniqueTags() {
+      const allTags = this.collections.reduce((acc, item) => {
+        acc.push(...item.tags);
+        return acc;
+      }, []);
+      const uniqueTags = [...new Set(allTags)];
+      this.selectOptions = ['All', ...uniqueTags];
+      this.uniqueTags = uniqueTags;
+      this.updateFilteredItems()
+    },
+    updateFilteredItems() {
+    if (!this.selectedTag) {
+      this.filteredItems = [...this.collections];
+    } else if (this.selectedTag === 'All') {
+      this.filteredItems = [...this.collections];
+    } else {
+      this.filteredItems = this.collections.filter(item => item.tags.includes(this.selectedTag));
+    }
+  },
+  
+   
     modifyurl(itemppath) {
       const modifyurl =
         this.apiurlcollection + "/static/" + itemppath.split("/static/")[1];
@@ -405,22 +562,34 @@ export default {
     },
   },
   computed: {
-    MobsearchItem() {
-      if (this.condition === "range") {
-        return this.collections.filter((item) => {
-          return item.price >= this.range[0] && item.price <= this.range[1];
-        });
-      } else {
-        return this.collections.filter((post) => {
-          return post.basket_title
-            .toLowerCase()
-            .includes(this.searchkeyfield.toLowerCase());
-        });
-      }
-    },
+  MobsearchItem() {
+    if (this.condition === "range") {
+      return this.collections.filter((item) => {
+        return item.price >= this.range[0] && item.price <= this.range[1];
+      });
+    } else if (this.searchkeyfield.trim() !== '') {
+      const searchQuery = this.searchkeyfield.toLowerCase().trim();
+      return this.collections.filter((post) => {
+        return post.basket_title.toLowerCase().includes(searchQuery);
+      });
+    } else {
+      return this.collections;
+    }
   },
+  computedFilteredItems() {
+      return this.collections.filter(item => item.someProperty === 'someValue');
+    },
+    filteredItems12() {
+      return this.filteredItems.filter(item => {
+        return item.basket_title.toLowerCase().includes(this.searchkeyfield.toLowerCase());
+      });
+    },
+},
+
   mounted() {
     this.collection();
+    this.logincheck = localStorage.getItem("sess")
+
   },
 };
 </script>
@@ -430,3 +599,18 @@ export default {
   height: 198px !important;
 }
 </style>
+
+<style>
+     .blur-text {
+  filter: blur(3px); 
+  user-select: none;
+  -webkit-user-select: none; 
+  -moz-user-select: none;
+  -ms-user-select: none; 
+  -o-user-select: none; 
+}
+
+
+
+
+    </style>

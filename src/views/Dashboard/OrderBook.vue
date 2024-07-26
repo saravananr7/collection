@@ -14,30 +14,30 @@
       </p>
 
       <p class="title font-weight-bold">Order Book</p>
+      <v-progress-linear indeterminate color="primary" v-if="tabload" class="d-block d-lg-none"></v-progress-linear>
       <v-data-table :loading="tabload" style="border: 1px solid #efeef3" disable-sort :headers="headers"
         :items="fullresdata" single-expand show-expand :expanded.sync="expanded1" fixed-header item-key="date_time"
-        class="elevation-0">
+        class="elevation-0  d-none d-lg-block d-xl-block">
         <template v-slot:[`item.id`]="{ index }">
           <span>{{ index + 1 }}</span>
         </template>
         <template v-slot:[`item.stat`]="{ item }">
 
           <p class="font-weight-medium black--text mb-0">
-            <svg v-if="item.order_status != 'failed'" xmlns="http://www.w3.org/2000/svg"
-              width="20" height="15" viewBox="0 0 20 15" fill="none">
-              <rect width="20" height="15" rx="7" fill="#2DB266" />
-              <path d="M6.25 8.2475L8.415 10.4125L13.8275 5" stroke="white" stroke-width="1.2"
-                stroke-linecap="round" stroke-linejoin="round" />
-            </svg>
-            <svg v-else xmlns="http://www.w3.org/2000/svg" width="20" height="15"
+            <svg v-if="item.order_status != 'failed'" xmlns="http://www.w3.org/2000/svg" width="20" height="15"
               viewBox="0 0 20 15" fill="none">
+              <rect width="20" height="15" rx="7" fill="#2DB266" />
+              <path d="M6.25 8.2475L8.415 10.4125L13.8275 5" stroke="white" stroke-width="1.2" stroke-linecap="round"
+                stroke-linejoin="round" />
+            </svg>
+            <svg v-else xmlns="http://www.w3.org/2000/svg" width="20" height="15" viewBox="0 0 20 15" fill="none">
               <rect width="20" height="15" rx="7" fill="#DC2626" />
               <path d="M7.5 10L12.5 5M7.5 5L12.5 10" stroke="white" stroke-width="1.2" stroke-linecap="round"
                 stroke-linejoin="round" />
             </svg>
 
             <span class="ml-1 text-capitalize">
-            {{ item.order_status ? item.order_status : '' }}
+              {{ item.order_status ? item.order_status : '' }}
             </span>
           </p>
         </template>
@@ -53,8 +53,8 @@
         </template>
         <template v-slot:expanded-item="{ headers, item }">
           <td :colspan="headers.length" class="pl-0 pr-0">
-            <v-data-table :loading="tabload" :items-per-page="10"  :headers="bidherder"
-              :items="item.order_detail" @click:row="toggleExpanded" fixed-header disable-sort class="elevation-0">
+            <v-data-table :loading="tabload" :items-per-page="10" :headers="bidherder" :items="item.order_detail"
+              @click:row="toggleExpanded" fixed-header disable-sort class="elevation-0">
 
               <template v-slot:[`item.msg`]="{ item }">
                 <v-chip small label
@@ -87,7 +87,7 @@
                 <v-icon>mdi-close</v-icon>
               </v-btn>
             </v-card-title>
-            <v-simple-table style="border: 1px solid #E0E0E0;" class="mx-4 my-2">
+            <v-simple-table style="border: 1px solid #E0E0E0;" height="300px" fixed-header class="mx-4 my-2">
               <template v-slot:default>
                 <thead>
                   <tr>
@@ -128,6 +128,106 @@
         </v-dialog>
 
       </div>
+
+      <div>
+        <v-expansion-panels accordion style="z-index: 0" class="pa-1 expan d-block d-lg-none">
+          <v-expansion-panel v-for="(item, i) in fullresdata" :key="i">
+            <v-expansion-panel-header class="pa-2">
+
+              <p class="mb-0"><span class="font-weight-medium caption black--text">{{ item.basket_title }}</span><br>
+                <span class="font-weight-light caption grey--text">{{ item.date_time }}</span> </p>
+
+
+
+
+              <p class="font-weight-medium black--text mb-0">
+                <!-- <svg v-if="item.order_status != 'failed'" xmlns="http://www.w3.org/2000/svg"
+              width="20" height="15" viewBox="0 0 20 15" fill="none">
+              <rect width="20" height="15" rx="7" fill="#2DB266" />
+              <path d="M6.25 8.2475L8.415 10.4125L13.8275 5" stroke="white" stroke-width="1.2"
+                stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+            <svg v-else xmlns="http://www.w3.org/2000/svg" width="20" height="15"
+              viewBox="0 0 20 15" fill="none">
+              <rect width="20" height="15" rx="7" fill="#DC2626" />
+              <path d="M7.5 10L12.5 5M7.5 5L12.5 10" stroke="white" stroke-width="1.2" stroke-linecap="round"
+                stroke-linejoin="round" />
+            </svg> -->
+
+                <span class="ml-1 caption text-capitalize"
+                  :style="{ 'color': item.order_status == 'failed' ? '#FF1717' : '#43A833' }">
+                  {{ item.order_status ? item.order_status : '' }}
+                </span>
+              </p>
+
+              <v-btn elevation="0" v-if="item.order_status !== 'success'" rounded outlined color="black"
+                class="text-none ma-2 bodu-2 black--text" @click="order_details_show(item), (dialogbox = !dialogbox)"
+                small>
+
+                <span class="font-weight-medium caption">Re-Order</span>
+              </v-btn>
+
+
+
+
+            </v-expansion-panel-header>
+            <v-expansion-panel-content>
+              <v-card v-for="iitem in item.order_detail" :key="iitem.index" style="border-top: 5px #f1f3f8 solid"
+                class="elevation-0 px-4 pt-2" width="100%">
+
+                <v-row class="px-2">
+                  <v-col>
+                    <p class="mb-1 body-2 font-weight-regular" style="color: #666666">
+                      Order Id
+                    </p>
+                    <p class="mb-1 body-2 font-weight-regular" style="color: #666666">
+                      Date & Time
+                    </p>
+                    <p class="mb-1 body-2 font-weight-regular" style="color: #666666">
+                      Script
+
+                    </p>
+                    <p class="mb-1 body-2 font-weight-regular" style="color: #666666">
+                      Quantity:
+
+                    </p>
+                    <p class="mb-1 body-2 font-weight-regular" style="color: #666666">
+                      Status
+
+                    </p>
+
+                  </v-col>
+                  <v-col class="text-end">
+                    <p class="mb-0 body-2 font-weight-regular" style="color: #666666">
+                      {{ iitem.token }}
+                    </p>
+
+                    <p class="mb-0 body-2 font-weight-regular" style="color: #666666">
+                      {{ iitem.request_time }}
+                    </p>
+                    <p class="mb-0 body-2 font-weight-regular" style="color: #666666">
+                      {{ iitem.tsym }}
+                    </p>
+                    <p class="mb-0 body-2 font-weight-regular" style="color: #666666">
+                      {{ iitem.quantity }}
+                    </p>
+
+                    <v-chip small label
+                      :style="{ 'border': iitem.msg == 'REJECTED' ? '1px solid #FFCDCD' : '1px solid #C1E7BA', 'background-color': iitem.msg == 'REJECTED' ? '#FCF3F3' : '#ECF8F1' }"><span
+                        class="caption" style="text-transform: capitalize"
+                        :style="{ 'color': iitem.msg == 'REJECTED' ? '#FF1717' : '#43A833' }"> {{ iitem.msg
+                        }}</span></v-chip>
+
+                  </v-col>
+                </v-row>
+              </v-card>
+            </v-expansion-panel-content>
+
+          </v-expansion-panel>
+        </v-expansion-panels>
+      </div>
+
+
     </div>
   </div>
 </template>
@@ -173,6 +273,8 @@ export default {
         { text: "Quantity", value: "quantity" },
 
         { text: "Status", value: "msg" },
+        { text: "Reject Reason", value: "rejmsg" },
+
       ],
     };
   },
@@ -306,7 +408,7 @@ export default {
         method: 'post',
         url: `${apiurl.legetbalance_api}/all_ledger_balance`,
         headers: {
-          "Authorization": this.usession ,
+          "Authorization": this.usession,
           "Clientid": this.uid,
           'Content-Type': 'application/json'
         },

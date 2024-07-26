@@ -21,8 +21,8 @@
       }}</span>
     </p>
 
-    <v-row no-glutters class="pt-2">
-      <v-col cols="12" md="9">
+    <v-row no-glutters class="pt-0 pt-md-0">
+      <v-col cols="12" lg="9" md="12" sm="12" class="colclass">
         <v-progress-linear style="max-height: 3px;" indeterminate v-if="singleload"></v-progress-linear>
 
 
@@ -30,10 +30,11 @@
 
 
 
-        <v-card style="border-radius: 4px; border: 1px solid #ddd" class="elevation-0 mt-3 rounded-lg  ">
-          <v-card style="background-color: #fafbff" class="" elevation="0">
-            <v-toolbar class="tool-sty pl-3 pr-3 mt-3 elevation-0 mb-1 px-0" color="#fff" dense>
-              <v-list-item class="pl-0 pr-1">
+        <v-card class=" ss-cards elevation-0 mt-2 rounded-lg  ">
+          <v-card style="background-color: #fafbff" class=" d-none d-lg-block d-xl-block" elevation="0">
+            <v-toolbar style="background-color: #fafbff" class="tool-sty pl-3 pr-3 mt-3   elevation-0 mb-1 px-0"
+              color="#fff" dense>
+              <v-list-item class="pl-0 pr-1" style="background-color: #fafbff">
                 <v-list-item-avatar class="mr-2">
                   <img v-if="fullsingleres[0] && fullsingleres[0].basket_img" :src="modifiedUrl" />
                   <v-avatar v-else :color="params >= 9 ? letters[params % 10] : letters[params]" size="48">
@@ -60,7 +61,7 @@
                         : ""
                     }}
                   </v-list-item-title>
-                  <!-- <div v-if="
+                  <div v-if="
                     fullsingleres[0] &&
                     fullsingleres[0].etfs_weights &&
                     Object.keys(fullsingleres[0].etfs_weights).length > 0
@@ -68,11 +69,11 @@
                     <v-chip color="#FAFBFF" text-color="#666666" label class="text--secondary mr-1 text-capitalize px-1"
                       x-small v-for="(j, l) in fullsingleres[0].tags" :key="l">{{ j
                       }}</v-chip>
-                  </div> -->
+                  </div>
                 </v-list-item-content>
                 <v-spacer></v-spacer>
                 <div>
-                  <v-chip class=" float-right mt-2 text-capitalize" x-small :text-color="fullsingleres[0] && fullsingleres[0].access
+                  <!-- <v-chip class=" float-right mt-2 text-capitalize" x-small :text-color="fullsingleres[0] && fullsingleres[0].access
                     ? (fullsingleres[0].access === 'free' ? '#4BAC3C' : '#093FBA')
                     : '#defaultColor'
                     " :color="fullsingleres[0] && fullsingleres[0].access
@@ -84,16 +85,31 @@
                         ? fullsingleres[0].access
                         : "--"
                     }}</span>
-                  </v-chip><br>
+                  </v-chip><br> -->
                   <span class="caption" style="color: #666666;">Min. Invest</span>
                   <p class="fs-12 txt-000 font-weight-bold mb-0 body-2">
-                    ₹ {{
-                      fullsingleres[0] && fullsingleres[0].price
-                        ? fullsingleres[0].price
-                        : "0.00"
-                    }}
-                    <v-btn class="ml-3" @click="refrshltp()" text icon><v-icon size="18">mdi-refresh</v-icon>
-                    </v-btn>
+  ₹ {{
+    fullsingleres[0] && !isNaN(Number(fullsingleres[0].price))
+      ? Number(fullsingleres[0].price).toFixed(2)
+      : "0.00"
+  }}
+  <v-btn class="ml-3" @click="refrshltp()" text icon>
+    <v-icon size="16">mdi-refresh</v-icon>
+  </v-btn>
+</p>
+
+                </div>
+                <div class="ml-5" v-if="fullsingleres[0] && fullsingleres[0].cagr['cagr_3year']">
+
+                  <span class="caption" style="letter-spacing: 0em;color: #666666">3Y CAGR</span>
+                  <p class="fs-12 txt-000 font-weight-bold mb-0 body-2" :class="{
+                    'blur-text': logincheck === '' || logincheck === null
+                  }"
+                    :style="{ color: logincheck === '' || logincheck === null ? 'transparent' : parseInt(fullsingleres[0].cagr.cagr_3year) > 0 ? '#4BAC3C' : '#E42B2B', letterSpacing: '0.1em', textShadow: logincheck === '' || logincheck === null ? '#4BAC3C 0 0 5px' : '' }">
+                    {{
+                      fullsingleres[0].cagr ? fullsingleres[0].cagr.cagr_3year ? fullsingleres[0].cagr.cagr_3year : "" :
+                        ""
+                    }}%
                   </p>
                 </div>
                 <!-- <div class="ml-7">
@@ -112,7 +128,85 @@
             </v-toolbar>
 
           </v-card>
-          <div class="ml-3" v-if="
+
+
+          <v-card style="background-color: #fafbff" class=" d-block d-lg-none" elevation="0">
+            <v-toolbar style="background-color: #fafbff" class="tool-sty pl-3 pr-3 mt-3 elevation-0 mb-1 px-0"
+              color="#fff" dense>
+              <v-list-item class="pl-0 pr-1" style="background-color: #fafbff">
+                <v-list-item-avatar class="mr-2">
+                  <img v-if="fullsingleres[0] && fullsingleres[0].basket_img" :src="modifiedUrl" />
+                  <v-avatar v-else :color="params >= 9 ? letters[params % 10] : letters[params]" size="48">
+                    <span class="subtitle-1 white--text font-weight-bold">{{ fullsingleres[0]
+                      ? fullsingleres[0].basket_title
+                        ? fullsingleres[0].basket_title.split(" ")[0][0]
+                        : ""
+                      : "" }}{{ fullsingleres[0]
+                        ? fullsingleres[0].basket_title
+                          ? fullsingleres[0].basket_title.split(" ")[1] ? fullsingleres[0].basket_title.split(" ")[1][0] :
+                            ''
+                          : ""
+                        : "" }}</span>
+                  </v-avatar>
+                  <!-- <img :src="modifiedUrl" /> -->
+                </v-list-item-avatar>
+                <v-list-item-content>
+                  <v-list-item-title class="font-weight-bold title" style="text-transform: capitalize">
+                    {{
+                      fullsingleres[0]
+                        ? fullsingleres[0].basket_title
+                          ? fullsingleres[0].basket_title.toUpperCase()
+                          : ""
+                        : ""
+                    }}
+                  </v-list-item-title>
+                  <div v-if="
+                    fullsingleres[0] &&
+                    fullsingleres[0].etfs_weights &&
+                    Object.keys(fullsingleres[0].etfs_weights).length > 0
+                  ">
+                    <v-chip color="#FAFBFF" text-color="#666666" label class="text--secondary mr-1 text-capitalize px-1"
+                      x-small v-for="(j, l) in fullsingleres[0].tags" :key="l">{{ j
+                      }}</v-chip>
+                  </div>
+                </v-list-item-content>
+
+
+
+              </v-list-item>
+
+            </v-toolbar>
+            <div class="d-flex">
+              <div class="ml-5">
+
+                <span class="caption" style="color: #666666;">Min. Invest</span>
+                <p class="fs-12 txt-000 font-weight-bold mb-0 body-2">
+  ₹ {{
+    fullsingleres[0] && !isNaN(Number(fullsingleres[0].price))
+      ? Number(fullsingleres[0].price).toFixed(2)
+      : "0.00"
+  }}
+  <v-btn class="ml-3" @click="refrshltp()" text icon>
+    <v-icon size="16">mdi-refresh</v-icon>
+  </v-btn>
+</p>
+              </div>
+              <div class="ml-5" v-if="fullsingleres[0] && fullsingleres[0].cagr['cagr_3year']">
+
+                <span class="caption" style="letter-spacing: 0em;color: #666666">3Y CAGR</span>
+                <p class="fs-12 txt-000 font-weight-bold mb-0 body-2" :class="{
+                  'blur-text': logincheck === '' || logincheck === null
+                }"
+                  :style="{ color: logincheck === '' || logincheck === null ? 'transparent' : parseInt(fullsingleres[0].cagr.cagr_3year) > 0 ? '#4BAC3C' : '#E42B2B', letterSpacing: '0.1em', textShadow: logincheck === '' || logincheck === null ? '#4BAC3C 0 0 5px' : '' }">
+                  {{
+                    fullsingleres[0].cagr ? fullsingleres[0].cagr.cagr_3year ? fullsingleres[0].cagr.cagr_3year : "" :
+                      ""
+                  }}%
+                </p>
+              </div>
+            </div>
+          </v-card>
+          <!-- <div class="ml-3" v-if="
             fullsingleres[0] &&
             fullsingleres[0].etfs_weights &&
             Object.keys(fullsingleres[0].etfs_weights).length > 0
@@ -120,8 +214,8 @@
             <v-chip color="#FAFBFF" text-color="#666666" label class="text--secondary mr-1 text-capitalize px-1" x-small
               v-for="(j, l) in fullsingleres[0].tags" :key="l">{{ j
               }}</v-chip>
-          </div>
-          <div class="mt-2 ml-3 mr-3 ">
+          </div> -->
+          <div class="mt-3 ml-3 mr-3 mb-2">
             <span class="body-2 " style="color: #666666">
 
               {{
@@ -133,21 +227,10 @@
               }}</span>
           </div>
 
-          <v-row class="pt-4 px-1">
-            <v-col cols="4">
-              <div class="ml-3">
-                <span style="color: #666666" class="caption mb-0">Rebalance Frequency</span>
-                <!-- <v-text-field v-model="textfieltext" readonly  hide-details style="color:black" class="subtitle-1 mt-0 pt-0 font-weight-bold"></v-text-field> -->
-                <p class="subtitle-1 mb-0 mt-0 pt-0 font-weight-bold">
-                  {{ textfieltext }}
-                </p>
-
-                <v-divider></v-divider>
-              </div>
-            </v-col>
-            <v-col cols="4">
+          <v-row class="pt-2 pl-4 pb-4 px-1">
+            <v-col cols="12" lg="3" md="4" sm="6">
               <div class="mr-8">
-                <span style="color: #666666" class="caption mb-0">Launched Date</span>
+                <span style="color: #666666;text-transform: uppercase" class="caption mb-0">Launched Date</span>
                 <!-- <v-text-field v-model="textdate" readonly  hide-details style="color:black" class="subtitle-1 mt-0 pt-0 font-weight-bold"></v-text-field> -->
                 <p class="subtitle-1 mb-0 mt-0 pt-0 font-weight-bold">
                   {{ textdate.slice(4, 17) }}
@@ -155,25 +238,63 @@
                 <v-divider></v-divider>
               </div>
             </v-col>
-            <v-col cols="4">
-              <div v-if="fullsingleres[0] && fullsingleres[0].cagr['cagr_3year']">
-                <p class="mt-2 caption mb-0 pb-0 fs-7" style="letter-spacing: 0em;color: #666666">3Y CAGR</p>
-                <span class="fs-14 mt-0 pt-0 font-weight-bold"
-                  :style="{ color: parseInt(fullsingleres[0].cagr.cagr_3year) > 0 ? '#4BAC3C' : '#E42B2B', letterSpacing: '0.1em' }">{{
-                    fullsingleres[0].cagr ? fullsingleres[0].cagr.cagr_3year ? fullsingleres[0].cagr.cagr_3year : "" : ""
-                  }}%</span>
+            <v-col cols="12" lg="3" md="4" sm="6">
+              <div class="">
+                <span style="color: #666666;text-transform: uppercase" class="caption mb-0">Rebalance Frequency</span>
+                <p class="subtitle-1 mb-0 mt-0 pt-0 font-weight-bold">
+                  {{ textfieltext }}
+                </p>
+
+                <v-divider></v-divider>
               </div>
-              <v-divider v-if="fullsingleres[0] && fullsingleres[0].cagr['cagr_3year']"></v-divider>
             </v-col>
+            <v-col cols="12" lg="3" md="4" sm="6">
+              <div class="">
+                <span style="color: #666666;text-transform: uppercase" class="caption mb-0">Last Rebalance</span>
+                <p class="subtitle-1 mb-0 mt-0 pt-0 font-weight-bold">
+                  {{
+                    fullsingleres[0]
+                      ? fullsingleres[0].last_rebal
+                        ? fullsingleres[0].last_rebal.slice(4, 17)
+                        : "---"
+                      : ""
+                  }}
+                </p>
+
+                <v-divider></v-divider>
+              </div>
+            </v-col>
+
+            <v-col cols="12" lg="3" md="4" sm="6">
+              <div class="">
+                <span style="color: #666666;text-transform: uppercase" class="caption mb-0">Next Rebalance</span>
+                <p class="subtitle-1 mb-0 mt-0 pt-0 font-weight-bold">
+                  ---
+                </p>
+
+                <v-divider></v-divider>
+              </div>
+            </v-col>
+
           </v-row>
+
         </v-card>
 
-        <v-card v-if="errrrordata != 'no data found'" outlined elevation="0" class="mt-7 px-4 py-3" rounded-lg style="border: 1px solid #dddddd">
+
+
+
+        <v-card v-if="errrrordata != 'no data found'" outlined elevation="0" class=" seccadrsize ss-cards px-4 py-3"
+          rounded-lg style="border: 1px solid #dddddd">
           <div class="d-flex">
 
-            <p class="title font-weight-bold mb-2">Historical NAV</p>
-            <v-btn-toggle @change="linechartdata()" class="ml-auto" v-model="toggle_exclusive" color="black" dense
-              group>
+            <div>
+              <p class="title font-weight-bold mb-0">Historical NAV</p>
+              <p class="mb-0   " style="color:#666666;font-size:13px">
+                Past ETF performance
+              </p>
+            </div>
+            <v-btn-toggle @change="linechartdata()" class="ml-auto mt-3" v-model="toggle_exclusive"
+              style="background-color:white" color="black" dense group>
               <v-btn small dense :value="0" text>
                 1M
               </v-btn>
@@ -193,15 +314,328 @@
           </div>
           <v-divider></v-divider>
           <v-progress-linear v-if="chartlineload" indeterminate color="indigo"></v-progress-linear>
-          <div id="mainnew" style="width: 100%; height: 300px"></div>
+
+
+          <v-row class="pb-4">
+
+            <v-col cols="12">
+              <div class="mt-3">
+
+                <!-- <div id="mainnew" style="width: 100%; height:50vh"></div> -->
+                <v-card height="420px" id="mainnew" class="rounded-lg  elevation-0">
+                </v-card>
+              </div>
+
+            </v-col>
+
+            <v-col cols="12">
+              <div class="d-flex">
+                <p class="body-1  font-weight-bold mb-0 mt-2" v-if="fullsingleres[0] && fullsingleres[0].cagr != ''">
+                  Fund(CAGR) returns
+                </p>
+
+                <!-- <p class="ml-1 caption font-weight-medium mb-0 ml-auto mt-2" style="color: #666666">
+                  <v-icon color="green" size="8" class="mt-0 ">mdi-circle</v-icon>
+                  Benchmark
+                </p> -->
+              </div>
+              <div class="d-none d-lg-block d-xl-block">
+                <v-row class="mt-3" v-if="fullsingleres[0] && fullsingleres[0].cagr != ''">
+                  <v-col cols="12" lg="3" sm="6" md="6" class="pa-0 ">
+                    <v-card :color="fullsingleres[0] && fullsingleres[0].cagr
+                      ? fullsingleres[0].cagr.cagr_month > 0
+                        ? '#FBFFFA'
+                        : fullsingleres[0].cagr.cagr_month < 0
+                          ? '#FFFCFB'
+                          : ''
+                      : ''" style="outline: 1px solid #cccccc" class="elevation-0 pa-2 mb-1  ml-4  mr-1">
+                      <p :class="{
+                        'blur-text': logincheck === '' || logincheck === null
+                      }" class="subtitle-1 mb-0" :style="{
+                      color: fullsingleres[0] && fullsingleres[0].cagr
+                        ? fullsingleres[0].cagr.cagr_month > 0
+                          ? '#43A833'
+                          : '#FF1717'
+
+                        : ''
+                    }">
+                        {{ fullsingleres[0] && fullsingleres[0].cagr
+                          ? fullsingleres[0].cagr.cagr_month + '%'
+                          : '' }}
+                      </p>
+
+                      <p class="mb-0 subtitle-2" style="color: #666666">
+                        1 MONTH
+                      </p>
+                      <!-- <p class="mb-0 subtitle-2" style="color: #666666">
+                      CAGR
+                     
+                    </p> -->
+                    </v-card>
+                  </v-col>
+
+
+                  <v-col cols="12" lg="3" sm="6" md="6" class="pa-0">
+                    <v-card :color="fullsingleres[0] && fullsingleres[0].cagr
+                      ? fullsingleres[0].cagr.cagr_1year > 0
+                        ? '#FBFFFA'
+                        : fullsingleres[0].cagr.cagr_1year < 0
+                          ? '#FFFCFB'
+                          : ''
+                      : ''" style="outline: 1px solid #cccccc" class="elevation-0 pa-2 mb-1 ml-3 mr-1 mt-lg-0 mt-sm-10">
+                      <p :class="{
+                        'blur-text': logincheck === '' || logincheck === null
+                      }" class="subtitle-1 mb-0" :style="{
+                      color: fullsingleres[0] && fullsingleres[0].cagr
+                        ? fullsingleres[0].cagr.cagr_1year > 0
+                          ? '#43A833'
+                          : '#FF1717'
+
+                        : ''
+                    }">
+                        {{ fullsingleres[0] && fullsingleres[0].cagr
+                          ? fullsingleres[0].cagr.cagr_1year + '%'
+                          : '' }}
+                      </p>
+
+                      <p class="mb-0 subtitle-2" style="color: #666666">
+                        1 YEAR
+                      </p>
+                      <!-- <p class="mb-0 subtitle-2" style="color: #666666">
+                      CAGR
+                   
+                    </p> -->
+                    </v-card>
+                  </v-col>
+
+                  <v-col cols="12" lg="3" sm="6" md="6" class="pa-0">
+                    <v-card :color="fullsingleres[0] && fullsingleres[0].cagr
+                      ? fullsingleres[0].cagr.cagr_3year > 0
+                        ? '#FBFFFA'
+                        : fullsingleres[0].cagr.cagr_3year < 0
+                          ? '#FFFCFB'
+                          : ''
+                      : ''" style="outline: 1px solid #cccccc" class="elevation-0 ml-3 pa-2  mt-sm-3 mt-lg-0 mb-1 mr-1">
+                      <p :class="{
+                        'blur-text': logincheck === '' || logincheck === null
+                      }" class="subtitle-1 mb-0" :style="{
+                      color: fullsingleres[0] && fullsingleres[0].cagr
+                        ? fullsingleres[0].cagr.cagr_3year > 0
+                          ? '#43A833'
+                          : '#FF1717'
+
+                        : ''
+                    }">
+                        {{ fullsingleres[0] && fullsingleres[0].cagr
+                          ? fullsingleres[0].cagr.cagr_3year + '%'
+                          : '' }}
+                      </p>
+
+                      <p class="mb-0 subtitle-2" style="color: #666666">
+                        3 YEAR
+                      </p>
+                      <!-- <p class="mb-0 subtitle-2" style="color: #666666">
+                      CAGR
+                      
+                    </p> -->
+                    </v-card>
+                  </v-col>
+
+                  <v-col cols="12" lg="3" sm="6" md="6" class="pa-0">
+                    <v-card :color="fullsingleres[0] && fullsingleres[0].cagr
+                      ? fullsingleres[0].cagr.cagr_5year > 0
+                        ? '#FBFFFA'
+                        : fullsingleres[0].cagr.cagr_5year < 0
+                          ? '#FFFCFB'
+                          : ''
+                      : ''" style="outline: 1px solid #cccccc"
+                      class="elevation-0 ml-3  mt-sm-3  mt-lg-0  pa-2 mb-1 mr-4">
+                      <p :class="{
+                        'blur-text': logincheck === '' || logincheck === null
+                      }" class="subtitle-1 mb-0" :style="{
+                      color: fullsingleres[0] && fullsingleres[0].cagr
+                        ? fullsingleres[0].cagr.cagr_5year > 0
+                          ? '#43A833'
+                          : '#FF1717'
+
+                        : ''
+                    }">
+                        {{ fullsingleres[0] && fullsingleres[0].cagr
+                          ? fullsingleres[0].cagr.cagr_5year + '%'
+                          : '' }}
+                      </p>
+
+                      <p class="mb-0 subtitle-2" style="color: #666666">
+                        5 YEAR
+                      </p>
+                      <!-- <p class="mb-0 subtitle-2" style="color: #666666">
+                      CAGR
+                   
+                    </p> -->
+                    </v-card>
+                  </v-col>
+
+
+                </v-row>
+              </div>
+
+              <div class="d-block d-lg-none">
+                <v-row class="mt-3" v-if="fullsingleres[0] && fullsingleres[0].cagr != ''">
+                  <v-col cols="6" class="pa-0 ">
+                    <v-card :color="fullsingleres[0] && fullsingleres[0].cagr
+                      ? fullsingleres[0].cagr.cagr_month > 0
+                        ? '#FBFFFA'
+                        : fullsingleres[0].cagr.cagr_month < 0
+                          ? '#FFFCFB'
+                          : ''
+                      : ''" style="outline: 1px solid #cccccc" class="elevation-0 pa-2 mb-1 ml-3   mr-1">
+                      <p :class="{
+                        'blur-text': logincheck === '' || logincheck === null
+                      }" class="subtitle-1 mb-0" :style="{
+                      color: fullsingleres[0] && fullsingleres[0].cagr
+                        ? fullsingleres[0].cagr.cagr_month > 0
+                          ? '#43A833'
+                          : '#FF1717'
+
+                        : ''
+                    }">
+                        {{ fullsingleres[0] && fullsingleres[0].cagr
+                          ? fullsingleres[0].cagr.cagr_month + '%'
+                          : '' }}
+                      </p>
+
+                      <p class="mb-0 subtitle-2" style="color: #666666">
+                        1 MONTH
+                      </p>
+                      <!-- <p class="mb-0 subtitle-2" style="color: #666666">
+                      CAGR
+                     
+                    </p> -->
+                    </v-card>
+                  </v-col>
+
+
+                  <v-col cols="6" class="pa-0">
+                    <v-card :color="fullsingleres[0] && fullsingleres[0].cagr
+                      ? fullsingleres[0].cagr.cagr_1year > 0
+                        ? '#FBFFFA'
+                        : fullsingleres[0].cagr.cagr_1year < 0
+                          ? '#FFFCFB'
+                          : ''
+                      : ''" style="outline: 1px solid #cccccc" class="elevation-0 pa-2 mb-1 ml-3 mr-1 mt-lg-0 mt-sm-10">
+                      <p :class="{
+                        'blur-text': logincheck === '' || logincheck === null
+                      }" class="subtitle-1 mb-0" :style="{
+                      color: fullsingleres[0] && fullsingleres[0].cagr
+                        ? fullsingleres[0].cagr.cagr_1year > 0
+                          ? '#43A833'
+                          : '#FF1717'
+
+                        : ''
+                    }">
+                        {{ fullsingleres[0] && fullsingleres[0].cagr
+                          ? fullsingleres[0].cagr.cagr_1year + '%'
+                          : '' }}
+                      </p>
+
+                      <p class="mb-0 subtitle-2" style="color: #666666">
+                        1 YEAR
+                      </p>
+                      <!-- <p class="mb-0 subtitle-2" style="color: #666666">
+                      CAGR
+                   
+                    </p> -->
+                    </v-card>
+                  </v-col>
+
+                  <v-col cols="6" class="pa-0">
+                    <v-card :color="fullsingleres[0] && fullsingleres[0].cagr
+                      ? fullsingleres[0].cagr.cagr_3year > 0
+                        ? '#FBFFFA'
+                        : fullsingleres[0].cagr.cagr_3year < 0
+                          ? '#FFFCFB'
+                          : ''
+                      : ''" style="outline: 1px solid #cccccc" class="elevation-0 ml-3 pa-2 mt-3 mb-1 mr-1">
+                      <p :class="{
+                        'blur-text': logincheck === '' || logincheck === null
+                      }" class="subtitle-1 mb-0" :style="{
+                      color: fullsingleres[0] && fullsingleres[0].cagr
+                        ? fullsingleres[0].cagr.cagr_3year > 0
+                          ? '#43A833'
+                          : '#FF1717'
+
+                        : ''
+                    }">
+                        {{ fullsingleres[0] && fullsingleres[0].cagr
+                          ? fullsingleres[0].cagr.cagr_3year + '%'
+                          : '' }}
+                      </p>
+
+                      <p class="mb-0 subtitle-2" style="color: #666666">
+                        3 YEAR
+                      </p>
+                      <!-- <p class="mb-0 subtitle-2" style="color: #666666">
+                      CAGR
+                      
+                    </p> -->
+                    </v-card>
+                  </v-col>
+
+                  <v-col cols="6" class="pa-0">
+                    <v-card :color="fullsingleres[0] && fullsingleres[0].cagr
+                      ? fullsingleres[0].cagr.cagr_5year > 0
+                        ? '#FBFFFA'
+                        : fullsingleres[0].cagr.cagr_5year < 0
+                          ? '#FFFCFB'
+                          : ''
+                      : ''" style="outline: 1px solid #cccccc" class="elevation-0 ml-3  mt-3 pa-2 mb-1 mr-1">
+                      <p :class="{
+                        'blur-text': logincheck === '' || logincheck === null
+                      }" class="subtitle-1 mb-0" :style="{
+                      color: fullsingleres[0] && fullsingleres[0].cagr
+                        ? fullsingleres[0].cagr.cagr_5year > 0
+                          ? '#43A833'
+                          : '#FF1717'
+
+                        : ''
+                    }">
+                        {{ fullsingleres[0] && fullsingleres[0].cagr
+                          ? fullsingleres[0].cagr.cagr_5year + '%'
+                          : '' }}
+                      </p>
+
+                      <p class="mb-0 subtitle-2" style="color: #666666">
+                        5 YEAR
+                      </p>
+                      <!-- <p class="mb-0 subtitle-2" style="color: #666666">
+                      CAGR
+                   
+                    </p> -->
+                    </v-card>
+                  </v-col>
+
+
+                </v-row>
+              </div>
+
+            </v-col>
+
+
+
+          </v-row>
+
+
         </v-card>
 
 
-        <v-card v-if="pieschartdata.error != 'no data found'" outlined elevation="0" class="mt-7 px-4 py-3" rounded-lg style="border: 1px solid #dddddd">
+
+
+        <v-card v-if="pieschartdata.error != 'no data found'" outlined elevation="0"
+          class="seccadrsize ss-cards px-4 py-3" rounded-lg style="border: 1px solid #dddddd">
           <p class="title font-weight-bold mt-2 mb-2">Collection Weights</p>
 
           <v-row>
-            <v-col cols="7">
+            <v-col cols="12" lg="7" sm="12" md="12">
               <!-- <v-expansion-panels style="border: 1px solid #dddddd" outlined dense small
                 class="mt-3 pt-0 pa-0 ma-0 expan" elevation="0">
                 <v-expansion-panel dense small elevation="0" v-for="(group, sector) in groupedData" :key="sector">
@@ -232,69 +666,90 @@
                 </v-expansion-panel>
               </v-expansion-panels> -->
 
-              <v-expansion-panels
-    style="border: 1px solid #dddddd"
-    outlined
-    dense
-    small
-    class="mt-3 pt-0 pa-0 ma-0 expan"
-    elevation="0"
-  >
-    <v-expansion-panel
-      dense
-      small
-      elevation="0"
-      v-for="(group, sector) in sortedGroupedData"
-      :key="sector"
-    >
-      <v-expansion-panel-header
-        dense
-        small
-        :style="{ 'border-left': activePanel === sector ? '6px solid black' : 'transparent' }"
-        class="pa-0 ma-0"
-        expand-icon=""
-        :class="{ 'active-header': activePanel === sector }"
-        style="text-transform: capitalize;"
-        elevation="0"
-        @click="activePanel = (activePanel === sector ? -1 : sector)"
-      >
-        <div class="d-flex">
-          <p class="mb-0 body-1 font-weight-bold ml-3">
-            {{ sector }}
-            <v-icon>
-              {{ activePanel === sector ? 'mdi-menu-up' : 'mdi-menu-down' }}
-            </v-icon>
-          </p>
-          <span
-            class="body-1 ml-auto font-weight-bold mr-4 mt-2"
-            style="color: #666666; text-transform: capitalize;"
-            >{{ group.totalWeights.toFixed(1) }} %</span
-          >
-        </div>
-      </v-expansion-panel-header>
-      <v-expansion-panel-content class="">
-        <div v-for="(item, index) in group.items" :key="index">
-          <div class="d-flex">
-            <span
-              class="body-1 ml-4 mr-4 mt-2"
-              style="color: #666666; text-transform: capitalize;"
-              >{{ item.company_name }}</span
-            >
-            <span
-              class="body-1 ml-auto ml-4 mr-4 mt-2"
-              style="color: #666666; text-transform: capitalize;"
-              >{{ item.weights }} %</span
-            >
-          </div>
-          <v-divider class="mt-2 mb-2"></v-divider>
-        </div>
-      </v-expansion-panel-content>
-    </v-expansion-panel>
-  </v-expansion-panels>
+              <!-- <v-expansion-panels style="border: 1px solid #dddddd" outlined dense small
+                class="mt-3 pt-0 pa-0 ma-0 expan" elevation="0">
+                <v-expansion-panel dense small elevation="0" v-for="(group, sector) in sortedGroupedData" :key="sector">
+                  <v-expansion-panel-header dense small
+                    :style="{ 'border-left': activePanel === sector ? '6px solid black' : 'transparent' }"
+                    class="pa-0 ma-0" expand-icon="" :class="{ 'active-header': activePanel === sector }"
+                    style="text-transform: capitalize;" elevation="0"
+                    @click="activePanel = (activePanel === sector ? -1 : sector)">
+                    <div class="d-flex">
+                      <p class="mb-0 body-1 font-weight-bold ml-3">
+                        {{ sector }}
+                        <v-icon>
+                          {{ activePanel === sector ? 'mdi-menu-up' : 'mdi-menu-down' }}
+                        </v-icon>
+                      </p>
+                      <span class="body-1 ml-auto font-weight-bold mr-4 mt-2"
+                        style="color: #666666; text-transform: capitalize;">{{ group.totalWeights.toFixed(1) }} %</span>
+                    </div>
+                  </v-expansion-panel-header>
+                  <v-expansion-panel-content class="">
+                    <div v-for="(item, index) in group.items" :key="index">
+                      <div class="d-flex">
+                        <span class="body-1 ml-4 mr-4 mt-2" style="color: #666666; text-transform: capitalize;">{{
+                          item.company_name }}</span>
+                        <span class="body-1 ml-auto ml-4 mr-4 mt-2"
+                          style="color: #666666; text-transform: capitalize;">{{ item.weights }} %</span>
+                      </div>
+                      <v-divider class="mt-2 mb-2"></v-divider>
+                    </div>
+                  </v-expansion-panel-content>
+                </v-expansion-panel>
+              </v-expansion-panels> -->
+
+              <v-expansion-panels dense small class="mt-3 pt-0 pa-0 ma-0 expan" elevation="0" multiple v-model="panel">
+                <v-expansion-panel dense small elevation="0" v-for="(group, sector) in visibleGroups" :key="sector">
+                  <v-expansion-panel-header dense small :style="{
+                    'border-left': activePanel === sector ? '6px solid black' : 'transparent',
+                  }" class="pa-0 ma-0" expand-icon="" :class="{ 'active-header': activePanel === sector }"
+                    style="text-transform: capitalize;" elevation="0"
+                    @click="activePanel = activePanel === sector ? -1 : sector">
+                    <div class="d-flex">
+                      <p class="mb-0 body-2 font-weight-bold ml-3">
+                        {{ sector }}
+                        <v-icon>{{ activePanel === sector ? 'mdi-menu-up' : 'mdi-menu-down' }}</v-icon>
+                      </p>
+                      <span class="body-2 ml-auto font-weight-bold mr-4 mt-2"
+                        style="color: #666666; text-transform: capitalize;">
+                        <!-- {{ group.totalWeights }} % -->
+                        {{ typeof group.totalWeights === 'number' ? group.totalWeights.toFixed(0) : group.totalWeights
+                        }}%
+                      </span>
+                    </div>
+                  </v-expansion-panel-header>
+                  <v-expansion-panel-content>
+                    <div v-for="(item, index) in group.items" :key="index">
+                      <div class="d-flex">
+                        <span class="body-2 ml-4 mr-4 mt-2" style="color: #666666; text-transform: capitalize;">{{
+                          item.company_name }}</span>
+                        <span class="body-2 ml-auto ml-4 mr-4 mt-2"
+                          style="color: #666666; text-transform: capitalize;">{{ item.weights }} %</span>
+                      </div>
+                      <v-divider class="mt-2 mb-2"></v-divider>
+                    </div>
+                  </v-expansion-panel-content>
+                </v-expansion-panel>
+              </v-expansion-panels>
+              <!-- Show More/Less Button -->
+              <div v-if="Object.keys(sortedGroupedData).length > 5">
+                <v-btn text small @click="toggleShowMoreGroups" style="color:#0037B7"
+                  class="font-weight-bold body-2 text-none">
+                  {{ showMoreGroups ? 'Show Less' : 'Show More' }}
+                </v-btn>
+              </div>
+
 
             </v-col>
-            <v-col cols="5">
-              <div id="sector-chart"></div>
+            <v-col cols="12" lg="5" sm="12" md="12">
+              <p class="mb-0 body-1 text-center font-weight-medium" style="color:#666">Weightage allocation by Sector
+              </p>
+
+              <v-card height="270px" id="sector-chart" class="rounded-lg  elevation-0">
+              </v-card>
+
+              <!-- <div id="sector-chart"></div> -->
 
             </v-col>
 
@@ -302,435 +757,101 @@
 
         </v-card>
 
-        <v-card hide-actions style="border-radius: 4px; border: 1px solid #ddd"
-          class="elevation-0 rounded-lg mt-5 d-none d-md-block">
-          <div class="pt-4">
-            <!-- <div class="px-4">
-              <p class="font-weight-bold headline">Collection Weights</p>
-              <p class="subtitle-1 font-weight-bold mb-0">
-                Constituents Weights and Segment Composition
-              </p>
-              <p class="body-2" style="color: #666666">Each fund is uniquely allocated to suit and match
-                customer
-                expectations based on the profile and return expectations.</p>
+        <v-card outlined elevation="0" class="seccadrsize ss-cards px-4 py-3" rounded-lg
+          style="border: 1px solid #dddddd">
+          <p class="title font-weight-bold mt-2 mb-2">Asset allocation and Holdings</p>
+          <v-row>
 
-              <p class="mb-0 font-weight-bold subtitle-1" style="color: #666666">Constituents</p>
-              <p class="body-2" style="color: #666666">See detailed composition of smallcase
-                portfolio</p>
-              <v-divider class="my-3"></v-divider>
+            <v-col cols="12" lg="4" sm="12" md="6">
+              <!-- <p class="mb-0 body-2 font-weight-bold">Fund’s equity sector distribution</p>
+            <p class="mb-0 body-2 mt-2 font-weight-regular" style="color:#666">Each fund is uniquely allocated to suit and match customer expectations based on the risk profile and return expectations.</p> -->
 
-            </div> -->
-            <div>
-              <div v-if="
-                fullsingleres[0] && fullsingleres[0].access != 'subscribe'
-              " :style="{
-                opacity: fullsingleres[0]
-                  ? fullsingleres[0].access == 'subscribe'
-                    ? '0'
-                    : ''
-                  : '',
-                'user-select': fullsingleres[0]
-                  ? fullsingleres[0].access == 'subscribe'
-                    ? 'none'
-                    : ''
-                  : '',
-              }">
 
-                <div>
-                  <v-toolbar class="elevation-0 mb-3" color="#fff" dense>
-                    <p class="title font-weight-bold mb-2">Invest {{
-                      fullsingleres[0]
-                        ? fullsingleres[0].basket_title
-                          ? fullsingleres[0].basket_title.toUpperCase()
-                          : ""
-                        : ""
-                    }}</p>
-                    <v-spacer></v-spacer>
+              <p class="mb-0 body-1 d-none d-lg-block d-xl-block font-weight-medium" style="color:#666">Fund asset
+                allocation</p>
+              <p class="mb-0 body-1 d-block d-lg-none text-center  font-weight-medium" style="color:#666">Fund asset
+                allocation</p>
 
-                    <v-text-field v-model="value" type="number" :min="1" :max="100" hide-details readonly block required
-                      dense filled hide-spin-buttons @input="validateValue()" style="max-width: 170px;"
-                      class="body-2 font-weight-bold mb-0 mr-3 pt-0 mt-0" rounded background-color="#FAFBFF">
-                      <template #append>
-                        <v-btn @click="increment" icon class="elevation-0" small>
-                          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
-                            fill="none">
-                            <!-- <circle cx="12" cy="12" r="12" fill="white" /> -->
-                            <path d="M12 8V16" stroke="#666666" stroke-width="2" stroke-linecap="round" />
-                            <path d="M16 12L8 12" stroke="#666666" stroke-width="2" stroke-linecap="round" />
-                          </svg>
-                        </v-btn>
-                      </template>
-                      <template #prepend-inner>
-                        <v-btn @click="decrement" icon class="elevation-0" small>
-                          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
-                            fill="none">
-                            <!-- <circle cx="12" cy="12" r="12" fill="white" /> -->
-                            <path d="M16 12L8 12" stroke="#666666" stroke-width="2" stroke-linecap="round" />
-                          </svg>
-                        </v-btn>
-                      </template>
 
-                    </v-text-field>
+              <!-- <div id="sector-chart1"></div> -->
+              <v-card height="270px" id="sector-chart1" class="rounded-lg  elevation-0">
+              </v-card>
+
+            </v-col>
 
 
 
-                    <v-select rounded style="
-max-width: 220px;" background-color="#FAFBFF" v-model="weightselected" :items="weightedChange" @change="
-  weightselected == 'Equial-Weighted'
-    ? changetoEqualWeight()
-    : ''
-  " required dense filled hide-details append-icon="mdi-chevron-down"
-                      class="body-2 font-weight-bold mb-0 pt-0 mt-0"></v-select>
-
-                    <div class="px-4">
-                      <v-tooltip color="black" bottom>
-                        <template v-slot:activator="{ on, attrs }">
-                          <v-btn class="elevation-0 caption pa-0 font-weight-bold" style="color: black"
-                            @click="resetsigleres()" outlined v-bind="attrs" v-on="on"
-                            icon><v-icon>mdi-refresh</v-icon></v-btn>
-                        </template>
-                        <span>Reset Values</span>
-                      </v-tooltip>
-                    </div>
-                  </v-toolbar>
-
-                  <v-card color="#FAFBFF" class="rounded-0 elevation-0 px-4">
-                    <v-row class="text--secondary subtitle-2 font-weight-medium my-0" style="padding: 10px 0;"
-                      no-gutters>
-                      <v-col cols="3" class="py-0">Stocks</v-col>
-                      <v-col cols="2" class="text-right">Price</v-col>
-                      <v-col cols="1"></v-col>
-                      <v-col v-if="weightselected != 'Custom-Share'" cols="3">Weightage (%)</v-col>
-                      <v-col :cols="weightselected == 'Custom-Share' ? 4 : 1"> Share </v-col>
-                      <v-col cols="2" class="text-right ">Avg Weight </v-col>
-                    </v-row>
-                  </v-card>
-                  <v-divider></v-divider>
-                  <div v-if="
-                    fullsingleres &&
-                    fullsingleres[0] &&
-                    fullsingleres[0].etfs_weights
-                  " class="px-4">
-                    <div v-for="(item, index, k) in fullsingleres[0].etfs_weights" :key="k">
-                      <template>
-
-                        <div v-for="(m, j) in item" :key="j">
-                          <v-row no-gutters class="py-2">
-                            <v-col cols="3" class="py-0 d-flex align-center">
-                              <p class="mb-0 text-capitalize fs-14 font-weight-medium">
-                                {{ m.tsym ? m.tsym : "" }} <v-chip text-color="white"
-                                  :color="m.exists == 'no' ? 'green' : 'white'" label class="mr-1 text-capitalize px-1"
-                                  x-small>{{
-                                    m.exists ? m.exists == 'no' ? "new" : '' : '' }}
-                                </v-chip>
-                              </p>
-                            </v-col>
-                            <v-col cols="2" class="py-0 d-flex align-center justify-end">
-                              <p class="mb-0 text-capitalize body-2 font-weight-medium">
-                                ₹{{ m.price ? Number(m.price).toFixed(2) : "" }}
-                              </p>
-                            </v-col>
-                            <v-col cols="1"></v-col>
-                            <v-col v-if="weightselected != 'Custom-Share'" cols="3" class="py-0 d-flex align-center ">
-                              <div v-if="weightselected == 'Custom-Weighted'">
-                                <v-text-field block v-model="m.weights" class="weg elevation-0 caption text-center"
-                                  hide-details outlined type="number" hide-spin-buttons style="max-width: 120px;"
-                                  :min="minweights" :readonly="weightselected == 'Equial-Weighted'
-                                    " :max="maxvalueperc" dense @keyup="
-                                      m.weights < maxvalueperc
-                                        ? (m.weights = Number(m.weights) + 1)
-                                        : null,
-                                      getAddbtn(
-                                        fullsingleres[0].etfs_weights[
-                                          index
-                                        ][j].token,
-                                        m.weights
-                                      )" @keydown="
-                                        m.weights > 1
-                                          ? (m.weights = Number(m.weights) - 1)
-                                          : null,
-                                        getAddbtn(
-                                          fullsingleres[0].etfs_weights[
-                                            index
-                                          ][j].token,
-                                          m.weights
-                                        )">
-                                  <template #append>
-                                    <v-btn :disabled="weightselected == 'Equial-Weighted'
-                                      " @click="
-                                        m.weights < maxvalueperc
-                                          ? (m.weights = Number(m.weights) + 1)
-                                          : null,
-                                        getAddbtn(
-                                          fullsingleres[0].etfs_weights[
-                                            index
-                                          ][j].token,
-                                          m.weights
-                                        )
-                                        " icon class="elevation-0" small>
-                                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
-                                        fill="none">
-                                        <circle cx="12" cy="12" r="12" fill="white" />
-                                        <path d="M12 8V16" stroke="#666666" stroke-width="2" stroke-linecap="round" />
-                                        <path d="M16 12L8 12" stroke="#666666" stroke-width="2"
-                                          stroke-linecap="round" />
-                                      </svg>
-                                    </v-btn>
-                                  </template>
-                                  <template #prepend-inner>
-                                    <v-btn :disabled="weightselected == 'Equial-Weighted'
-                                      " @click="
-                                        m.weights > 1
-                                          ? (m.weights = Number(m.weights) - 1)
-                                          : null,
-                                        getAddbtn(
-                                          fullsingleres[0].etfs_weights[
-                                            index
-                                          ][j].token,
-                                          m.weights
-                                        )
-                                        " icon class="elevation-0" small>
-                                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
-                                        fill="none">
-                                        <circle cx="12" cy="12" r="12" fill="white" />
-                                        <path d="M16 12L8 12" stroke="#666666" stroke-width="2"
-                                          stroke-linecap="round" />
-                                      </svg>
-                                    </v-btn>
-                                  </template>
-                                </v-text-field>
-                              </div>
-                              <div class="text-capitalize body-2 font-weight-medium "
-                                v-if="weightselected == 'Custom-Share'">
-                                <span>{{ m.weights }}</span>
-                              </div>
-                              <div v-if="weightselected == 'Equial-Weighted'">
-                                <v-text-field block v-model="m.weights" class="weg elevation-0 caption text-center"
-                                  hide-details outlined type="number" hide-spin-buttons style="max-width: 120px;"
-                                  :min="minweights" :readonly="weightselected == 'Equial-Weighted'
-                                    " :max="maxvalueperc" dense>
-                                  <template #append>
-                                    <v-btn :disabled="weightselected == 'Equial-Weighted'
-                                      " icon class="elevation-0" small>
-                                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
-                                        fill="none">
-                                        <circle cx="12" cy="12" r="12" fill="white" />
-                                        <path d="M12 8V16" stroke="white" stroke-width="2" stroke-linecap="round" />
-                                        <path d="M16 12L8 12" stroke="white" stroke-width="2" stroke-linecap="round" />
-                                      </svg>
-                                    </v-btn>
-                                  </template>
-                                  <template #prepend-inner>
-                                    <v-btn color="white" :disabled="weightselected == 'Equial-Weighted'
-                                      " icon class="elevation-0" small>
-                                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
-                                        fill="none">
-                                        <circle cx="12" cy="12" r="12" fill="white" />
-                                        <path d="M16 12L8 12" stroke="white" stroke-width="2" stroke-linecap="round" />
-                                      </svg>
-                                    </v-btn>
-                                  </template>
-                                </v-text-field>
+            <v-col cols="12" lg="4" sm="12" md="6">
+              <!-- <p class="mb-0 body-2 font-weight-bold">Fund’s equity sector distribution</p>
+              <p class="mb-0 body-2 mt-2 font-weight-regular" style="color:#666">Each fund is uniquely allocated to suit and match customer expectations based on the risk profile and return expectations.</p> -->
 
 
-                              </div>
-                            </v-col>
-                            <v-col :cols="weightselected == 'Custom-Share' ? 4 : 1" class="d-flex align-center ">
-                              <div class="text-capitalize body-2 font-weight-medium "
-                                v-if="weightselected != 'Custom-Share'">
-                                <span>{{ m.quantity }}</span>
-                              </div>
-                              <div class="d-flex align-center" v-if="weightselected == 'Custom-Share'">
-                                <v-text-field block v-model="m.quantity" class="weg elevation-0 caption text-center"
-                                  hide-details outlined type="number" hide-spin-buttons style="max-width: 120px;"
-                                  :min="minweights" dense @keyup="
-                                    m.quantity = Number(m.quantity) + 1,
-                                    quantityChange(
-                                      fullsingleres[0].etfs_weights[
-                                        index
-                                      ][j].token,
-                                      m.quantity
-                                    )" @keydown="
-                                      m.quantity > 1
-                                        ? (m.quantity = Number(m.quantity) - 1)
-                                        : null,
-                                      quantityChange(
-                                        fullsingleres[0].etfs_weights[
-                                          index
-                                        ][j].token,
-                                        m.quantity
-                                      )">
-                                  <template #append>
-                                    <v-btn @click="
-                                      m.quantity = Number(m.quantity) + 1,
-                                      quantityChange(
-                                        fullsingleres[0].etfs_weights[
-                                          index
-                                        ][j].token,
-                                        m.quantity
-                                      )
-                                      " icon class="elevation-0" small>
-                                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
-                                        fill="none">
-                                        <circle cx="12" cy="12" r="12" fill="white" />
-                                        <path d="M12 8V16" stroke="#666666" stroke-width="2" stroke-linecap="round" />
-                                        <path d="M16 12L8 12" stroke="#666666" stroke-width="2"
-                                          stroke-linecap="round" />
-                                      </svg>
-                                    </v-btn>
-                                  </template>
-                                  <template #prepend-inner>
-                                    <v-btn @click="
-                                      m.quantity > 1
-                                        ? (m.quantity = Number(m.quantity) - 1)
-                                        : null,
-                                      quantityChange(
-                                        fullsingleres[0].etfs_weights[
-                                          index
-                                        ][j].token,
-                                        m.quantity
-                                      )
-                                      " icon class="elevation-0" small>
-                                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
-                                        fill="none">
-                                        <circle cx="12" cy="12" r="12" fill="white" />
-                                        <path d="M16 12L8 12" stroke="#666666" stroke-width="2"
-                                          stroke-linecap="round" />
-                                      </svg>
-                                    </v-btn>
-                                  </template>
-                                </v-text-field>
-                              </div>
-                            </v-col>
+              <p class="mb-0 body-1  font-weight-medium" style="color:#666">Equity allocation by Sector</p>
 
-                            <v-col cols="2" class="py-0  d-flex align-center justify-end">
-                              <div class="text-capitalize body-2 font-weight-medium">
-                                <span>{{ m.avg_weight_percent }}%</span>
-                              </div>
-                            </v-col>
-                          </v-row>
-                          <v-divider v-if="j != item.length - 1"></v-divider>
-                        </div>
-                      </template>
-
-                      <v-divider v-if="
-                        fullsingleres[0] &&
-                        k !=
-                        Object.entries(fullsingleres[0].etfs_weights)
-                          .length -
-                        1
-                      "></v-divider>
-                    </div>
-                  </div>
-                  <div v-if="
-                    fullsingleres &&
-                    fullsingleres[0] &&
-                    fullsingleres[0].deleted_etf
-                  " class="px-4">
-                    <v-divider></v-divider>
-                    <div v-for="(item, index) in fullsingleres[0].deleted_etf" :key="index">
-                      <v-row no-gutters class="py-2">
-                        <v-col cols="3" class="py-0 d-flex align-center">
-                          <p class="mb-0 text-capitalize fs-14 font-weight-medium text--secondary">
-                            {{ item.tsym ? item.tsym : "" }} <v-chip text-color="white" disabled label
-                              class="red darken-1 mr-1 text-capitalize px-1" x-small> deleted
-                            </v-chip><!-- <span v-if="item.exists" class=" font-weight-bold text--secondary"
-                                  >(delete
-                                  {{ item.newquant ? item.newquant > 0 ? item.newquant : '' : '' }})</span> -->
-                          </p>
-                        </v-col>
-                        <v-col cols="2" class="py-0 d-flex align-center justify-end">
-                          <p class="mb-0 text-capitalize body-2 font-weight-medium text--secondary">
-                            ₹{{ item.price ? Number(item.price).toFixed(2) : "" }}
-                          </p>
-                        </v-col>
-                        <v-col cols="1"></v-col>
-                        <v-col cols="3" class="py-0 d-flex align-center">
-                          <v-text-field block value="0.00" class="weg elevation-0 caption text-center " hide-details
-                            outlined type="number" hide-spin-buttons style="max-width: 120px;" :min="minweights"
-                            readonly :max="maxvalueperc" dense>
-                            <template #append>
-                              <v-btn disabled icon class="elevation-0" small>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
-                                  fill="none">
-                                  <circle cx="12" cy="12" r="12" fill="white" />
-                                  <path d="M12 8V16" stroke="#666666" stroke-width="2" stroke-linecap="round" />
-                                  <path d="M16 12L8 12" stroke="#666666" stroke-width="2" stroke-linecap="round" />
-                                </svg>
-                              </v-btn>
-                            </template>
-                            <template #prepend-inner>
-                              <v-btn disabled icon class="elevation-0" small>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
-                                  fill="none">
-                                  <circle cx="12" cy="12" r="12" fill="white" />
-                                  <path d="M16 12L8 12" stroke="#666666" stroke-width="2" stroke-linecap="round" />
-                                </svg>
-                              </v-btn>
-                            </template>
-                          </v-text-field>
-                        </v-col>
-                        <v-col cols="1" class="d-flex align-center">
-                          <div class="text-capitalize body-2 font-weight-medium text--secondary">
-                            <span>{{ item.quantity }}</span>
-                          </div>
-                        </v-col>
-                        <v-col cols="2" class="py-0  d-flex align-center justify-end">
-                          <div class="text-capitalize body-2 font-weight-medium text--secondary">
-                            <span>0%</span>
-                          </div>
-                        </v-col>
-                      </v-row>
-                      <v-divider v-if="index != fullsingleres[0].deleted_etf.length - 1"></v-divider>
-                      <v-divider v-if="
-                        fullsingleres[0] &&
-                        k !=
-                        Object.entries(fullsingleres[0].etfs_weights)
-                          .length -
-                        1
-                      "></v-divider>
-                    </div>
-                  </div>
-                  <v-divider></v-divider>
+              <div v-for="(group, sector) in limitedSortedGroupedData" :key="sector">
+                <div class="d-flex mt-4">
+                  <p class="mb-0" style="
+            color: #666;
+            font-size: 13px;
+            font-weight: 469;
+            line-height: 18px;
+          ">
+                    {{ sector }}
+                  </p>
+                  <p class="mb-0 ml-auto" style="
+            color: #000;
+            font-size: 13px;
+            font-weight: 559;
+            line-height: 18px;
+          ">
+                    <!-- {{ group.totalWeights }}% -->
+                    {{ typeof group.totalWeights === 'number' ? group.totalWeights.toFixed(0) : group.totalWeights }}%
+                  </p>
                 </div>
-                <v-row class="my-1 px-3">
-                  <v-col cols="10" class="my-auto ps-4">
-                    <span class="font-weight-bold">Invest amount :
-                      ₹ {{
-                        fullsingleres[0] && fullsingleres[0].price
-                          ? fullsingleres[0].price
-                          : ""
-                      }}
-                    </span>
-                  </v-col>
-                  <!-- <v-col cols="3">
-                    <v-btn rounded outlined block class="text-none elevation-0 black--text body-2" @click="
-                      $router.push({
-                        name: 'customize collection',
-                        params: { itemid: fullsingleres[0].id },
-                      })
-                      "><span class="font-weight-bold">Customize collection</span></v-btn>
-                  </v-col> -->
-                  <!-- <v-col cols="2" class="pl-0">
-                    <v-btn class="elevation-0 white--text text-none float-end" rounded color="black" block
-                      @click="checkloginstatus()">{{
-                        fullsingleres[0].rebalance ? 'Rebalance' : 'Invest' }}</v-btn>
-                  </v-col> -->
-                </v-row>
+                <v-progress-linear :value="group.totalWeights" class="mt-2" height="4" color="#148564"
+                  style="border-radius: 4px"></v-progress-linear>
               </div>
-              <div v-else class="text-center mt-2 mb-6">
-                <v-btn class="elevation-0 white--text text-none px-6" rounded color="black" height="40px"
-                  @click="subscribedialog = true, getLedgerPrice()">Subscribe</v-btn>
+
+
+            </v-col>
+
+            <v-col cols="12" lg="4" sm="12" md="6">
+              <!-- <p class="mb-0 body-2 font-weight-bold">Fund’s top stock holdings</p>
+              <p class="mb-0 body-2 mt-2 font-weight-regular" style="color:#666">Each fund is uniquely allocated to suit and match customer expectations based on the risk profile and return expectations.</p> -->
+
+
+              <p class="mb-0 body-1  font-weight-medium" style="color:#666">Top Stock Holdings</p>
+              <!-- {{sortedTopFive}} -->
+              <div v-for="(group, sector) in sortedTopFivenew" :key="sector">
+                <div class="d-flex mt-4">
+                  <p class="mb-0" style="
+            color: #666;
+            font-size: 13px;
+            font-weight: 469;
+            line-height: 18px;
+          ">
+                    {{ group.company_name }}
+                  </p>
+                  <p class="mb-0 ml-auto" style="
+            color: #000;
+            font-size: 13px;
+            font-weight: 559;
+            line-height: 18px;
+          ">
+                    {{ group.weights }}%
+                  </p>
+                </div>
+                <v-progress-linear :value="group.weights" class="mt-2" height="4" color="#148564"
+                  style="border-radius: 4px"></v-progress-linear>
               </div>
-            </div>
-          </div>
+
+
+            </v-col>
+          </v-row>
         </v-card>
 
-
-
-
-
-        <!-- <v-card outlined elevation="0" class="mt-7 px-4 py-3" rounded-lg style="border: 1px solid #dddddd">
+        <v-card outlined elevation="0" class="seccadrsize aboutmobil ss-cards px-4 py-3" rounded-lg
+          style="border: 1px solid #dddddd">
           <p class="mb-2 font-weight-bold title ml-0 mt-1">
             About the
             {{
@@ -740,10 +861,10 @@ max-width: 220px;" background-color="#FAFBFF" v-model="weightselected" :items="w
                   : ""
                 : ""
             }}
-          </p> -->
+          </p>
 
-        <!-- <v-row >
-            <v-col cols="6">
+          <v-row>
+            <v-col cols="12" lg="6" sm="12" md="6">
               <p class="body-1 fs-24 ml-0 font-weight-bold mb-0">
                 Collection Objective
               </p>
@@ -757,7 +878,7 @@ max-width: 220px;" background-color="#FAFBFF" v-model="weightselected" :items="w
                 }}
               </p>
             </v-col>
-            <v-col cols="6">
+            <v-col cols="12" lg="6" sm="12" md="6">
               <p class="mb-0 body-1 fs-24 font-weight-bold mb-1">
                 Collection Managers
               </p>
@@ -769,7 +890,7 @@ max-width: 220px;" background-color="#FAFBFF" v-model="weightselected" :items="w
                   <v-col cols="2">
                     <div>
                       <img class="rounded-xl" :src="modifiedUrl1" width="45px" height="45px" />
-                  
+
                     </div>
                   </v-col>
                   <v-col>
@@ -798,8 +919,9 @@ max-width: 220px;" background-color="#FAFBFF" v-model="weightselected" :items="w
                 </v-row>
               </v-card>
             </v-col>
-          </v-row> -->
-        <!-- <v-row>
+          </v-row>
+
+          <!-- <v-row>
             <v-col cols="6" >
     <div class="ml-3">
     <span style="text-transform: uppercase;color:#666666" class="caption mb-0">Rebalance Frequency</span>
@@ -817,71 +939,90 @@ max-width: 220px;" background-color="#FAFBFF" v-model="weightselected" :items="w
               </div>
             </v-col>
           </v-row> -->
-        <!-- </v-card> -->
+        </v-card>
+
+
+
       </v-col>
-      <v-col cols="3" class="d-none d-lg-block d-xl-block">
-        <div class="mr-14" style="position: fixed">
-          <p style="text-transform: capitalize" class="subtitle-1 font-weight-bold text-">
-            {{
-              fullsingleres[0]
-                ? fullsingleres[0].basket_title
-                  ? fullsingleres[0].basket_title
-                  : ""
-                : ""
-            }}
-          </p>
-          <p class="body-2" style="color: #666">
-            Get access to constituents and rebalance updates for
-            {{
-              fullsingleres[0]
-                ? fullsingleres[0].basket_title
-                  ? fullsingleres[0].basket_title
-                  : ""
-                : ""
-            }}
-            by
-            <span class="body-1 font-weight-bold" style="color: #000">Zebu Trade</span>
-          </p>
-          <p class="body-2" style="color: #666">
-            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="4" viewBox="0 0 12 4" fill="none">
-              <path d="M2 2H10" stroke="#999999" stroke-width="3" stroke-miterlimit="10" stroke-linecap="round"
-                stroke-linejoin="round" />
-            </svg>
-            Seamlessly place orders in one click
-          </p>
-          <p class="body-2" style="color: #666">
-            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="4" viewBox="0 0 12 4" fill="none">
-              <path d="M2 2H10" stroke="#999999" stroke-width="3" stroke-miterlimit="10" stroke-linecap="round"
-                stroke-linejoin="round" />
-            </svg>
-            Get regular rebalance updates
-          </p>
-          <p class="body-2" style="color: #666">
-            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="4" viewBox="0 0 12 4" fill="none">
-              <path d="M2 2H10" stroke="#999999" stroke-width="3" stroke-miterlimit="10" stroke-linecap="round"
-                stroke-linejoin="round" />
-            </svg>
-            Easily start SIPs for disciplined investing
-          </p>
-          <p class="body-2" style="color: #666">
-            On acceptance of the mandate, the bid amount will get blocked in
-            your bank account.
-          </p>
-          <v-divider></v-divider>
+      <v-col cols="12" lg="3" md="12" sm="12">
+        <div class="mr-14 mt-2 rounded-lg pa-3 pb-5" style="position: fixed; border: 1px solid #dddddd;">
+          <div class="text-center">
+
+
+            <div class="mt-3">
+              <svg width="45vh" height="25vh" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path
+                  d="M57.5 41.25H2.5C1.80969 41.25 1.25 40.6903 1.25 40V5C1.25 4.30969 1.80969 3.75 2.5 3.75H57.5C58.1903 3.75 58.75 4.30969 58.75 5V40C58.75 40.6903 58.1903 41.25 57.5 41.25Z"
+                  fill="#4DA34D" />
+                <path
+                  d="M47.5 7.5H12.5C12.5 11.6421 9.14215 15 5 15V30C9.14215 30 12.5 33.3578 12.5 37.5H47.5C47.5 33.3578 50.8578 30 55 30V15C50.8578 15 47.5 11.6421 47.5 7.5Z"
+                  fill="#9EDB9E" />
+                <path
+                  d="M30 31.25C34.8325 31.25 38.75 27.3325 38.75 22.5C38.75 17.6675 34.8325 13.75 30 13.75C25.1675 13.75 21.25 17.6675 21.25 22.5C21.25 27.3325 25.1675 31.25 30 31.25Z"
+                  fill="#4DA34D" />
+                <path opacity="0.1"
+                  d="M31.25 41.25H53.75V38.75C53.75 38.3033 53.637 37.8883 53.4418 37.5C53.637 37.1117 53.75 36.6967 53.75 36.25V32.5C53.75 32.0533 53.637 31.6383 53.4418 31.25C53.637 30.8617 53.75 30.4467 53.75 30V26.25C53.75 25.8033 53.637 25.3883 53.4418 25C53.637 24.6117 53.75 24.1967 53.75 23.75V20C53.75 19.5533 53.637 19.1383 53.4418 18.75C53.637 18.3617 53.75 17.9467 53.75 17.5V13.75C53.75 10.4675 48.0908 8.75 42.5 8.75C36.9092 8.75 31.25 10.4675 31.25 13.75V17.5C31.25 17.9467 31.363 18.3617 31.5581 18.75C31.363 19.1383 31.25 19.5533 31.25 20V23.75C31.25 24.1967 31.363 24.6117 31.5581 25C31.363 25.3883 31.25 25.8033 31.25 26.25V30C31.25 30.4467 31.363 30.8617 31.5581 31.25C31.363 31.6383 31.25 32.0533 31.25 32.5V36.25C31.25 36.6967 31.363 37.1117 31.5581 37.5C31.363 37.8883 31.25 38.3033 31.25 38.75V41.25Z"
+                  fill="black" />
+                <path
+                  d="M55 46.25H35C34.3097 46.25 33.75 46.8097 33.75 47.5V51.25C33.75 54.5325 39.4092 56.25 45 56.25C50.5908 56.25 56.25 54.5325 56.25 51.25V47.5C56.25 46.8097 55.6903 46.25 55 46.25Z"
+                  fill="#D8BC48" />
+                <path
+                  d="M45 42.5C39.4092 42.5 33.75 44.2175 33.75 47.5C33.75 50.7825 39.4092 52.5 45 52.5C50.5908 52.5 56.25 50.7825 56.25 47.5C56.25 44.2175 50.5908 42.5 45 42.5Z"
+                  fill="#EFD358" />
+                <path
+                  d="M55 40H35C34.3097 40 33.75 40.5597 33.75 41.25V45C33.75 48.2825 39.4092 50 45 50C50.5908 50 56.25 48.2825 56.25 45V41.25C56.25 40.5597 55.6903 40 55 40Z"
+                  fill="#D8BC48" />
+                <path
+                  d="M45 36.25C39.4092 36.25 33.75 37.9675 33.75 41.25C33.75 44.5325 39.4092 46.25 45 46.25C50.5908 46.25 56.25 44.5325 56.25 41.25C56.25 37.9675 50.5908 36.25 45 36.25Z"
+                  fill="#EFD358" />
+                <path
+                  d="M55 33.75H35C34.3097 33.75 33.75 34.3097 33.75 35V38.75C33.75 42.0325 39.4092 43.75 45 43.75C50.5908 43.75 56.25 42.0325 56.25 38.75V35C56.25 34.3097 55.6903 33.75 55 33.75Z"
+                  fill="#D8BC48" />
+                <path
+                  d="M45 30C39.4092 30 33.75 31.7175 33.75 35C33.75 38.2825 39.4092 40 45 40C50.5908 40 56.25 38.2825 56.25 35C56.25 31.7175 50.5908 30 45 30Z"
+                  fill="#EFD358" />
+                <path
+                  d="M55 27.5H35C34.3097 27.5 33.75 28.0597 33.75 28.75V32.5C33.75 35.7825 39.4092 37.5 45 37.5C50.5908 37.5 56.25 35.7825 56.25 32.5V28.75C56.25 28.0597 55.6903 27.5 55 27.5Z"
+                  fill="#D8BC48" />
+                <path
+                  d="M45 23.75C39.4092 23.75 33.75 25.4675 33.75 28.75C33.75 32.0325 39.4092 33.75 45 33.75C50.5908 33.75 56.25 32.0325 56.25 28.75C56.25 25.4675 50.5908 23.75 45 23.75Z"
+                  fill="#EFD358" />
+                <path
+                  d="M55 21.25H35C34.3097 21.25 33.75 21.8097 33.75 22.5V26.25C33.75 29.5325 39.4092 31.25 45 31.25C50.5908 31.25 56.25 29.5325 56.25 26.25V22.5C56.25 21.8097 55.6903 21.25 55 21.25Z"
+                  fill="#D8BC48" />
+                <path
+                  d="M45 17.5C39.4092 17.5 33.75 19.2175 33.75 22.5C33.75 25.7825 39.4092 27.5 45 27.5C50.5908 27.5 56.25 25.7825 56.25 22.5C56.25 19.2175 50.5908 17.5 45 17.5Z"
+                  fill="#EFD358" />
+                <path
+                  d="M55 15H35C34.3097 15 33.75 15.5597 33.75 16.25V20C33.75 23.2825 39.4092 25 45 25C50.5908 25 56.25 23.2825 56.25 20V16.25C56.25 15.5597 55.6903 15 55 15Z"
+                  fill="#D8BC48" />
+                <path
+                  d="M45 11.25C39.4092 11.25 33.75 12.9675 33.75 16.25C33.75 19.5325 39.4092 21.25 45 21.25C50.5908 21.25 56.25 19.5325 56.25 16.25C56.25 12.9675 50.5908 11.25 45 11.25Z"
+                  fill="#EFD358" />
+              </svg>
+
+            </div>
+          </div>
 
           <div>
-            <p v-if="fullsingleres[0] && fullsingleres[0].access == 'free'"
-              class="font-weight-semibold mt-3 text-center">
-              Invest amount : <span class="font-weight-bold"> {{
+            <p style="color:#666" v-if="fullsingleres[0] && fullsingleres[0].access == 'free'"
+              class="font-weight-medium body-1 mt-3 mb-0 text-center">
+              Minimum Investment Amount <br> <span style="color:#43A833" class="font-weight-bold title"> ₹ {{
                 fullsingleres[0] && fullsingleres[0].price
-                  ? fullsingleres[0].price
+                  ? fullsingleres[0].price.toFixed(2)
                   : ''
-              }}</span></p>
+              }}</span><br>
+              <span class="text-center caption">With CAGR of {{ fullsingleres[0] && fullsingleres[0].cagr
+                ? fullsingleres[0].cagr.cagr_5year + '%'
+                : '' }} in 5 years</span>
+            </p>
+
+
             <v-btn v-if="
               fullsingleres[0] && fullsingleres[0].access === 'free' && (localsess !== '' || localsess !== null)
 
-            " class="elevation-0 white--text text-none float-end" rounded color="black" block
-              @click="checkloginstatus(), getLedgerPrice()">Inverst</v-btn>
+            " class="elevation-0 white--text mt-3 text-none float-end" rounded color="black" block
+              @click="checkloginstatus(), getLedgerPrice()">  {{fullsingleres[0] && fullsingleres[0].rebalance ? 'Rebalance' : 'Inverst'}}</v-btn>
           </div>
 
           <!-- {{localsess}} -->
@@ -920,7 +1061,7 @@ max-width: 220px;" background-color="#FAFBFF" v-model="weightselected" :items="w
           </div>
           <!-- <p class="font-weight-semibold">Basket Id : <span class="font-weight-bold">{{ opendiag.id }}</span></p> -->
           <!-- {{fullcovertres}} -->
-         
+
 
           <div v-if="fullsingleres[0] && fullsingleres[0].etfs_weights && fullsingleres[0].etfs_weights.equity">
             <v-data-table height="200px" :headers="headersrebalnce" :items="fullsingleres[0].etfs_weights.equity"
@@ -939,35 +1080,36 @@ max-width: 220px;" background-color="#FAFBFF" v-model="weightselected" :items="w
               : ''
               }}</span></p>
 
-<v-card outlined elevation="0" class="pa-3" v-if="sipenable">
+          <v-card outlined elevation="0" class="pa-3" v-if="sipenable">
 
-<v-row>
-  <v-col cols="6" class="pb-0">
-    <span class="body-2 ml-3">SIP Name <span class="ml-1 red--text">*</span></span>
-    <v-text-field v-model="sipname" outlined hide-details class="ml-3" dense></v-text-field>
-  </v-col>
-  <v-col cols="6" class="pb-0">
-    <span class="body-2 ">Start Date<span class="ml-1 red--text">*</span></span>
-    <v-menu v-model="menu2" :close-on-content-click="false" :nudge-right="40" transition="scale-transition"
-      offset-y min-width="auto">
-      <template v-slot:activator="{ on, attrs }">
-        <v-text-field hide-details outlined dense v-model="date" prepend-inner-icon="mdi-calendar" readonly
-          v-bind="attrs" v-on="on"></v-text-field>
-      </template>
-      <v-date-picker v-model="date" @input="menu2 = false"></v-date-picker>
-    </v-menu>
-  </v-col>
-  <v-col cols="6" class="pt-0 mt-0">
-    <span class="body-2 mt-0 pt-0 ml-3">Frequency <span class="ml-1 red--text">*</span></span>
-    <v-select v-model="sipfreq" outlined hide-details class="ml-3" dense
-      :items="['Daily', 'Monthly', 'Weekly', 'Fortnightly']"></v-select>
-  </v-col>
-  <v-col cols="6" class="pt-0 mt-0">
-    <span class="body-2 mt-0 pt-0 ">No of SIPs <span class="ml-1 red--text">*</span></span>
-    <v-text-field v-model="noossip" outlined type="number" hide-spin-buttons hide-details dense></v-text-field>
-  </v-col>
-</v-row>
-</v-card>
+            <v-row>
+              <v-col cols="12" lg="6" sm="12" md="12" class="pb-0">
+                <span class="body-2 ">SIP Name <span class="ml-1 red--text">*</span></span>
+                <v-text-field v-model="sipname" outlined hide-details class="" dense></v-text-field>
+              </v-col>
+              <v-col cols="12" lg="6" sm="12" md="12" class="pb-0">
+                <span class="body-2 ">Start Date<span class="ml-1 red--text">*</span></span>
+                <v-menu v-model="menu2" :close-on-content-click="false" :nudge-right="40" transition="scale-transition"
+                  offset-y min-width="auto">
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-text-field hide-details outlined dense v-model="date" prepend-inner-icon="mdi-calendar" readonly
+                      v-bind="attrs" v-on="on"></v-text-field>
+                  </template>
+                  <v-date-picker v-model="date" @input="menu2 = false"></v-date-picker>
+                </v-menu>
+              </v-col>
+              <v-col cols="12" lg="6" sm="12" md="12" class="pt-0 mt-0">
+                <span class="body-2 mt-0 pt-0 ">Frequency <span class="ml-1 red--text">*</span></span>
+                <v-select v-model="sipfreq" outlined hide-details class="" dense
+                  :items="['Daily', 'Monthly', 'Weekly', 'Fortnightly']"></v-select>
+              </v-col>
+              <v-col cols="12" lg="6" sm="12" md="12" class="pt-0 mt-0">
+                <span class="body-2 mt-0 pt-0 ">No of SIPs <span class="ml-1 red--text">*</span></span>
+                <v-text-field v-model="noossip" outlined type="number" hide-spin-buttons hide-details
+                  dense></v-text-field>
+              </v-col>
+            </v-row>
+          </v-card>
 
           <div v-if="sipenable == false">
 
@@ -989,11 +1131,9 @@ max-width: 220px;" background-color="#FAFBFF" v-model="weightselected" :items="w
           </div>
 
           <div v-if="sipenable">
-            <v-btn
-          :disabled="sipname == '' ||sipfreq == '' ||noossip == ''"
-             
-              color="black" height="48px"  :loading="sipbtload" class="text-none white--text mt-3" @click="siporderexcute()" block 
-              rounded>Proceed To SIP </v-btn>
+            <v-btn :disabled="sipname == '' || sipfreq == '' || noossip == ''" color="black" height="48px"
+              :loading="sipbtload" class="text-none white--text mt-3" @click="siporderexcute()" block rounded>Proceed To
+              SIP </v-btn>
           </div>
           <!-- <v-btn color="black" height="48px" :loading="basload" class="text-none white--text" block
             @click="deploybasket()" rounded>Proceed</v-btn> -->
@@ -1050,6 +1190,37 @@ max-width: 220px;" background-color="#FAFBFF" v-model="weightselected" :items="w
         </v-form>
       </v-card>
     </v-dialog>
+
+    <v-footer :padless="padless" class="d-block d-lg-none" v-bind="localAttrs" style="bottom: 48px;">
+      <v-card width="100%" class="mb-2" outlined style="border: 1px solid #dddddd">
+        <v-row>
+          <v-col cols="12" class="text-center">
+            <p style="color:#666" v-if="fullsingleres[0] && fullsingleres[0].access == 'free'"
+              class="font-weight-medium body-1 mt-3 mb-0 ">
+              Minimum Investment Amount <br> <span style="color:#43A833" class="font-weight-bold title"> ₹ {{
+                fullsingleres[0] && fullsingleres[0].price
+                  ? fullsingleres[0].price.toFixed(2)
+                  : ''
+              }}</span><br>
+              <span class=" caption">With CAGR of {{ fullsingleres[0] && fullsingleres[0].cagr
+                ? fullsingleres[0].cagr.cagr_5year + '%'
+                : '' }} in 5 years</span>
+            </p>
+            <v-btn v-if="
+              fullsingleres[0] && fullsingleres[0].access === 'free' && (localsess !== '' || localsess !== null)
+
+            " class="elevation-0 white--text  pl-5  text-none " block rounded color="black" large
+              @click="checkloginstatus(), getLedgerPrice()">  {{fullsingleres[0] && fullsingleres[0].rebalance ? 'Rebalance' : 'Inverst'}}</v-btn>
+          </v-col>
+          <!-- <v-col cols="12" class="pa-0 " >
+          <v-btn v-if="
+              fullsingleres[0] && fullsingleres[0].access === 'free' && (localsess !== '' || localsess !== null)
+            " class="elevation-0 white--text ml-14 pl-5 mr-3 text-none float-end" rounded color="black" large 
+              @click="checkloginstatus(), getLedgerPrice()">Inverst</v-btn>
+        </v-col> -->
+        </v-row>
+      </v-card>
+    </v-footer>
   </div>
 </template>
 
@@ -1127,16 +1298,24 @@ export default {
       menu: false,
       modal: false,
       menu2: false,
-      sipname:'',
-      sipfreq:'Daily',
-      noossip:'',
-      sipbtload:false,
-      filteredEquities:[],
-      newArray:[],
-      chartlabel:'',
-      errrrordata:'',
-      logincheck:''
-
+      sipname: '',
+      sipfreq: 'Daily',
+      noossip: '',
+      sipbtload: false,
+      filteredEquities: [],
+      newArray: [],
+      chartlabel: '',
+      errrrordata: '',
+      logincheck: '',
+      sortedTopFive: [],
+      showMoreGroups: false,
+      name: 'SingleCollection',
+      // equityData: [],
+      processedData: [],
+      panel: [0, 1],
+      sortedTopFivenew: [],
+      padless: true,
+      variant: 'fixed',
     };
   },
   //     computed: {
@@ -1144,7 +1323,34 @@ export default {
   //       return this.fullsingleres.length > 0 ? this.fullsingleres[0].etfs_weights : {};
   //     }
   //   },
+  // computed: {
+  //   sortedGroupedData() {
+  //     return Object.entries(this.groupedData)
+  //       .sort(([, groupA], [, groupB]) => groupB.totalWeights - groupA.totalWeights)
+  //       .reduce((acc, [sector, group]) => {
+  //         acc[sector] = {
+  //           ...group,
+  //           items: group.items.sort((a, b) => b.weights - a.weights)
+  //         };
+  //         return acc;
+  //       }, {});
+  //   },
+
+  // },
+
   computed: {
+    localAttrs() {
+      const attrs = {}
+
+      if (this.variant === 'default') {
+        attrs.absolute = false
+        attrs.fixed = false
+      } else {
+        attrs[this.variant] = true
+      }
+      return attrs
+    },
+
     sortedGroupedData() {
       return Object.entries(this.groupedData)
         .sort(([, groupA], [, groupB]) => groupB.totalWeights - groupA.totalWeights)
@@ -1155,10 +1361,44 @@ export default {
           };
           return acc;
         }, {});
+    },
+    limitedSortedGroupedData() {
+      if (!this.groupedData) {
+        return [];
+      }
+      const limitedData = Object.entries(this.groupedData)
+        .sort(([, groupA], [, groupB]) => groupB.totalWeights - groupA.totalWeights)
+        .slice(0, 5)
+        .reduce((acc, [sector, group]) => {
+          const sortedItems = group.items.slice().sort((a, b) => b.weights - a.weights);
+          acc[sector] = {
+            ...group,
+            items: sortedItems
+          };
+          return acc;
+        }, {});
+
+      return limitedData;
+    },
+    visibleGroups() {
+      const sortedEntries = Object.entries(this.sortedGroupedData);
+      const limitedEntries = this.showMoreGroups ? sortedEntries : sortedEntries.slice(0, 5);
+
+      return limitedEntries.reduce((acc, [sector, group]) => {
+        acc[sector] = group;
+        return acc;
+      }, {});
+    },
+    itemName() {
+      return this.$route.params.name;
     }
+
   },
 
   methods: {
+    toggleShowMoreGroups() {
+      this.showMoreGroups = !this.showMoreGroups;
+    },
     decrement() {
       if (this.value > 1) {
         this.value--;
@@ -1174,11 +1414,11 @@ export default {
     },
     enablesip_fun() {
       this.sipenable = !this.sipenable;
-     if(this.sipenable == false){
-      this.sipname = ''
-      this.sipfreq = ''
-      this.noossip = ''
-     }
+      if (this.sipenable == false) {
+        this.sipname = ''
+        this.sipfreq = ''
+        this.noossip = ''
+      }
     },
     validateValue() {
       if (this.value < 1) {
@@ -1207,7 +1447,13 @@ export default {
       axios
         .request(config)
         .then((response) => {
-          axiosThis.fullsingleres[0].price = response.data.minprice;
+          const minPrice = parseFloat(response.data.minprice);
+  if (!isNaN(minPrice)) {
+    this.fullsingleres[0].price = minPrice;
+  } else {
+    this.fullsingleres[0].price = 0.0; 
+  }
+          // axiosThis.fullsingleres[0].price = response.data.minprice.toFixed(2);
           axiosThis.ltpminpricedump = response.data.minprice;
 
           axiosThis.fullsingleres[0].etfs_weights = response.data.msg;
@@ -1314,6 +1560,7 @@ export default {
       return totalWeight.toFixed(2);
     },
     singlepagedata() {
+      this.sortedTopFive = []
       this.singleload = true;
       this.fullsingleres = [];
       this.equitymapres = []
@@ -1341,12 +1588,20 @@ export default {
             axiosThis.textfieltext = axiosThis.fullsingleres[0].rebal_freq;
             axiosThis.textfieltext11 = axiosThis.fullsingleres[0].experience;
             axiosThis.textdate = axiosThis.fullsingleres[0].date_time;
-            axiosThis.ltpminpricedump = axiosThis.fullsingleres[0].price;
+            axiosThis.ltpminpricedump = axiosThis.fullsingleres[0].price.toFixed(2);
             axiosThis.stockcountdump = axiosThis.fullsingleres[0].stockcount;
             axiosThis.basketprice = axiosThis.fullsingleres[0].basketprice;
+            axiosThis.sipname = axiosThis.fullsingleres[0].basket_title
             axiosThis.getModifiedImageUrl();
             axiosThis.getModifiedImageUrl11();
             axiosThis.dumpdata = JSON.parse(JSON.stringify(axiosThis.fullsingleres[0].etfs_weights));
+            axiosThis.processEquityData();
+            // console.log('axiosThis.dumpdata.equity',axiosThis.dumpdata.equity);
+
+
+            axiosThis.sortedTopFive = axiosThis.dumpdata.equity
+              .sort((a, b) => b.avg_weight_percent - a.avg_weight_percent)
+              .slice(0, 5);
 
             axiosThis.equitymapres = axiosThis.dumpdata.equity.map(
               (element) => {
@@ -1374,6 +1629,35 @@ export default {
           axiosThis.snackcolor = "error";
           axiosThis.mesg = error;
         });
+    },
+    processEquityData() {
+      const result = this.dumpdata.equity.reduce((acc, item) => {
+        if (!acc[item.baskeqdeat]) {
+          acc[item.baskeqdeat] = {
+            avg_weight_percent: 0,
+            baskeqdeat: item.baskeqdeat,
+            merge: ''
+          };
+        }
+        acc[item.baskeqdeat].avg_weight_percent += parseFloat(parseFloat(item.avg_weight_percent).toFixed(2));
+        acc[item.baskeqdeat].merge = `${item.baskeqdeat} ${acc[item.baskeqdeat].avg_weight_percent}%`;
+        return acc;
+      }, {});
+      this.processedData = Object.values(result);
+   
+
+      this.renderChart1();
+
+      // const allEquity = this.dumpdata.equity.every(item => item.baskeqdeat === 'Equity');
+
+// if (allEquity) {
+//   console.log('all are equity data');
+    
+// } else {
+//     console.log('Not all items are of type Equity');
+// }
+
+     
     },
 
     linechartdata() {
@@ -1404,8 +1688,8 @@ export default {
       axios.request(config)
         .then((response) => {
           axiosThis.chartlineload = false
-axiosThis.chartlabel= response.data.benchmarkIndex
-axiosThis.errrrordata =  response.data.error
+          axiosThis.chartlabel = response.data.benchmarkIndex
+          axiosThis.errrrordata = response.data.error
           // console.log(JSON.stringify(response.data));
           axiosThis.linchadata = response.data.basketChart
           axiosThis.linchadata1 = response.data.benchmarkChart
@@ -1423,8 +1707,8 @@ axiosThis.errrrordata =  response.data.error
             }
           );
 
-// ----------------------------------------------------------------------
-axiosThis.linchadata1 = response.data.benchmarkChart
+          // ----------------------------------------------------------------------
+          axiosThis.linchadata1 = response.data.benchmarkChart
           axiosThis.linechatres1 = axiosThis.linchadata1.map(
             (element) => {
               return (element.returns)
@@ -1482,7 +1766,7 @@ axiosThis.linchadata1 = response.data.benchmarkChart
             return equityItem ? { ...item, weights: equityItem.avg_weight_percent } : item;
           });
           axiosThis.merged = merged;
-          console.log('axiosThis.merged',axiosThis.merged);
+          // console.log('axiosThis.merged', axiosThis.merged);
           const groupedData = merged.reduce((acc, item) => {
             if (!acc[item.sector]) {
               acc[item.sector] = {
@@ -1491,12 +1775,15 @@ axiosThis.linchadata1 = response.data.benchmarkChart
               };
             }
             acc[item.sector].items.push(item);
-            acc[item.sector].totalWeights += item.weights || 0;
+            acc[item.sector].totalWeights += parseFloat(item.weights) || 0;
             return acc;
           }, {});
           axiosThis.groupedData = groupedData;
+          console.log('axiosThis.groupedData',axiosThis.groupedData);
           axiosThis.prepareChartData();
           axiosThis.renderChart();
+          axiosThis.Assetallocationfun()
+          // axiosThis.holdingallocation()
           // console.log('mergedmergedmerged', merged);
           // console.log('groupedData', groupedData);
         })
@@ -1505,20 +1792,55 @@ axiosThis.linchadata1 = response.data.benchmarkChart
         });
 
     },
+    // holdingallocation(){
+    //   const mergedhold = this.pieschartdata.map(item => {
+    //         const equityItem = this.dumpdata.equity.find(e => `${e.exch}:${e.tsym}` === item.SYMBOL);
+    //         return equityItem ? { ...item, weights: equityItem.avg_weight_percent } : item;
+    //       });
+    //       this.mergedhold = mergedhold;
+    //       const groupedDatahold = mergedhold.reduce((acc, item) => {
+    //         if (!acc[item.sector]) {
+    //           acc[item.sector] = {
+    //             items: [],
+    //             totalWeights: 0
+    //           };
+    //         }
+    //         acc[item.sector].items.push(item);
+    //         acc[item.sector].totalWeights += parseFloat(item.weights) || 0;
+    //         return acc;
+    //       }, {});
+    //       this.groupedDatahold = groupedDatahold;
+    // },
+
+
     prepareChartData() {
       const chartData = Object.keys(this.groupedData).map(sector => ({
         name: sector,
-        value: this.groupedData[sector].totalWeights.toFixed(2) // Sum of weights
+        value: parseFloat(this.groupedData[sector].totalWeights)
       }));
       this.chartData = chartData;
-      console.log('Chart Data:', chartData);
     },
 
     renderChart() {
       const chart = echarts.init(document.getElementById('sector-chart'));
       const option = {
         tooltip: {
-          trigger: 'item'
+          trigger: 'item',
+          formatter: '{b}: {d}%',
+
+        },
+        legend: {
+          orient: 'horizontal',
+          bottom: 'left',
+          top: '90%',
+          type: 'scroll',
+          // orient: 'vertical',
+          textStyle: {
+            fontSize: 12,
+            color: '#000'
+          },
+          itemWidth: 9,
+          itemHeight: 9
         },
         title: {
           left: 'center',
@@ -1543,11 +1865,62 @@ axiosThis.linchadata1 = response.data.benchmarkChart
       chart.setOption(option);
     },
 
+    renderChart1() {
+
+      const chart = echarts.init(document.getElementById('sector-chart1'));
+      const option = {
+        tooltip: {
+          trigger: 'item',
+          formatter: '{b}',
+        },
+        legend: {
+          orient: 'horizontal',
+          bottom: 'left',
+          type: 'scroll',
+          textStyle: {
+            fontSize: 12,
+            color: '#000',
+          },
+          itemWidth: 9,
+          itemHeight: 9,
+          data: this.processedData.map(item => item.merge),
+          // formatter: '({b}%)'
+        },
+        series: [
+          {
+            type: 'pie',
+            radius: ['40%', '70%'],
+            center: ['50%', '50%'],
+            avoidLabelOverlap: false,
+            label: {
+              show: false,
+              position: 'outside',
+              formatter: '({b})'
+            },
+            emphasis: {
+              label: {
+                show: false,
+                fontSize: '16',
+                fontWeight: 'bold',
+              },
+            },
+            labelLine: {
+              show: true, // Show label lines
+            },
+            data: this.processedData.map(item => ({
+              value: item.avg_weight_percent,
+              name: item.merge,
+            })),
+          }
+        ],
+      };
+      chart.setOption(option);
+    },
 
 
-    chartfun1(onee, twoo,three) {
-      // console.log('onee',onee)
-      // console.log('three',three)
+    chartfun1(onee, twoo, three) {
+      const minval = [Math.min(...onee), Math.min(...three)];
+      const minvalo = Math.min(...minval);
 
       this.chartInstancenew = echarts.init(document.getElementById("mainnew"));
 
@@ -1555,7 +1928,7 @@ axiosThis.linchadata1 = response.data.benchmarkChart
         title: {
           text: "",
         },
-      
+
         tooltip: {
           trigger: "axis",
           axisPointer: {
@@ -1566,7 +1939,9 @@ axiosThis.linchadata1 = response.data.benchmarkChart
           },
         },
         legend: {
-          data: [this.fullsingleres[0].basket_title,this.chartlabel],
+          data: [this.fullsingleres[0].basket_title, this.chartlabel],
+          // bottom: 'left',
+
         },
         grid: {
           left: "3%",
@@ -1584,23 +1959,18 @@ axiosThis.linchadata1 = response.data.benchmarkChart
         yAxis: [
           {
             type: "value",
-            // Adjust max value if needed
-            // max: maxPrice,
+            min: minvalo,
           },
         ],
         series: [
           {
             name: this.fullsingleres[0].basket_title,
             type: "line",
-            // stack: "Total",
             areaStyle: { color: "transparent" },
             smooth: false,
             showSymbol: false,
             label: {
-              // show: true,
               position: "top",
-              // Customize the label format as needed
-              // formatter: "{c}",
             },
             emphasis: {
               focus: "series",
@@ -1610,28 +1980,33 @@ axiosThis.linchadata1 = response.data.benchmarkChart
           {
             name: this.chartlabel,
             type: "line",
-            // stack: "Total",
             areaStyle: { color: "transparent" },
             smooth: false,
             showSymbol: false,
             label: {
-              // show: true,
               position: "top",
-              // Customize the label format as needed
-              // formatter: "{c}",
             },
             emphasis: {
               focus: "series",
             },
             data: three,
           },
-
         ],
       };
       this.chartInstancenew.setOption(option);
     },
 
 
+
+    Assetallocationfun() {
+
+      this.sortedTopFivenew = []
+
+      this.sortedTopFivenew = this.merged
+        .sort((a, b) => b.weights - a.weights)
+        .slice(0, 5);
+
+    },
 
 
     getModifiedImageUrl() {
@@ -1892,8 +2267,8 @@ axiosThis.linchadata1 = response.data.benchmarkChart
         });
     },
 
-    siporderexcute(){
- 
+    siporderexcute() {
+
       // this.filteredEquities = []
       // for (let i = 0; i < this.fullsingleres.length; i++) {
       //   const equityData = this.fullsingleres[0].etfs_weights.equity;
@@ -1908,76 +2283,85 @@ axiosThis.linchadata1 = response.data.benchmarkChart
       // }
 
       let originalArray = this.fullsingleres[0].etfs_weights.equity;
-            this.newArray = [];
+      this.newArray = [];
 
-            for (let i = 0; i < originalArray.length; i++) {
-                let item = originalArray[i];
-                this.newArray.push({ 
-                  'exch':item.exch,
-                  'prd':'C',
-                  'qty':item.quantity,
-                  'token':item.token,
-                  'tsym':item.tsym
-                 });
-            }
+      for (let i = 0; i < originalArray.length; i++) {
+        let item = originalArray[i];
+        this.newArray.push({
+          'exch': item.exch,
+          'prd': 'C',
+          'qty': item.quantity,
+          'token': item.token,
+          'tsym': item.tsym
+        });
+      }
 
-// console.log('this.filteredData',this.newArray)
+      // console.log('this.filteredData',this.newArray)
       this.sipbtload = true
       const axios = require('axios');
-let data = JSON.stringify({
-  "siptype": "new",
-  session: localStorage.getItem("sess"),
-  etfs_weights: this.newArray,
-  startdate: this.date.slice(8,10)+this.date.slice(5,7)+this.date.slice(0,4),
-  end_period: this.noossip,
-  sip_name: this.sipname,
-  frequency: this.sipfreq
-});
+      let data = JSON.stringify({
+        "siptype": "new",
+        session: localStorage.getItem("sess"),
+        etfs_weights: this.newArray,
+        startdate: this.date.slice(8, 10) + this.date.slice(5, 7) + this.date.slice(0, 4),
+        end_period: this.noossip,
+        sip_name: this.sipname,
+        frequency: this.sipfreq
+      });
 
-let config = {
-  method: 'post',
-  maxBodyLength: Infinity,
-  url: 'http://192.168.5.179:5111/siporder',
-  headers: { 
-    Authorization: this.localsess,
-    clientid: localStorage.getItem("userid"),
-    'Content-Type': 'application/json'
-  },
-  data : data
-};
-var axiosThis = this
-axios.request(config)
-.then((response) => {
-  console.log(JSON.stringify(response.data));
-  axiosThis.sipbtload = false
-  if (response.data.msg == "success") {
+      let config = {
+        method: 'post',
+        maxBodyLength: Infinity,
+        url: 'http://192.168.5.179:5111/siporder',
+        headers: {
+          Authorization: this.localsess,
+          clientid: localStorage.getItem("userid"),
+          'Content-Type': 'application/json'
+        },
+        data: data
+      };
+      var axiosThis = this
+      axios.request(config)
+        .then((response) => {
+          console.log(JSON.stringify(response.data));
+          axiosThis.sipbtload = false
+          if (response.data.msg == "success") {
             axiosThis.confirmation = false;
-            axiosThis.mesg = response.data.msg;
+            axiosThis.mesg = 'The order will be placed in a SIP';
             axiosThis.snackcolor = "success";
             axiosThis.snackbar = true;
-          } else {
+          } else if (response.data.msg.emsg == 'Session Expired :  Invalid Session Key') {
+            axiosThis.mesg = 'Session Expired :  Invalid Session Key';
+            axiosThis.snackcolor = "orange";
+            axiosThis.snackbar = true;
+            setTimeout(() => {
+              eventBus.$emit("login-event");
+
+            }, 2000);
+          }
+          else {
             axiosThis.confirmation = false;
             axiosThis.snackbar = true;
             axiosThis.mesg = response.data.msg;
             axiosThis.snackcolor = "error";
           }
           axiosThis.sipname = ''
-  axiosThis.sipfreq = ''
-  axiosThis.noossip = ''
+          axiosThis.sipfreq = ''
+          axiosThis.noossip = ''
 
-})
-.catch((error) => {
-  console.log(error);
-  axiosThis.sipbtload = false
-  axiosThis.confirmation = false;
-  axiosThis.sipname = ''
-  axiosThis.sipfreq = ''
-  axiosThis.noossip = ''
-  axiosThis.mesg = "Network Error";
+        })
+        .catch((error) => {
+          console.log(error);
+          axiosThis.sipbtload = false
+          axiosThis.confirmation = false;
+          axiosThis.sipname = ''
+          axiosThis.sipfreq = ''
+          axiosThis.noossip = ''
+          axiosThis.mesg = "Network Error";
           axiosThis.snackcolor = "error";
           axiosThis.snackbar = true;
 
-});
+        });
 
     }
 
@@ -1993,6 +2377,8 @@ axios.request(config)
     this.logincheck = localStorage.getItem("sess")
 
     if (this.params) {
+      console.log(' this.params ', this.params);
+
       this.bestmfdata = this.params;
       this.params = parseInt(localStorage.getItem("id"));
       this.singlepagedata();
@@ -2050,10 +2436,53 @@ axios.request(config)
   width: 100%;
   z-index: 0;
 }
-
+</style>
+<style>
 #sector-chart {
-  /* position: relative; */
-  height: 50vh;
-  /* overflow: hidden; */
+  /* height: calc(100vh - 300px); */
+  height: 50vh
+}
+
+#sector-chart1 {
+  /* height: calc(100vh - 200px); */
+  height: 50vh
+}
+
+.ss-cards {
+  border: 1px solid #ddd !important;
+  border-radius: 8px !important;
+  box-shadow: none !important;
+  margin-top: 30px !important
+}
+
+@media only screen and (max-width:959px) {
+
+
+  .ss-cards {
+    border: none !important;
+    border-radius: 0px !important;
+    box-shadow: none !important;
+  }
+
+
+}
+
+
+@media only screen and (max-width:600px) {
+  .aboutmobil {
+    margin-bottom: 170px !important
+  }
+
+  .seccadrsize {
+    margin-top: 0px !important;
+    padding: 0px;
+
+  }
+}
+
+
+.v-btn--icon.v-size--default {
+  height: 0px;
+  width: 0px;
 }
 </style>

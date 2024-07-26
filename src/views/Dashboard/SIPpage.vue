@@ -14,9 +14,15 @@
             </p>
 
             <p class="title font-weight-bold">SIP </p>
+            <v-progress-linear
+      indeterminate
+      color="primary"
+      v-if="tabload"
+      class="d-block d-lg-none"
+    ></v-progress-linear>
             <v-data-table :loading="tabload" style="border: 1px solid #efeef3" disable-sort :headers="headers"
                 :items="fullresdata" single-expand show-expand :expanded.sync="expanded1" fixed-header item-key="sip_id"
-                class="elevation-0">
+                class="elevation-0  d-none d-lg-block d-xl-block">
 
                 <template v-slot:[`item.status`]="{ item }">
                     <span>{{ item.internal.active == 'true' ? 'Active' : item.internal.active }}</span>
@@ -25,16 +31,31 @@
 
                 <template v-slot:[`item.cancel`]="{ item }" >
 
-                    <v-btn v-if="item.del_status == false" elevation="0" rounded outlined color="red"
-                        class="text-none ma-2 bodu-2 black--text" @click="order_details_show(item)" small>
-
-                        <span class="font-weight-bold">Cancel</span>
-                    </v-btn>
-                    <v-btn v-if="item.del_status == false" elevation="0" rounded  color="balck"
-                        class="text-none ma-2 bodu-2 black--text" @click="modifysipfun(item)" icon>
+                    <v-tooltip bottom dense color="black">
+                        <template v-slot:activator="{ on, attrs }">
+                    <v-btn   v-bind="attrs"
+                    v-on="on" v-if="item.del_status == false" elevation="0" rounded  color="grey"
+                        class="text-none ma-2 body-2 black--text" @click="modifysipfun(item)" icon>
 <v-icon>mdi-pencil</v-icon>
                       
                     </v-btn>
+                </template>
+      <span>Edit</span>
+    </v-tooltip>
+    <v-tooltip bottom dense color="black">
+        <template v-slot:activator="{ on, attrs }">
+                    <v-btn
+                     v-bind="attrs"
+          v-on="on"
+                    v-if="item.del_status == false" elevation="0" rounded icon color="grey"
+                        class="text-none ma-2 bodu-2 black--text" @click="order_details_show(item)" small>
+
+                        <v-icon>mdi-close</v-icon>
+
+                    </v-btn>
+                </template>
+      <span>Cancel</span>
+    </v-tooltip>
                 </template>
              
                 <template v-slot:expanded-item="{ headers, item }">
@@ -59,6 +80,129 @@
                     </v-col>
                 </template>
             </v-data-table>
+
+<div>
+    <v-expansion-panels accordion  style="z-index: 0"   class="pa-1 expan d-block d-lg-none">
+                      <v-expansion-panel
+                        v-for="(item, i) in fullresdata"
+                        :key="i"
+                      
+                      >
+                        <v-expansion-panel-header
+                          >
+
+                          <p class="mb-0"><span  class="font-weight-medium caption black--text">{{ item.sip_name }}</span><br> <span class="font-weight-light caption grey--text">{{ item.start_date }}</span> </p>
+
+                      
+                          <p class="mb-0"><span  class="font-weight-medium caption black--text">{{ item.frequency }}</span><br> <span class="font-weight-light caption grey--text">{{ item.end_period }}</span> </p>
+                    
+                  
+
+
+                    
+                          
+                          <v-tooltip bottom dense color="black">
+                        <template v-slot:activator="{ on, attrs }">
+                    <v-btn   v-bind="attrs"
+                    v-on="on" v-if="item.del_status == false" elevation="0" rounded  color="grey"
+                        class="text-none  body-2 black--text" @click="modifysipfun(item)" icon>
+<v-icon>mdi-pencil</v-icon>
+                      
+                    </v-btn>
+                </template>
+      <span>Edit</span>
+    </v-tooltip> 
+    <v-tooltip bottom dense color="black">
+        <template v-slot:activator="{ on, attrs }">
+                    <v-btn
+                     v-bind="attrs"
+          v-on="on"
+                    v-if="item.del_status == false" elevation="0" rounded icon color="grey"
+                        class="text-none black--text" @click="order_details_show(item)" small>
+
+                        <v-icon>mdi-close</v-icon>
+
+                    </v-btn>
+                </template>
+      <span>Cancel</span>
+    </v-tooltip>
+                        
+                        </v-expansion-panel-header>
+                        <v-expansion-panel-content>
+                            <v-card
+                              v-for="iitem in item.order_etf"
+                              :key="iitem.index"
+                              style="border-top: 5px #f1f3f8 solid"
+                              class="elevation-0 px-4 pt-2"
+                              width="100%"
+                            >
+                            
+                              <v-row class="px-2">
+                                <v-col>
+                                  <p
+                                    class="mb-1 body-2 font-weight-regular"
+                                    style="color: #666666"
+                                  >
+                                  Exchange
+                                  </p>
+                                  <p
+                                    class="mb-1 body-2 font-weight-regular"
+                                    style="color: #666666"
+                                  >
+                                  Script
+                                  </p>
+                                  <p
+                                    class="mb-1 body-2 font-weight-regular"
+                                    style="color: #666666"
+                                  >
+                                  Quantity:
+                                   
+                                  </p>
+                               
+                                </v-col>
+                                <v-col class="text-end">
+                                  <p
+                                    class="mb-0 body-2 font-weight-regular"
+                                    style="color: #666666"
+                                  >
+                                    {{ iitem.exch }}
+                                  </p>
+                               
+                                  <p
+                                    class="mb-0 body-2 font-weight-regular"
+                                    style="color: #666666"
+                                  >
+                                    {{ iitem.tsym }}
+                                  </p>
+                                  <p
+                                    class="mb-0 body-2 font-weight-regular"
+                                    style="color: #666666"
+                                  >
+                                    {{ iitem.qty }}
+                                  </p>
+                                </v-col>
+                              </v-row>
+                            </v-card>
+                          </v-expansion-panel-content>
+                       
+                      </v-expansion-panel>
+                    </v-expansion-panels>
+                    <div class="pa-1 d-block d-lg-none" v-if="fullresdata == ''">
+                        <!-- <v-col cols="12" class="text-center pa-16"> -->
+                        <div class="mx-auto text-center ">
+                            <img class="align-self-stretch mx-auto" width="80px"
+                                :src="require('@/assets/no data folder.svg')" alt="no data" />
+                            <h5 class="txt-999 font-weight-regular">There is no
+                                data here yet!
+                            </h5>
+                        </div>
+                    <!-- </v-col> -->
+                    </div>
+</div>
+
+
+
+
             <div class="text-center">
 
 
@@ -85,23 +229,22 @@
 
             </div>
 
-            <v-dialog v-model="sipmodifyorder" width="500" style="height:300">
-                <v-card elevation="0" class="pa-3">
-                    <v-card-title class="px-4 pb-0">Modify SIP<v-spacer></v-spacer>
+            <v-dialog persistent v-model="sipmodifyorder" width="500" style="height:300">
+                <v-card   class="pa-3 elevation-0">
+                    <v-card-title elevation="0" class="px-4 pb-0">Modify SIP<v-spacer></v-spacer>
                         <v-btn icon @click="sipmodifyorder = false">
                             <v-icon>mdi-close</v-icon>
                         </v-btn></v-card-title>
-                    <v-card>
-
-                        <v-card outlined elevation="0" class="pa-3">
+               <v-card elevation="0" outlined style="border: 1px solid #dddddd">
+                        <v-card   class="pa-3 elevation-0">
 
                             <v-row>
-                                <v-col cols="6" class="pb-0">
+                                <v-col cols="12" lg="6" md="12" sm="12" class="elevation-0 pb-0">
                                     <span class="body-2 ml-3">SIP Name <span class="ml-1 red--text">*</span></span>
-                                    <v-text-field v-model="fullsingleres.sip_name" outlined hide-details class="ml-3"
+                                    <v-text-field v-model="fullsingleres.sip_name" outlined hide-details class=""
                                         dense></v-text-field>
                                 </v-col>
-                                <v-col cols="6" class="pb-0">
+                                <v-col cols="12" lg="6" md="12" sm="12" class="elevation-0 pb-0">
                                     <span class="body-2 ">Start Date<span class="ml-1 red--text">*</span></span>
                                     <v-menu v-model="menu2" :close-on-content-click="false" :nudge-right="40"
                                         transition="scale-transition" offset-y min-width="auto">
@@ -113,13 +256,13 @@
                                         <v-date-picker v-model="date" @input="menu2 = false"></v-date-picker>
                                     </v-menu>
                                 </v-col>
-                                <v-col cols="6" class="pt-0 mt-0">
+                                <v-col cols="12" lg="6" md="12" sm="12" class="elevation-0 pt-0 mt-0">
                                     <span class="body-2 mt-0 pt-0 ml-3">Frequency <span
                                             class="ml-1 red--text">*</span></span>
-                                    <v-select v-model="fullsingleres.frequency" outlined hide-details class="ml-3" dense
+                                    <v-select v-model="fullsingleres.frequency" outlined hide-details class="" dense
                                         :items="['Daily', 'Monthly', 'Weekly', 'Fortnightly']"></v-select>
                                 </v-col>
-                                <v-col cols="6" class="pt-0 mt-0">
+                                <v-col cols="12" lg="6" md="12" sm="12" class="elevation-0 pt-0 mt-0">
                                     <span class="body-2 mt-0 pt-0 ">No of SIPs <span
                                             class="ml-1 red--text">*</span></span>
                                     <v-text-field v-model="fullsingleres.end_period" outlined type="number"
@@ -172,8 +315,8 @@
 
                             </div>
                         </v-card>
-
                     </v-card>
+               
                     <v-btn @click="submitData()" :loading="sipbtload" rounded class="mt-2 mb-2" block color="black"><span
                             class="white--text">Proceed</span></v-btn>
 
@@ -304,10 +447,19 @@ export default {
                     axiosThis.sipbtload = false
                     if (response.data.msg == "OK") {
                         axiosThis.confirmation = false;
-                        axiosThis.mesg = response.data.msg;
+                        axiosThis.mesg = 'An order will be modified in SIP.';
                         axiosThis.snackcolor = "success";
                         axiosThis.snackbar = true;
-                    } else {
+                    }else if(response.data.msg.emsg == 'Session Expired :  Invalid Session Key'){
+            axiosThis.mesg = 'Session Expired :  Invalid Session Key';
+            axiosThis.snackcolor = "orange";
+            axiosThis.snackbar = true;
+            setTimeout(() => {
+              eventBus.$emit("login-event");
+
+              }, 2000);
+          }
+                     else {
                         axiosThis.confirmation = false;
                         axiosThis.snackbar = true;
                         axiosThis.mesg = response.data.msg;
@@ -421,11 +573,20 @@ export default {
                     // console.log(JSON.stringify(response.data));
                     if (response.data.msg.ReqStatus == "OK") {
                         axiosThis.dialogbox = false;
-                        axiosThis.mesg = 'SIP Cancel Successfull';
+                        axiosThis.mesg = 'Your SIP order will be removed.';
                         axiosThis.snackcolor = "success";
                         axiosThis.snackbar = true;
                         axiosThis.oredrdetails()
-                    } else {
+                    }else if(response.data.msg.emsg == 'Session Expired :  Invalid Session Key'){
+            axiosThis.mesg = 'Session Expired :  Invalid Session Key';
+            axiosThis.snackcolor = "orange";
+            axiosThis.snackbar = true;
+            setTimeout(() => {
+              eventBus.$emit("login-event");
+
+              }, 2000);
+          }
+                     else {
                         axiosThis.dialogbox = false;
                         axiosThis.snackbar = true;
                         axiosThis.mesg = response.data.msg;

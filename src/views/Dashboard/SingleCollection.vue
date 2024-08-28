@@ -1123,9 +1123,9 @@
             </v-alert>
 
 
-            <!-- v-if="leadgerBal >= (fullsingleres[0] && fullsingleres[0].price ? fullsingleres[0].price : '') ? true : false" -->
 
             <v-btn
+            v-if="leadgerBal >= (fullsingleres[0] && fullsingleres[0].price ? fullsingleres[0].price : '') ? true : false"
               color="black" height="48px" :loading="basload" class="text-none white--text" block @click="deploybasket()"
               rounded>Proceed</v-btn>
           </div>

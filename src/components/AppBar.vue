@@ -67,13 +67,14 @@
 <script>
 import eventBus from "@/eventBus";
 import axios from "axios";
-import CryptoJS from "crypto-js";
+// import CryptoJS from "crypto-js";
 export default {
   data: () => ({
     uid: "",
     token: "",
     userdata: [],
     susertoken: null,
+    decrfinalres:[]
   }),
   methods: {
     logOut() {
@@ -115,6 +116,9 @@ export default {
         client_id: this.actid,
       });
       let date1 = this.encryptionFunction(dall);
+      // let conval = this.decryptionFunction(date1);
+      // console.log("profile",conval);
+      
       let data = JSON.stringify({
         string: date1,
       });
@@ -154,31 +158,25 @@ export default {
         });
     },
     encryptionFunction(payld) {
-      const payload = payld;
-      var derived_key = CryptoJS.enc.Base64.parse(btoa("N#j2L^8pq9Fb$d@1")); //YXNkZmdoamtsenhjdmJubQ==
-      var iv = CryptoJS.enc.Utf8.parse("3790514682037125");
-      var test = CryptoJS.AES.encrypt(payload, derived_key, {
-        iv: iv,
-        mode: CryptoJS.mode.CBC,
-      }).toString();
-      return test;
+        var CryptoJS = require("crypto-js");
+        var derived_key = CryptoJS.enc.Base64.parse(btoa("N#j2L^8pq9Fb$d@1"));
+        var iv = CryptoJS.enc.Utf8.parse("3790514682037125");
+        var encrypted = CryptoJS.AES.encrypt(payld, derived_key, { iv: iv, mode: CryptoJS.mode.CBC }).toString();
+        return encrypted;
     },
+
     decryptionFunction(payld) {
-      const payload = payld;
-      const derived_key = CryptoJS.enc.Base64.parse(btoa("N#j2L^8pq9Fb$d@1")); //YXNkZmdoamtsenhjdmJubQ==
-      const iv = CryptoJS.enc.Utf8.parse("3790514682037125");
-      const encryptedData = payload;
+        var CryptoJS = require("crypto-js");
+        const derived_key = CryptoJS.enc.Base64.parse(btoa("N#j2L^8pq9Fb$d@1"));
+        const iv = CryptoJS.enc.Utf8.parse("3790514682037125");
+        const decrypted = CryptoJS.AES.decrypt(payld, derived_key, {
+            iv,
+            mode: CryptoJS.mode.CBC,
+        });
+        const decryptedData = decrypted.toString(CryptoJS.enc.Utf8);
+        return decryptedData;
+    }
 
-      // Decrypt the data using AES
-      const decrypted = CryptoJS.AES.decrypt(encryptedData, derived_key, {
-        iv,
-        mode: CryptoJS.mode.CBC,
-      });
-      const decryptedData = decrypted.toString(CryptoJS.enc.Utf8);
-
-      // // console.log('Decrypted Data:', decryptedData);
-      return decryptedData;
-    },
   },
   mounted() {
     eventBus.$on('login-event', () => {
@@ -186,6 +184,7 @@ export default {
     })
   },
   created() {
+  
     var url = new URL(window.location.href);
     var actid = url.searchParams.get("uid")
     var token = url.searchParams.get("token")
@@ -204,18 +203,30 @@ export default {
     this.token = localStorage.getItem("usession");
     this.client_code = localStorage.getItem("userid");
     this.sess = localStorage.getItem("sess");
+    // let clientent = this.encryptionFunction(this.client_code);
+    // let endata = this.decryptionFunction(clientent);
+    // console.log('tttt',endata);
 
     if (this.client_code && this.token) {
-      let data = JSON.stringify({
+      this.decrfinalres = []
+      var dall = JSON.stringify({
         clientid: this.client_code,
-        // token: this.token,
-        mobile_unique: "web"
+   });
+   let date1 = this.encryptionFunction(dall);
+  //  let endata = this.decryptionFunction(date1);
+  //  console.log('decrypted client', endata);
+   
+      
+      let data = JSON.stringify({
+        string: date1,
+        source:"WEB"
       });
+
 
       let config = {
         method: "post",
         // url: "https://rekycbe.mynt.in/autho/validate_session",
-        url: "https://copy.mynt.in/validate_session",
+        url: "https://copy.mynt.in/get_sessions",
         headers: {
           "Content-Type": "application/json",
         },
@@ -226,13 +237,25 @@ export default {
       axios
         .request(config)
         .then((response) => {
-          if (response.data.stat == "Ok" && response.data.apitoken && response.data.token) {
+          let decrtresp = this.decryptionFunction(response.data.str);
+          let con1 = JSON.parse(decrtresp)
+          axiosThis.decrfinalres = con1
+          // console.log('tttt',axiosThis.decrfinalres);
+          // console.log('response.data.stat',axiosThis.decrfinalres.stat);
+
+       
+          if (axiosThis.decrfinalres.stat == "Ok" && axiosThis.decrfinalres.apitoken && axiosThis.decrfinalres.token) {
+      localStorage.setItem("apiorderurl", axiosThis.decrfinalres.url);
+
             //
             axiosThis.redirectpages();
-          } else if (response.data.emsg == "invalid token") {
+          } else if (axiosThis.decrfinalres.emsg == "invalid token" || axiosThis.decrfinalres.stat != "Ok") {
             axiosThis.goLogin();
-          } else if (response.data.emsg === 'token expired') {
             localStorage.clear();
+          } else if (axiosThis.decrfinalres.emsg === 'token expired' || axiosThis.decrfinalres.stat == "Ok") {
+            localStorage.clear();
+            axiosThis.goLogin();
+
           }
         })
         .catch((error) => {

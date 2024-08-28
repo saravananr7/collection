@@ -15,7 +15,7 @@
            <v-tooltip bottom color="black">
               <template v-slot:activator="{ on, attrs }">
                 <div v-on="on" v-bind="attrs">
-                  <svg width="19" height="18" viewBox="0 0 19 18" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6.71387 4.37662V1H12.4282V4.37662" stroke="#666" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"></path><path d="M7.85714 11.1302H1V5.50249C1 5.20398 1.12041 4.9177 1.33474 4.70662C1.54906 4.49554 1.83975 4.37695 2.14286 4.37695H17C17.3031 4.37695 17.5938 4.49554 17.8081 4.70662C18.0224 4.9177 18.1429 5.20398 18.1429 5.50249V11.1302H11.2857" stroke="#666" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"></path><path d="M16.9997 13.3809V15.6319C16.9997 15.9305 16.8793 16.2167 16.665 16.4278C16.4507 16.6389 16.16 16.7575 15.8569 16.7575H3.28544C2.98233 16.7575 2.69164 16.6389 2.47731 16.4278C2.26299 16.2167 2.14258 15.9305 2.14258 15.6319V13.3809" stroke="#666" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"></path><path d="M11.287 8.87891H7.8584V13.3811H11.287V8.87891Z" stroke="#666" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+                  <svg width="19" height="18" viewBox="0 0 19 18" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6.71387 4.37662V1H12.4282V4.37662" stroke="#000" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"></path><path d="M7.85714 11.1302H1V5.50249C1 5.20398 1.12041 4.9177 1.33474 4.70662C1.54906 4.49554 1.83975 4.37695 2.14286 4.37695H17C17.3031 4.37695 17.5938 4.49554 17.8081 4.70662C18.0224 4.9177 18.1429 5.20398 18.1429 5.50249V11.1302H11.2857" stroke="#000" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"></path><path d="M16.9997 13.3809V15.6319C16.9997 15.9305 16.8793 16.2167 16.665 16.4278C16.4507 16.6389 16.16 16.7575 15.8569 16.7575H3.28544C2.98233 16.7575 2.69164 16.6389 2.47731 16.4278C2.26299 16.2167 2.14258 15.9305 2.14258 15.6319V13.3809" stroke="#000" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"></path><path d="M11.287 8.87891H7.8584V13.3811H11.287V8.87891Z" stroke="#000" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"></path></svg>
                 </div>
               </template>
               <span>Holding</span>
@@ -35,10 +35,18 @@
             </v-tooltip>
           </v-tab>
           <v-tab class="d-none mt-5 d-lg-block d-xl-block" :to="'/sip'">
-            SIP
+         
             <v-tooltip bottom color="black">
-             
-              <span>SIP</span>
+              <template v-slot:activator="{ on, attrs }">
+                <div v-on="on" v-bind="attrs">
+                  <svg width="23" height="22" viewBox="0 0 18 20"  fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M9 8.63134L16.5 4.46467L9.405 0.523003C9.28113 0.45412 9.14174 0.417969 9 0.417969C8.85826 0.417969 8.71887 0.45412 8.595 0.523003L1.5 4.46467L9 8.63134Z" fill="#000"/>
+<path d="M8.16797 10.0749L0.667969 5.9082V14.5849C0.667963 14.7334 0.707671 14.8793 0.782981 15.0073C0.858292 15.1354 0.966466 15.241 1.0963 15.3132L8.16797 19.2415V10.0749Z" fill="#000"/>
+<path d="M9.83594 10.076V19.2427L16.9076 15.3143C17.0374 15.2421 17.1456 15.1365 17.2209 15.0085C17.2962 14.8804 17.3359 14.7345 17.3359 14.586V5.91016L9.83594 10.076Z" fill="#000"/>
+</svg>
+                </div>
+              </template>
+              <span >SIP Order Book</span>
             </v-tooltip>
           </v-tab>
           <v-tabs-slider color="#0037B7"></v-tabs-slider>
@@ -104,7 +112,7 @@
 <path d="M9.83594 10.076V19.2427L16.9076 15.3143C17.0374 15.2421 17.1456 15.1365 17.2209 15.0085C17.2962 14.8804 17.3359 14.7345 17.3359 14.586V5.91016L9.83594 10.076Z" fill="#666666"/>
 </svg>
 <!-- </div> -->
-    <span class="overline text-none mb-0">SIP</span>
+    <span class="overline text-none mb-0">SIP Order</span>
   <!-- </p> -->
             <!-- SIP -->
             <!-- <v-tooltip bottom color="black">

@@ -1076,7 +1076,7 @@
           </div>
           <p class="font-weight-semibold">Invest amount : <span class="font-weight-bold"> {{
             fullsingleres[0] && fullsingleres[0].price
-              ? fullsingleres[0].price
+              ? fullsingleres[0].price.toFixed(2)
               : ''
               }}</span></p>
 
@@ -1123,9 +1123,9 @@
             </v-alert>
 
 
+            <!-- v-if="leadgerBal >= (fullsingleres[0] && fullsingleres[0].price ? fullsingleres[0].price : '') ? true : false" -->
 
             <v-btn
-              v-if="leadgerBal >= (fullsingleres[0] && fullsingleres[0].price ? fullsingleres[0].price : '') ? true : false"
               color="black" height="48px" :loading="basload" class="text-none white--text" block @click="deploybasket()"
               rounded>Proceed</v-btn>
           </div>
@@ -1500,6 +1500,7 @@ export default {
           basketid: this.fullsingleres[0].id,
           etfs_weights: this.fullsingleres[0].etfs_weights,
           session: localStorage.getItem("sess"),
+          url__: localStorage.getItem("apiorderurl"),
           rebalance_status: "yes",
           deleted_etf: this.fullsingleres[0].deleted_etf
         })
@@ -1508,6 +1509,7 @@ export default {
           basketid: this.fullsingleres[0].id,
           etfs_weights: this.fullsingleres[0].etfs_weights,
           session: localStorage.getItem("sess"),
+          url__: localStorage.getItem("apiorderurl"),
           rebalance_status: '',
           order_count: this.value,
 
@@ -1595,7 +1597,7 @@ export default {
             axiosThis.getModifiedImageUrl();
             axiosThis.getModifiedImageUrl11();
             axiosThis.dumpdata = JSON.parse(JSON.stringify(axiosThis.fullsingleres[0].etfs_weights));
-            axiosThis.processEquityData();
+            // axiosThis.processEquityData();
             // console.log('axiosThis.dumpdata.equity',axiosThis.dumpdata.equity);
 
 
@@ -1630,35 +1632,175 @@ export default {
           axiosThis.mesg = error;
         });
     },
-    processEquityData() {
-      const result = this.dumpdata.equity.reduce((acc, item) => {
-        if (!acc[item.baskeqdeat]) {
-          acc[item.baskeqdeat] = {
-            avg_weight_percent: 0,
-            baskeqdeat: item.baskeqdeat,
-            merge: ''
-          };
-        }
-        acc[item.baskeqdeat].avg_weight_percent += parseFloat(parseFloat(item.avg_weight_percent).toFixed(2));
-        acc[item.baskeqdeat].merge = `${item.baskeqdeat} ${acc[item.baskeqdeat].avg_weight_percent}%`;
-        return acc;
-      }, {});
-      this.processedData = Object.values(result);
+//     processEquityData() {
+     
+
+// //       const allEquity = this.dumpdata.equity.every(item => item.baskeqdeat === 'Equity');
+
+// // if (allEquity) {
+// //   console.log('all are equity data');
+    
+// // } else {
+// //     console.log('Not all items are of type Equity');
+// // }
+
+// // ===========================================================================================
+
+
    
 
-      this.renderChart1();
+//     const filteredData = this.pieschartdata.filter(item => item.market_cap_type !== '');
+//     if (filteredData.length > 0) {
+//       const allEquity = this.dumpdata.equity.every(item => item.baskeqdeat === 'Equity');
 
-      // const allEquity = this.dumpdata.equity.every(item => item.baskeqdeat === 'Equity');
+//       if (allEquity) {
+//         const merged = this.pieschartdata.map(item => {
+//             const equityItem = this.dumpdata.equity.find(e => `${e.exch}:${e.tsym}` === item.SYMBOL);
+//             return equityItem ? { ...item, weights: equityItem.avg_weight_percent } : item;
+//         });
 
-// if (allEquity) {
-//   console.log('all are equity data');
-    
-// } else {
-//     console.log('Not all items are of type Equity');
-// }
+//         this.merged = merged;
+//         const groupedData = merged.reduce((acc, item) => {
+//             if (!acc[item.market_cap_type]) {
+//                 acc[item.market_cap_type] = {
+//                     items: [],
+//                     totalWeights: 0
+//                 };
+//             }
+//             acc[item.market_cap_type].items.push(item);
+//             acc[item.market_cap_type].totalWeights += parseFloat(item.weights) || 0;
+//             return acc;
+//         }, {});
+// // console.log('groupedData11111111',groupedData);
+//         // Format the grouped data as needed
+//         const formattedData = Object.keys(groupedData).reduce((acc, key) => {
+//             const group = groupedData[key];
+//             acc[key] = {
+//                 avg_weight_percent: group.totalWeights,
+//                 baskeqdeat: key,
+//                 merge: `${key} ${group.totalWeights.toFixed(2)}%`
+//             };
+//             return acc;
+//         }, {});
 
+//         this.processedData = Object.values(formattedData);
+//       this.renderChart1();
+//         // console.log('equity responceeee ',this.processedData);
+//     } else {
+//       const result = this.dumpdata.equity.reduce((acc, item) => {
+//         if (!acc[item.baskeqdeat]) {
+//           acc[item.baskeqdeat] = {
+//             avg_weight_percent: 0,
+//             baskeqdeat: item.baskeqdeat,
+//             merge: ''
+//           };
+//         }
+//         acc[item.baskeqdeat].avg_weight_percent += parseFloat(parseFloat(item.avg_weight_percent).toFixed(2));
+//         acc[item.baskeqdeat].merge = `${item.baskeqdeat} ${acc[item.baskeqdeat].avg_weight_percent}%`;
+//         return acc;
+//       }, {});
+//       this.processedData = Object.values(result);
+   
+
+//       this.renderChart1();
+//     }
+//     }else{
+//       const result = this.dumpdata.equity.reduce((acc, item) => {
+//         if (!acc[item.baskeqdeat]) {
+//           acc[item.baskeqdeat] = {
+//             avg_weight_percent: 0,
+//             baskeqdeat: item.baskeqdeat,
+//             merge: ''
+//           };
+//         }
+//         acc[item.baskeqdeat].avg_weight_percent += parseFloat(parseFloat(item.avg_weight_percent).toFixed(2));
+//         acc[item.baskeqdeat].merge = `${item.baskeqdeat} ${acc[item.baskeqdeat].avg_weight_percent}%`;
+//         return acc;
+//       }, {});
+//       this.processedData = Object.values(result);
+   
+
+//       this.renderChart1();
+//     }
      
-    },
+//     },
+
+processEquityData() {
+
+    const filteredData = this.pieschartdata.filter(item => item.market_cap_type !== '');
+
+    if (filteredData.length > 0) {
+        const allEquity = this.dumpdata.equity.every(item => item.baskeqdeat === 'Equity');
+
+        if (allEquity) {
+            const merged = filteredData.map(item => {
+                const equityItem = this.dumpdata.equity.find(e => `${e.exch}:${e.tsym}` === item.SYMBOL);
+                return equityItem ? { ...item, weights: equityItem.avg_weight_percent } : item;
+            });
+
+            this.merged = merged;
+
+            const groupedData = merged.reduce((acc, item) => {
+                if (!acc[item.market_cap_type]) {
+                    acc[item.market_cap_type] = {
+                        items: [],
+                        totalWeights: 0
+                    };
+                }
+                acc[item.market_cap_type].items.push(item);
+                acc[item.market_cap_type].totalWeights += parseFloat(item.weights) || 0;
+                return acc;
+            }, {});
+
+            const formattedData = Object.keys(groupedData).reduce((acc, key) => {
+                const group = groupedData[key];
+                acc[key] = {
+                    avg_weight_percent: Math.round(group.totalWeights), 
+                    baskeqdeat: key,
+                    merge: `${key} ${Math.round(group.totalWeights)}%`
+                };
+                return acc;
+            }, {});
+
+            this.processedData = Object.values(formattedData);
+            this.renderChart1();
+        } else {
+            const result = this.dumpdata.equity.reduce((acc, item) => {
+                if (!acc[item.baskeqdeat]) {
+                    acc[item.baskeqdeat] = {
+                        avg_weight_percent: 0,
+                        baskeqdeat: item.baskeqdeat,
+                        merge: ''
+                    };
+                }
+                acc[item.baskeqdeat].avg_weight_percent += Math.round(parseFloat(item.avg_weight_percent)); // Use Math.round here
+                acc[item.baskeqdeat].merge = `${item.baskeqdeat} ${acc[item.baskeqdeat].avg_weight_percent}%`;
+                return acc;
+            }, {});
+
+            this.processedData = Object.values(result);
+            this.renderChart1();
+        }
+    } else {
+        const result = this.dumpdata.equity.reduce((acc, item) => {
+            if (!acc[item.baskeqdeat]) {
+                acc[item.baskeqdeat] = {
+                    avg_weight_percent: 0,
+                    baskeqdeat: item.baskeqdeat,
+                    merge: ''
+                };
+            }
+            acc[item.baskeqdeat].avg_weight_percent += Math.round(parseFloat(item.avg_weight_percent)); // Use Math.round here
+            acc[item.baskeqdeat].merge = `${item.baskeqdeat} ${acc[item.baskeqdeat].avg_weight_percent}%`;
+            return acc;
+        }, {});
+
+        this.processedData = Object.values(result);
+        this.renderChart1();
+    }
+},
+
+
 
     linechartdata() {
       this.chartlineload = true
@@ -1779,10 +1921,12 @@ export default {
             return acc;
           }, {});
           axiosThis.groupedData = groupedData;
-          console.log('axiosThis.groupedData',axiosThis.groupedData);
+          // console.log('axiosThis.groupedData',axiosThis.groupedData);
           axiosThis.prepareChartData();
           axiosThis.renderChart();
           axiosThis.Assetallocationfun()
+          axiosThis.processEquityData();
+
           // axiosThis.holdingallocation()
           // console.log('mergedmergedmerged', merged);
           // console.log('groupedData', groupedData);
@@ -2302,6 +2446,7 @@ export default {
       let data = JSON.stringify({
         "siptype": "new",
         session: localStorage.getItem("sess"),
+        url__: localStorage.getItem("apiorderurl"),
         etfs_weights: this.newArray,
         startdate: this.date.slice(8, 10) + this.date.slice(5, 7) + this.date.slice(0, 4),
         end_period: this.noossip,
@@ -2312,7 +2457,7 @@ export default {
       let config = {
         method: 'post',
         maxBodyLength: Infinity,
-        url: 'http://192.168.5.179:5111/siporder',
+        url: `${apiurl.collectionurl}/siporder`,
         headers: {
           Authorization: this.localsess,
           clientid: localStorage.getItem("userid"),
@@ -2377,7 +2522,7 @@ export default {
     this.logincheck = localStorage.getItem("sess")
 
     if (this.params) {
-      console.log(' this.params ', this.params);
+      // console.log(' this.params ', this.params);
 
       this.bestmfdata = this.params;
       this.params = parseInt(localStorage.getItem("id"));

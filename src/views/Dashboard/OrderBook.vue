@@ -24,7 +24,7 @@
         <template v-slot:[`item.stat`]="{ item }">
 
           <p class="font-weight-medium black--text mb-0">
-            <svg v-if="item.order_status != 'failed'" xmlns="http://www.w3.org/2000/svg" width="20" height="15"
+            <svg v-if="item.order_status == 'success'" xmlns="http://www.w3.org/2000/svg" width="20" height="15"
               viewBox="0 0 20 15" fill="none">
               <rect width="20" height="15" rx="7" fill="#2DB266" />
               <path d="M6.25 8.2475L8.415 10.4125L13.8275 5" stroke="white" stroke-width="1.2" stroke-linecap="round"
@@ -348,6 +348,8 @@ export default {
       let data = JSON.stringify({
         orderbook_id: id,
         session: this.sess,
+        url__: localStorage.getItem("apiorderurl"),
+
       });
 
       let config = {

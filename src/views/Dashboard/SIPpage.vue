@@ -426,13 +426,15 @@ export default {
                 startdate: this.date.slice(8, 10) + this.date.slice(5, 7) + this.date.slice(0, 4),
                 end_period: this.fullsingleres.end_period,
                 sip_name: this.fullsingleres.sip_name,
-                frequency: this.fullsingleres.frequency
+                frequency: this.fullsingleres.frequency,
+                url__: localStorage.getItem("apiorderurl"),
+
             });
 
             let config = {
                 method: 'post',
                 maxBodyLength: Infinity,
-                url: 'http://192.168.5.179:5111/siporder',
+                url: `${apiurl.collectionurl}/siporder`,
                 headers: {
                     Authorization: this.usession,
                     clientid: this.uid,
@@ -492,13 +494,15 @@ export default {
             this.tabload = true
             const axios = require('axios');
             let data = JSON.stringify({
-                "session": localStorage.getItem("sess")
+                "session": localStorage.getItem("sess"),
+                url__: localStorage.getItem("apiorderurl"),
+
             });
 
             let config = {
                 method: 'post',
                 maxBodyLength: Infinity,
-                url: 'http://192.168.5.179:5111/siplistshow',
+                url: `${apiurl.collectionurl}/siplistshow`,
                 headers: {
                     Authorization: this.usession,
                     clientid: this.uid,
@@ -550,13 +554,14 @@ export default {
             let data = JSON.stringify({
                 "siptype": "delete",
                 "session": localStorage.getItem("sess"),
+                url__: localStorage.getItem("apiorderurl"),
                 "sip_id": this.identifyid.sip_id
             });
 
             let config = {
                 method: 'post',
                 maxBodyLength: Infinity,
-                url: 'http://192.168.5.179:5111/siporder',
+                url: `${apiurl.collectionurl}/siporder`,
                 headers: {
                     Authorization: this.usession,
                     clientid: this.uid,
@@ -706,8 +711,6 @@ export default {
 
 
 
-
-
     },
 
     mounted() {
@@ -723,6 +726,8 @@ export default {
 
 
         this.oredrdetails();
+  
     },
 };
 </script>
+

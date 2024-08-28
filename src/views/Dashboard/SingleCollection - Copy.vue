@@ -1947,7 +1947,7 @@ let data = JSON.stringify({
 let config = {
   method: 'post',
   maxBodyLength: Infinity,
-  url: 'http://192.168.5.179:5111/siporder',
+  url: `${apiurl.collectionurl}/siporder`,
   headers: { 
     Authorization: this.localsess,
     clientid: localStorage.getItem("userid"),
